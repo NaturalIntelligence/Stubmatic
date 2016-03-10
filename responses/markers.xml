@@ -1,0 +1,1 @@
+Today is {{TODAY}}. And the url is {{URL:https://www.google.co.uk/?gws_rd=ssl#safe=strict&q=blah blah}}. Tomorrow would be {{TODAY+1}}. And yesterday it was {{TODAY-1}}. Other url {{URL:https://www.google.co.uk/?gws_rd=ssl#safe=strict&q=ola ola}}.

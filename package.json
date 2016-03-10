@@ -1,0 +1,21 @@
+{
+  "name": "stubbyDB",
+  "version": "1.0.0",
+  "description": "Complete stubs solution",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Amit Gupta",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^1.1.1",
+    "dateformat": "^1.0.12",
+    "deasync": "^0.1.4",
+    "hashtable": "^2.0.1",
+    "line-reader": "^0.3.0",
+    "winston": "^2.2.0",
+    "yamljs": "^0.2.6"
+  },
+  "license": "MIT",
+}

@@ -1,0 +1,1 @@
+Some text in this file. [[dumps/foo:1]] [[dumps/foo:2]] and some footer. Some text in this file. [[dumps/foo:1,2]] and some footer.

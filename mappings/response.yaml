@@ -1,0 +1,110 @@
+#DONE
+-  request: /stubs/healthcheck
+   response: OK
+
+#DONE
+-  request:
+      url: /stubs/body
+
+   response:
+      body: This is sample contents served from body
+
+#DONE
+-  request:
+      url: /stubs/simple
+
+   response:
+      file: simple.xml 
+
+#DONE
+-  request:
+      url: /stubs/phone-([0-9]+)
+
+   response:
+      file: phone.xml 
+
+#DONE
+-  request:
+      url: /stubs/markers
+
+   response:
+      file: markers.xml 
+
+#DONE
+-  request:
+      url: /stubs/dynamic-filename/([0-9])
+
+   response:
+      file: file<% url.1 %>.xml       
+
+#DONE
+-  request:
+      url: /stubs/delay
+
+   response:
+      latency: 3000
+      file: delay.xml
+
+#DONE
+-  request:
+      url: /stubs/500
+
+   response:
+      status: 500
+      #file: 500.xml
+
+#DONE
+-  request:
+      url: /stubs/header
+      headers:
+        custom: 'Custom'
+
+   response:
+      file: simple.xml
+
+#DONE
+-  request:
+      method: POST
+      url: /stubs/simple
+      post: Hello ([a-zA-Z]+) ([a-zA-Z]+)!! Your number is ((\+[0-9]{2}) ([0-9]+))
+
+   response:
+      file: post.xml
+
+#DONE
+-  request:
+      url: /stubs/dumps
+
+   response:
+      file: dumps.txt
+
+
+#DONE
+-  request:
+      url: /stubs/datasets/([0-9]+)
+   
+   dbset:
+      db: Employee
+      key: <% url.1 %>
+
+   response:
+      file: datasets.txt
+
+#DONE
+-  request:
+      url: /stubs/mix
+      post: Hello ([a-zA-Z]+)!!
+      method: POST
+      
+   dbset:
+      db: Sample
+      key: '001'
+
+   response:
+      file: mix.txt
+
+
+# #TODO
+# -  url: /stubs/something_to_post
+#    post: validate post content
+#    file: responses/simple.xml 

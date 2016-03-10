@@ -1,0 +1,6 @@
+<% post.1 %>
+Some text in this file.
+dumps included here from given datasets
+[[dumps/foo:##value##]]
+markers from data set: ##markerval##
+ and some footer.

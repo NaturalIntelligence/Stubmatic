@@ -1,0 +1,42 @@
+#DONE
+-  request:
+      method: POST
+      url: /stubs/post2
+      post: Mobile=([0-9]+)
+      #name=Amit&Mobile=781011111&Sal=100000.00&DOJ=25-APR-2012
+
+   response:
+      #Mobile=781011111,781011111,<% post.2 %>
+      body: <% post.0 %>,<% post.1 %>,<% post.2 %>
+
+
+-  request:
+      method: POST
+      url: /stubs/post3
+      post: ([0-9]+)
+      #name=Amit&Mobile=(44)781011111&Sal=100000.00&DOJ=25-APR-2012
+
+   response:
+      #44,44,781011111,781011111,100000
+      body: <% post.0 %>,<% post.1 %>,<% post.2 %>,<% post.3 %>,<% post.4 %>
+
+
+-  request:
+      method: POST
+      url: /stubs/post4
+      post: =([0-9]+)
+      #name=Amit&Mobile=(44)781011111&Sal=100000.00&DOJ=25-APR-2012
+
+   response:
+      #=100000,100000,=25,25,<% post.4 %>,,<% post.5 %>
+      body: <% post.0 %>,<% post.1 %>,<% post.2 %>,<% post.3 %>,<% post.4 %>,,<% post.5 %>
+
+-  request:
+      method: POST
+      url: /stubs/post5
+      post: "[\s\S]*Mobile=([0-9]+)[\s\S]*"
+      #name=Amit&Mobile=781011111&Sal=100000.00&DOJ=25-APR-2012
+
+   response:
+      #name=Amit&Mobile=781011111&Sal=100000.00&DOJ=25-APR-2012,781011111,<% post.2 %>
+      body: <% post.0 %>,<% post.1 %>,<% post.2 %>

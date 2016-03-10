@@ -1,0 +1,26 @@
+<util:tariffProductId>8601</util:tariffProductId>
+<util:productId> Inde:Q1:09:O2:30:18M:10GB:MBB:DataOnly </util:productId>
+<util:productDescription> Q1 09 GBP30 18M Mobile Broadband </util:productDescription>
+<util:productExtendedDescription> Mobile Broadband/18 mth/�30/10GB with overage 20p Per MB/Unltd WiFi/Data only/No rollover/Q1/ 09 </util:productExtendedDescription>
+<util:productSubscriptionCost> 2938 </util:productSubscriptionCost>
+<util:dataSubscriberType>I</util:dataSubscriberType>
+<util:tariffHandsetSim> HANDSET </util:tariffHandsetSim>
+<util:productPartner>consumer</util:productPartner>
+<util:tariffOnlineOffline> OFFLINE </util:tariffOnlineOffline>
+<util:tariffFamily>MBB 18M</util:tariffFamily>
+<util:productOnSaleDate> 2009-01-29 </util:productOnSaleDate>
+<util:isRetentionProduct>N</util:isRetentionProduct>
+<util:isCurrentProduct>Y</util:isCurrentProduct>
+<util:productRequestDateAlignment> BILLDATE-1 </util:productRequestDateAlignment>
+<util:tariffLineRentalContractDuration> 18 </util:tariffLineRentalContractDuration>
+<util:productAdditionReasonId> 42 </util:productAdditionReasonId>
+<util:productAdditionReasonDescription> VAS Change - 14-Day Return </util:productAdditionReasonDescription>
+<util:productAdditionUserName> CUSTGEN </util:productAdditionUserName>
+<util:productAdditionRequester> D </util:productAdditionRequester>
+<util:productStartTimestamp> 2009-04-21T00:00:06 </util:productStartTimestamp>
+<util:mspMsisdnBaseTariffBillingProducts>
+    <util:billingTariffId> 6398 </util:billingTariffId>
+    <util:billingTariffName> O2 Mobile Broadband 30 18 Mth (CR2541) </util:billingTariffName>
+    <util:billingProductLabel> O2 Mobile Broadband 30 18 Mth </util:billingProductLabel>
+    <util:billingOptionType> M </util:billingOptionType>
+</util:mspMsisdnBaseTariffBillingProducts>

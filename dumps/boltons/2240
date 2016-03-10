@@ -1,0 +1,23 @@
+<man:boltonDetail>
+            <man:boltonId>2240</man:boltonId>
+            <man:name>My Europe Extra</man:name>
+            <man:description>Discounted rate of 25 pence a minute for making voice calls, and no charge for receiving voice calls, when roaming in the EU.</man:description>
+            <man:boltonType>CONSUMER</man:boltonType>
+            <man:boltonStatus>CURRENT</man:boltonStatus>
+            <man:boltonCategory>EUROPE</man:boltonCategory>
+            <man:paymentType>PERIODIC</man:paymentType>
+            <man:paymentCycle>MONTHLY</man:paymentCycle>
+            <man:initialCost>0</man:initialCost>
+            <man:periodicCost>1021</man:periodicCost>
+            <man:introductoryCost>0</man:introductoryCost>
+            <man:introductoryCycles>0</man:introductoryCycles>
+            <man:maxCycles>0</man:maxCycles>
+            <man:boltonGroup>
+               <man:groupId>11</man:groupId>
+               <man:groupName>General</man:groupName>
+               <man:groupDescription>General</man:groupDescription>
+               <man:orderIndex>0</man:orderIndex>
+            </man:boltonGroup>
+            <man:orderIndex>170</man:orderIndex>
+            <man:maxParameters>0</man:maxParameters>
+         </man:boltonDetail>

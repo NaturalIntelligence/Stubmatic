@@ -1,0 +1,26 @@
+		 <man:boltonDetail>
+<man:boltonId>6721</man:boltonId>
+<man:name>O2 Extended Family (1 - 10 members)</man:name>
+<man:description>Unlimited Calls and Texts between family members</man:description>
+<man:boltonType>CONSUMER</man:boltonType>
+<man:boltonStatus>CURRENT</man:boltonStatus>
+<man:boltonCategory>FAMILY</man:boltonCategory>
+<man:paymentType>PERIODIC</man:paymentType>
+<man:paymentCycle>MONTHLY</man:paymentCycle>
+<man:initialCost>0</man:initialCost>
+<man:periodicCost>1276</man:periodicCost>
+<man:introductoryCost>0</man:introductoryCost>
+<man:introductoryCycles>0</man:introductoryCycles>
+<man:maxCycles>0</man:maxCycles>
+<man:boltonGroup>
+   <man:groupId>10</man:groupId>
+   <man:groupName>O2 Family</man:groupName>
+   <man:groupDescription>O2 Family</man:groupDescription>
+   <man:orderIndex>0</man:orderIndex>
+</man:boltonGroup>
+<man:orderIndex>100</man:orderIndex>
+<man:maxParameters>10</man:maxParameters>
+<man:parameterType>PHONENUMBER</man:parameterType>
+<man:parameterCategory>O2</man:parameterCategory>
+<man:parameterDefaultsAvailable>true</man:parameterDefaultsAvailable>
+</man:boltonDetail>
