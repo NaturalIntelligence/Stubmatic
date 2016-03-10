@@ -1,6 +1,0 @@
--  response:
-      strategy: first-found
-      latency: 0
-      status: 200
-      headers:
-            content-type: text/xml
