@@ -1,7 +1,7 @@
 var fs = require('fs');
 var markers = require('./markers.js');
 var deasync = require('deasync');
-var datasets = require('./dataset').datasets;
+var dbsets = require('./dbset').dbsets;
 var logger = require('./log');
 var YAML = require('yamljs');
 
@@ -84,13 +84,13 @@ exports.replaceDumps = function(data){
 	return data;
 }
 
-exports.replaceWithDataSetPlaceHolders = function(data, dataset, key){
+exports.replaceWithDataSetPlaceHolders = function(data, dbset, key){
 	var regx = "##([^#]+)##";
 	var matches = exports.getAllMatches(data,regx);
 
 	for(var i in matches){
 		var match= matches[i];
-		data = data.replace(match[0],datasets[dataset].get(key)[match[1]]);
+		data = data.replace(match[0],dbsets[dbset].get(key)[match[1]]);
 	}
 	return data;
 }
