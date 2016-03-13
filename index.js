@@ -3,7 +3,7 @@
 if(process.argv[2] == "--help" || process.argv[2] == "-h"){
 	console.log();
 	var fs = require('fs');
-	console.log(fs.readFileSync("help", 'utf-8'));
+	console.log(fs.readFileSync(__dirname + "/help", 'utf-8'));
 	console.log();
     process.exit(1);
 }

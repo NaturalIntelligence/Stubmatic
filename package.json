@@ -1,6 +1,6 @@
 {
   "name": "stubby-db",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A nodejs based complete solution for maintaining the stubs for your project",
   "main": "./js/stubbyDB",
   "scripts": {
