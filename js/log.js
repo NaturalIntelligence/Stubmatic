@@ -1,16 +1,13 @@
 var winston = require('winston');
-var util = require('./preutil');
-var YAML = require('yamljs');
+var config = require("./configbuilder").getConfig();
 
-var logs = util.getConfigFor('logs');
+var logs = config.logs.path || "";
 
-var debuglogpath = "./debug.log"; //__dirname + debuglogpath
-var errlogpath = "./exceptions.log";
+var debuglogpath = logs + "/debug.log"; //__dirname + debuglogpath
+var errlogpath = logs + "/exceptions.log";
 
-if(logs){
-	debuglogpath = logs.info;
-	errlogpath = logs.error;
-}
+console.log("writing logs to: " + debuglogpath +", "+ errlogpath);
+
 var logger = new (winston.Logger)({
   transports: [
     //new (winston.transports.Console)({ json: false, timestamp: true }),

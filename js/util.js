@@ -62,6 +62,7 @@ exports.replaceMarkers = function(data){
 exports.replaceDumps = function(data){
 	var regx = "\\[\\[([^\\]]+)\\]\\]";
 	var matches = exports.getAllMatches(data,regx);
+	var dumpsdir = require("./configbuilder").getConfig().dumps;
 	
 	for(var i in matches){
 		var match= matches[i];
@@ -71,7 +72,7 @@ exports.replaceDumps = function(data){
 
 		var contentToreplace = "";
 		for (var index in files) {
-			var filePath= dir + "/" + files[index];
+			var filePath= dumpsdir + dir + "/" + files[index];
 			var readFileFlag = false;
 			exports.readFromFile(filePath,function(filecontent){
 				contentToreplace += filecontent;

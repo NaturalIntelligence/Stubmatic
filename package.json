@@ -1,6 +1,6 @@
 {
   "name": "stubby-db",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "A nodejs based complete solution for maintaining the stubs for your project",
   "main": "./js/stubbyDB",
   "scripts": {
@@ -11,10 +11,14 @@
     "chalk": "^1.1.1",
     "dateformat": "^1.0.12",
     "deasync": "^0.1.4",
+    "deepmerge": "^0.2.10",
     "hashtable": "^2.0.1",
     "line-reader": "^0.3.0",
     "winston": "^2.2.0",
     "yamljs": "^0.2.6"
+  },
+  "bin": {
+    "stubbydb": "index.js"
   },
   "license": "MIT",
   "repository": {
@@ -25,5 +29,18 @@
     "url": "https://github.com/NaturalIntelligence/StubbyDB/issues"
   },
   "homepage": "https://github.com/NaturalIntelligence/StubbyDB",
-  "keywords" : ["dumps", "skeleton", "db", "stubby", "stub", "stubbydb", "soap", "restful", "REST", "SOAP", "dbset", "stubby4j"]
+  "keywords": [
+    "dumps",
+    "skeleton",
+    "db",
+    "stubby",
+    "stub",
+    "stubbydb",
+    "soap",
+    "restful",
+    "REST",
+    "SOAP",
+    "dbset",
+    "stubby4j"
+  ]
 }

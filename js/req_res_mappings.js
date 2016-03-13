@@ -1,33 +1,15 @@
 var YAML = require('yamljs');
-var preutil = require('./preutil');
+var config = require("./configbuilder").getConfig()
 
-var config_mapping = preutil.getConfigFor('mappings');
-
-if(!config_mapping){
-    config_mapping = {
-        //default: "./mappings/default.yaml" ,
-        requests: ["./response.yaml"]
-    }
-}
+var config_mapping = config.mappings;
 
 var allMappings = [];
 
-var defaultConfig;
-if(config_mapping.default){
-    defaultConfig = YAML.parseFile(config_mapping.default);
-}else{
-    defaultConfig = [{
-        response: {
-            status: 200,
-            latency: 0
-        }
-    }]
-}
-
+var defaultConfig = config_mapping.default;
 
 for(var i in config_mapping.requests){
-    console.log("Loading mappings from " + config_mapping.requests[i]);
     var mappings = YAML.parseFile(config_mapping.requests[i]);
+    console.log("Loading "+ mappings.length +" mappings from " + config_mapping.requests[i]);
     if(!mappings || mappings.length == 0){
         console.log(config_mapping.requests[i] + " is an empty file.");
         break;
@@ -52,24 +34,24 @@ for(var i in config_mapping.requests){
 
 
         if(!entry.response.status){
-            if(defaultConfig[0].response.status){
-                entry.response['status'] = defaultConfig[0].response.status;
+            if(defaultConfig.response.status){
+                entry.response['status'] = defaultConfig.response.status;
             }else{
                 entry.response['status'] = 200;
             }
         }
 
         if(!entry.response.latency){
-            if(defaultConfig[0].response.latency){
-                entry.response['latency'] = defaultConfig[0].response.latency;
+            if(defaultConfig.response.latency){
+                entry.response['latency'] = defaultConfig.response.latency;
             }else{
                 entry.response['latency'] = 0;
             }
         }
 
         if(!entry.response.strategy){
-            if(defaultConfig[0].response.strategy){
-                entry.response['strategy'] = defaultConfig[0].response.strategy;
+            if(defaultConfig.response.strategy){
+                entry.response['strategy'] = defaultConfig.response.strategy;
             }else if(entry.response.files){
                 entry.response['strategy'] = 'not-found';
             }
@@ -80,6 +62,7 @@ for(var i in config_mapping.requests){
         }
 
     }
+
     allMappings = allMappings.concat(mappings);
 }
 exports.mappings = allMappings;

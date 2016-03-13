@@ -1,17 +1,18 @@
-var YAML = require('yamljs');
+var fs = require('fs');
 
-var config;
-
-try{
-	config = YAML.parseFile("./config.yaml");
-}catch(e){
-	console.log("Config file is not found on root location of the project.");
+exports.isExist = function(path){
+	try{
+		fs.accessSync(path, fs.F_OK);
+		return true;
+	}catch(e){
+		return false;
+	}
 }
 
-exports.getConfigFor = function(name){
-	for(var i in config){
-	    if(config[i][name]){
-	        return config[i][name];
-	    }
+/* Empty list if no file or directory not exist or access issues*/
+exports.ls = function(dirpath){
+	if(exports.isExist(dirpath)){
+		return fs.readdirSync(dirpath);
 	}
+	return [];
 }

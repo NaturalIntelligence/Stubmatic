@@ -1,12 +1,10 @@
-exports.stubbyDB = function(port){
-	console.log("Creating Server");
+function stubbyDB(){
+	console.log("Starting Server");
 
-	this.port = port;
 	this.server = require('http').createServer();
 	var mappings = require('./req_res_mappings').mappings;
 	var reqHandler = require('./request_handler');
 	var resHandler = require('./response_handler');
-	var preutil = require('./preutil');
 	var util = require('./util');
 	var chalk = require('chalk');
 	var logger = require('./log');
@@ -85,22 +83,13 @@ exports.stubbyDB = function(port){
 	});
 
 	this.start= function(){
-		var serverConfig = preutil.getConfigFor('server');
-		if(serverConfig && serverConfig.port){
-			this.port = serverConfig.port;
-		}
-		var PORT= this.port;
-		
-		this.server.listen(PORT, function(){
-		    console.log("Server listening on: http://localhost:%s", PORT);
+		var config = require("./configbuilder").getConfig();
+
+		this.server.listen(config.server.port, function(){
+		    console.log("Server listening on: http://localhost:%s", config.server.port);
 		});
 	}
 }
 
-/*exports.stubbyDB.start= function(){
-	var PORT= this.port | preutil.getConfigFor('server').port;
-	
-	this.server.listen(PORT, function(){
-	    console.log("Server listening on: http://localhost:%s", PORT);
-	});
-}*/
+
+module.exports = stubbyDB;

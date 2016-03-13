@@ -1,11 +1,10 @@
 var HashTable = require('hashtable');
-var preutil = require('./preutil');
 var fs = require('fs'),
 	path = require('path');
 var lineReader = require('line-reader');
 var deasync = require('deasync');
 
-var dirPath = preutil.getConfigFor('dbsets');
+var dirPath = require("./configbuilder").getConfig().dbsets;
 var dbsets = [];
 
 if(dirPath){

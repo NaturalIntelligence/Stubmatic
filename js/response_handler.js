@@ -5,11 +5,8 @@ var fs = require('fs');
 
 var requestContext = [];
 
-var stubs = preutil.getConfigFor('stubs');
-var dirPath = "";
-if(stubs){
-	dirPath = stubs.path;
-}
+var dirPath = require("./configbuilder").getConfig().stubs || "";
+
 exports.readResponse = function (res,req_context,callback){
 	var index = req_context.matchedConfigIndex;
 
