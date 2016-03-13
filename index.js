@@ -7,7 +7,7 @@ if(process.argv[2] == "--help" || process.argv[2] == "-h"){
 	console.log();
     process.exit(1);
 }
-console.log("\033[31m this will be red \033[91m and this will be normal\033[0m");
+
 var options = {}
 for(var i=2; i<process.argv.length;i++){
 	if(process.argv[i].indexOf("-") === 0){

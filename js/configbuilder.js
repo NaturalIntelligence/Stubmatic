@@ -23,28 +23,6 @@ var defaultConfig = {
 	}
 };
 
-/*exports.reset = function(){
-	var someconfig = {
-		mappings: {
-			default: {
-				request:{
-					method: 'GET'
-				},
-				response: {
-					strategy: 'first-found',
-					latency: 0,
-					status: 200
-				}
-			},
-			request: "response.yaml"
-		},
-		server: {
-			port: 7777
-		}
-	};
-	defaultConfig = someconfig;
-}*/
-
 var setConfig = function(path, value) {
 	var s = defaultConfig;
     var pList = path.split('.');
@@ -104,6 +82,7 @@ function useDefaultConfig(){
 		var jsonconfig = require(process.cwd() +'/config.json');
 		buildFromJsonConfig(jsonconfig);
 	}else{
+		console.log("config.json is not found. Checking for directory structure");
 		buildFromDirectory(process.cwd());
 	}
 }
@@ -111,6 +90,7 @@ function useDefaultConfig(){
 var merge = require('deepmerge');
 
 function buildFromJsonConfig(jsonconfig){
+	delete defaultConfig.mappings.requests;
 	defaultConfig = merge(defaultConfig,jsonconfig);
 }
 
