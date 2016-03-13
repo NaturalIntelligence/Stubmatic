@@ -1,5 +1,5 @@
-var dateFormat = require('dateformat');
 var util = require('./util');
+var preutil = require('./preutil');
 
 //TPDAY, TPDAY+N, TODAY-N
 exports.dateMarker = function(data){
@@ -20,7 +20,7 @@ exports.dateMarker = function(data){
 		}
 		
 		rgx = new RegExp(util.escapeRegExp(match[0]),"g");
-		data = data.replace(rgx,dateFormat(dt, "yyyy-mm-dd"));
+		data = data.replace(rgx,preutil.formatDate(dt, "yyyy-mm-dd"));
 	}
 	return data;
 }
@@ -44,6 +44,8 @@ exports.urlMarker = function(data){
 	}
 	return data;
 }
+
+
 
 //tariff ID : RANDOM:5
 /*exports.random = function(data){

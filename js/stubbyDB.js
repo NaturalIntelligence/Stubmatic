@@ -6,7 +6,7 @@ function stubbyDB(){
 	var reqHandler = require('./request_handler');
 	var resHandler = require('./response_handler');
 	var util = require('./util');
-	var chalk = require('chalk');
+	var color = require('./colors').color;
 	var logger = require('./log');
 
 	this.server.on('request', function(request, response) {
@@ -26,14 +26,14 @@ function stubbyDB(){
 		    //Prepare response
 			request['post'] = body;
 
-			console.log(chalk.green(method+": "+url));
+			console.log(color(method+": "+url,'Green'));
 			logger.info(method+": "+url);
 			try{
 				var req_context = reqHandler.parseRequest(request,mappings);
 				if(req_context == null){
 					response.statusCode = 404;
 					response.end("");
-					console.log(chalk.red("Response served with Status Code " + response.statusCode));
+					console.log(color("Response served with Status Code " + response.statusCode,'Red'));
 					return;
 				}
 				var matchingmapping = mappings[req_context.matchedConfigIndex];
@@ -71,13 +71,13 @@ function stubbyDB(){
 
 					
 					if(response.statusCode == 200){
-						console.log(chalk.green("Response served in " + response_config.latency + " ms with Status Code " + response.statusCode));
+						console.log(color("Response served in " + response_config.latency + " ms with Status Code " + response.statusCode,'Green'));
 					}else{
-						console.log(chalk.red("Response served in " + response_config.latency + " ms with Status Code " + response.statusCode));
+						console.log(color("Response served in " + response_config.latency + " ms with Status Code " + response.statusCode,'Red'));
 					}
 				});
 			}catch(e){
-				console.log(chalk.red(e));
+				console.log(color(e,'Red'));
 			}
 		  });
 	});

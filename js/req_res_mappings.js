@@ -8,12 +8,15 @@ var allMappings = [];
 var defaultConfig = config_mapping.default;
 
 for(var i in config_mapping.requests){
-    var mappings = YAML.parseFile(config_mapping.requests[i]);
-    console.log("Loading "+ mappings.length +" mappings from " + config_mapping.requests[i]);
+    var req_mapping = config_mapping.requests[i];
+    var mappings = YAML.parseFile(req_mapping);
+
     if(!mappings || mappings.length == 0){
-        console.log(config_mapping.requests[i] + " is an empty file.");
+        console.log(req_mapping + " is an empty file.");
         break;
     }
+    console.log("Loading "+ mappings.length +" mappings from " + req_mapping);
+
     for(var i=0;i<mappings.length;i++){
         var entry = mappings[i];
 
