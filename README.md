@@ -9,6 +9,8 @@ For basic help
 
 	$stubbydb --help
 
+Important links : [Wiki](https://github.com/NaturalIntelligence/StubbyDB/wiki), [NPM](https://www.npmjs.com/package/stubby-db), [Demo](https://github.com/NaturalIntelligence/stubby-db-test) application, [issues](https://github.com/NaturalIntelligence/StubbyDB/issues)
+
 ##History
 Developed by a victim.
 
@@ -182,5 +184,4 @@ Sample Mapping;
       file: stubs/employeedetail
 ```
 
-Read [Wiki](https://github.com/NaturalIntelligence/StubbyDB/wiki) for how to use StubbyDB in your project. Or report an issue [here](https://github.com/NaturalIntelligence/StubbyDB/issues).
 
