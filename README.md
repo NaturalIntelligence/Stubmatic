@@ -4,12 +4,12 @@ A nodejs based complete solution for maintaining the stubs for your project
 ##History
 Developed by a victim.
 
-I was  previously using an open source project to manage stubbed data. However with the time when the project is expanded, I started missing few features in that. I also faced many limitations. Hence I decided to created a simple, lightweighted, highly customizable, and easy to handy tool to manage stub data in whichever way I want.
+I was  previously using an open source project to manage stubbed data. However with the time when the project is expanded, I started missing few features in that. I also faced many limitations. Hence I decided to created a simple, light weighted, highly customizable, and easy to handy tool to manage stub data in whichever way I want.
 
 ##Description
 Stubby DB is a npm module. In simple words you can stub the http calls to provide stubbed data. You can make stubbed data service for SOAP or REST calls. Basic functionality is somewhat similar to stubby4j. But it has so many other features. 
 
-###Features and Basic terminolgy
+###Features and Basic terminology
 
 Folder structure
 
@@ -21,7 +21,7 @@ Folder structure
 	 |__ logs
 
 ####Mappings
-yaml based mappings are required to map a request with relavant response file. You can have multiple files instead of maintaining a big fat file. You can also mark files which should be used to map the requests. So the the mappings which are in progress can be excluded.
+yaml based mappings are required to map a request with relevant response file. You can have multiple files instead of maintaining a big fat file. You can also mark files which should be used to map the requests. So the the mappings which are in progress can be excluded.
 
 ```yaml
 -  request:
@@ -57,7 +57,7 @@ To further reduce the size of yaml file, You can use default configuration to be
 ```
 
 ####Strategy
-Many times, you don't have just one-to-one mapping between the request and response. You want to server different response everytime, or you want to serve default response instead of saying 404 (stub data not found). There are many strategies, you can use suits to your requirement;
+Many times, you don't have just one-to-one mapping between the request and response. You want to server different response every time, or you want to serve default response instead of saying 404 (stub data not found). There are many strategies, you can use suits to your requirement;
 
 ```yaml
 -  request:
@@ -69,15 +69,16 @@ Many times, you don't have just one-to-one mapping between the request and respo
 ```
 
 Stubby DB is currently supporting following strategies;
-	1. first-found : In above example, whichever file is found first, serve that response.
-	2. random : In above example, serve any file from mentioned list.
-	3. round-robin : In above example, serve the files in sequencial order. So on second same request, it'll serve response from file2.xml
 
-Comming soon
-	- random + first-found
-	- round-robin + no-repeat
-	- random + no-repeat
-	- many others
+1. first-found : In above example, whichever file is found first, serve that response.
+2. random : In above example, serve any file from mentioned list.
+3. round-robin : In above example, serve the files in sequential order. So on second same request, it'll serve response from file2.xml
+
+Coming soon
+* random + first-found
+* round-robin + no-repeat
+* random + no-repeat
+* many others
 
 ####Latency
 When you want to serve the response with some delay. It may be useful to test negative scenarios or for performance test.
@@ -85,7 +86,7 @@ When you want to serve the response with some delay. It may be useful to test ne
 ```yaml
 -  request:
       url: /stubs/simple
-      latency: 500 #In miliseconds
+      latency: 500 #In milliseconds
 
    response:
       file: post.xml
@@ -122,7 +123,7 @@ You can also decide at the run time which dumps have to be included.
 
 
 ####DB sets
-If you wtill feel that you have so many response files in your project and it is being difficult to maintain them, use this **skeleton based approach**. 
+If you still feel that you have so many response files in your project and it is being difficult to maintain them, use this **skeleton based approach**. 
 
 Use a response file as skeleton and fill the data from a dbset.
 
@@ -135,7 +136,7 @@ Projects:
 	[[dumps/projects:##Projects##]]
 ```
 
-	Actual Response
+Actual Response
 
 ```
 Employee: 001
@@ -149,9 +150,9 @@ Description: This is project 1
 Title : Title 2
 Description: This is project 2
 :
-	```
+```
 
-	Sample dbset file: ./dbsets/employee
+Sample dbset file: ./dbsets/employee
 
 ```
 Num 	|Name 			|Projects
@@ -159,7 +160,7 @@ Num 	|Name 			|Projects
 002 	|Another Name 	|project2, project3, project4
 ```
 	
-	Sample Mapping;
+Sample Mapping;
 
 ```yaml
 -  request:
@@ -172,6 +173,5 @@ Num 	|Name 			|Projects
    response:
       file: stubs/employeedetail
 ```
-
 
 
