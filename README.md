@@ -1,6 +1,14 @@
 # StubbyDB
 A nodejs based complete solution for maintaining the stubs for your project
 
+To install
+
+	$npm install stubby-db -g
+
+For basic help
+
+	$stubbydb --help
+
 ##History
 Developed by a victim.
 
@@ -174,4 +182,5 @@ Sample Mapping;
       file: stubs/employeedetail
 ```
 
+Read [Wiki](https://github.com/NaturalIntelligence/StubbyDB/wiki) for how to use StubbyDB in your project. Or report an issue [here](https://github.com/NaturalIntelligence/StubbyDB/issues).
 
