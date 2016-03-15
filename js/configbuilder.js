@@ -1,5 +1,6 @@
 var fs = require('fs');
 var util = require('./preutil');
+var path = require('path');
 
 var defaultConfig = {
 	mappings: {
@@ -16,7 +17,8 @@ var defaultConfig = {
 		requests: ["response.yaml"]
 	},
 	server: {
-		port: 7777
+		port: 7777,
+		host: 'localhost'
 	},
 	logs:{
 		path: 'logs'
@@ -60,6 +62,10 @@ exports.buildConfig = function(options,count){
 		setConfig('server.port',options['-p']);
 	}
 
+	if(options['--host']){
+		setConfig('server.host',options['--host']);
+	}
+
 	if(options['-m']){
 		defaultConfig.mappings.requests = [];
 		defaultConfig.mappings.requests.push(options['-m']);
@@ -78,8 +84,8 @@ Use default port only.
 */
 function useDefaultConfig(){
 	console.log(process.cwd());
-	if(util.isExist(process.cwd() + "/config.json")){
-		var jsonconfig = require(process.cwd() +'/config.json');
+	if(util.isExist(path.join(process.cwd() , "/config.json"))){
+		var jsonconfig = require(path.join(process.cwd() ,'/config.json'));
 		buildFromJsonConfig(jsonconfig);
 	}else{
 		console.log("config.json is not found. Checking for directory structure");
@@ -100,35 +106,44 @@ It'll ignore if there is any config file in specified directory.
 It update the path of : mappings, dbsets, and stubs, whichever is presnt
 */
 function buildFromDirectory(dirPath){
-	if(util.isExist(dirPath+"/dbsets")){
-		defaultConfig['dbsets'] = dirPath + '/dbsets/';
+	dirPath = fixDirPath(dirPath);
+	if(util.isExist(dirPath+"dbsets")){
+		defaultConfig['dbsets'] = dirPath + 'dbsets/';
 	}
 
-	if(util.isExist(dirPath+"/stubs")){
-		defaultConfig['stubs'] = dirPath + '/stubs/';
+	if(util.isExist(dirPath+"stubs")){
+		defaultConfig['stubs'] = dirPath + 'stubs/';
 	}
 
-	if(util.isExist(dirPath+"/logs")){
-		defaultConfig['logs']['path'] = dirPath + '/logs/';
+	if(util.isExist(dirPath+"logs")){
+		defaultConfig['logs']['path'] = dirPath + 'logs/';
 	}else{
-		defaultConfig['logs']['path'] = dirPath + '/';
+		defaultConfig['logs']['path'] = dirPath;
 	}
 
-	if(util.isExist(dirPath+"/dumps")){
-		defaultConfig['dumps'] = dirPath + '/dumps/';
+	if(util.isExist(dirPath+"dumps")){
+		defaultConfig['dumps'] = dirPath + 'dumps/';
 	}
 
-	var files = util.ls(dirPath+"/mappings");
+	var files = util.ls(dirPath+"mappings");
 	if(files.length > 0){
 		defaultConfig['mappings']['requests'] = [];
 		files.forEach(function(filename){
-			defaultConfig['mappings']['requests'].push(dirPath + '/mappings/' + filename);
+			defaultConfig['mappings']['requests'].push(path.join(dirPath , 'mappings' , filename));
 		});
 	}
 }
 
 exports.getConfig= function(){
 	return defaultConfig;
+}
+
+function fixDirPath(dirpath){
+	var lastChar = dirpath.charAt(dirpath.length - 1); 
+	if(lastChar != '/'){
+		return dirpath + '/';
+	}
+	return dirpath;
 }
 
 

@@ -4,6 +4,7 @@ var deasync = require('deasync');
 var dbsets = require('./dbset').dbsets;
 var logger = require('./log');
 var YAML = require('yamljs');
+var path = require('path');
 
 exports.getMatches = function(string, regex_str) {
   var regex = new RegExp(regex_str,"g");
@@ -72,7 +73,7 @@ exports.replaceDumps = function(data){
 
 		var contentToreplace = "";
 		for (var index in files) {
-			var filePath= dumpsdir + dir + "/" + files[index];
+			var filePath= path.join(dumpsdir , dir , files[index]);
 			var readFileFlag = false;
 			exports.readFromFile(filePath,function(filecontent){
 				contentToreplace += filecontent;

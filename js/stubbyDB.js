@@ -85,8 +85,8 @@ function stubbyDB(){
 	this.start= function(){
 		var config = require("./configbuilder").getConfig();
 
-		this.server.listen(config.server.port, function(){
-		    console.log("Server listening on: http://localhost:%s", config.server.port);
+		this.server.listen(config.server.port,config.server.host, function(){
+		    console.log("Server listening on: http://" + config.server.host + ":" + config.server.port);
 		});
 	}
 }

@@ -2,6 +2,7 @@ var logger = require('./log');
 var preutil = require('./preutil');
 var util = require('./util');
 var fs = require('fs');
+var path = require('path');
 
 var requestContext = [];
 
@@ -13,13 +14,13 @@ exports.readResponse = function (res,req_context,callback){
 	if(res.body){
 		callback(res.body);
 	}else if(res.file){
-		var fileName = dirPath+buildFileName(res.file,req_context);
+		var fileName = path.join(dirPath,buildFileName(res.file,req_context));
 		util.readFromFile(fileName,callback);
 	}else if(res.files){
 		if(res.strategy == 'random'){
 			var len = res.files.length
 			var i = Math.floor((Math.random() * len) + 1) - 1;
-			return util.readFromFile(dirPath+buildFileName(res.files[i],req_context),callback);
+			return util.readFromFile(path.join(dirPath,buildFileName(res.files[i],req_context)),callback);
 		}else if(res.strategy == 'round-robin'){
 			var len = res.files.length;
 			if(requestContext[index] != undefined){
@@ -27,11 +28,11 @@ exports.readResponse = function (res,req_context,callback){
 			}else{
 				requestContext[index] = 0;
 			}
-			return util.readFromFile(dirPath+buildFileName(res.files[requestContext[index]],req_context),callback);
+			return util.readFromFile(path.join(dirPath,buildFileName(res.files[requestContext[index]],req_context)),callback);
 		}else if(res.strategy == 'first-found'){
 			for(var i=0;i<res.files.length;i++){
 				var fileName = res.files[i];
-				fileName = dirPath+buildFileName(fileName,req_context);
+				fileName = path.join(dirPath,buildFileName(fileName,req_context));
 				try {
 				    fs.accessSync(fileName, fs.F_OK);
 				    return util.readFromFile(fileName,callback);

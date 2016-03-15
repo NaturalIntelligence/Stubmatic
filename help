@@ -3,6 +3,7 @@ Runs stubbyDB server
 
 Arguments
   -p, --port                 port number
+  --host                     Host name
   -m, --mapping		     file path of yaml mapping file (response.yaml)
   -s, --stub                 path for stubs only if mapping file has relative path and they are not in current folder
   -c, --config               name of config file. It must be json file.

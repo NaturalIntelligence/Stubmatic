@@ -20,7 +20,7 @@ for(var i=2; i<process.argv.length;i++){
 			key = '-m';
 		}else if(key == '--stub' || key == '-s'){
 			key = '-s';
-		}else if(key == '-C' || key == '-d'){
+		}else if(key == '-C' || key == '-d' || key == '--host'){
 			//key = '-p';
 		}else{
 			console.log("Invalid options");

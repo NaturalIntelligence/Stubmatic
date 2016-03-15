@@ -1,10 +1,12 @@
 var winston = require('winston');
 var config = require("./configbuilder").getConfig();
+var path = require('path');
+
 
 var logs = config.logs.path || "";
 
-var debuglogpath = logs + "/debug.log"; //__dirname + debuglogpath
-var errlogpath = logs + "/exceptions.log";
+var debuglogpath = path.join(logs , "debug.log"); //__dirname + debuglogpath
+var errlogpath = path.join(logs , "exceptions.log");
 
 console.log("writing logs to: " + debuglogpath +", "+ errlogpath);
 
