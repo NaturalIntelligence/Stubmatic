@@ -101,7 +101,5 @@ exports.wait = function(ms){
 	deasync.sleep(ms);
 }
 
-exports.escapeRegExp = function(str) {
-  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-}
+
 
