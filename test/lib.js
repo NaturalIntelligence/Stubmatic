@@ -1,12 +1,12 @@
 const assert = require('assert');
-var chalk = require('chalk');
+var color = require('../os/nushi/stubbydb/util/colors').color;
 
 exports.assert = function(actual,expected){
 	try{
 		assert.deepEqual(actual,expected);
-		console.log(chalk.green('PASS'));
+		console.log(color('PASS','green'));
 	}catch(e){
-		console.log(chalk.red('FAIL'));
+		console.log(color('FAIL','red'));
 		console.log("Actual: " + JSON.stringify(actual))
 		console.log("is not matching with")
 		console.log("Expected: " + JSON.stringify(expected))

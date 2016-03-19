@@ -16,7 +16,7 @@ exports.handle = function(data, dbset){
 			if(row){
 				data = data.replace(match[0],row[column]);	
 			}else{
-				log.info('Key: ' + dbset.key + ' not found in ' + dbset.db);
+				log.detailInfo('Key: ' + dbset.key + ' not found in ' + dbset.db);
 				throw new Error('404 Key is not found');
 			}
 		}

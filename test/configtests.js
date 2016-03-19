@@ -4,7 +4,6 @@ function getConfig(options){
 	var mod = '../os/nushi/stubbydb/configbuilder';
 	delete require.cache[require.resolve(mod)];
 	var configBuilder = require(mod);
-	//configBuilder.reset();
 	configBuilder.buildConfig(options,options.length+2);
 	return configBuilder.getConfig();
 }
@@ -28,9 +27,6 @@ var expectedConfig = {
 	server: {
 		port: 9999,
 		host: 'localhost'
-	},
-	logs:{
-		path: 'logs'
 	},
 	stubs: 'stubs/',
 	dbsets: 'dbsets'
@@ -66,10 +62,7 @@ var expectedConfig = {
 		port: 7789		,
 		host: 'localhost'
 	},
-	stubs: 'stub/',
-	logs:{
-		path: 'logs'
-	}
+	stubs: 'stub/'
 };
 
 actualConfig = getConfig(options);
@@ -104,9 +97,6 @@ var expectedConfig = {
 		host: 'localhost'
 	},
 	stubs: 'stub/',
-	logs:{
-		path: 'logs'
-	},
 	dbsets: "dbsets"
 };
 
@@ -141,9 +131,6 @@ var expectedConfig = {
 	server: {
 		port: 7790,
 		host: 'abcd.com'
-	},
-	logs:{
-		path: __dirname + "/testdir/"
 	}
 	//,dumps: __dirname + "/testdir/dumps/"
 };

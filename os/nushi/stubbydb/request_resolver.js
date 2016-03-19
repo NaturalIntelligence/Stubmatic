@@ -33,19 +33,6 @@ function match(mapped_request, http_request){
 		}else{
 			return;
 		}
-
-		/*var match = util.getAllMatches(http_request.url,mapped_request.url);
-
-		var match = [];
-		for(var i in matches){
-			match = match.concat(matches[i].slice(0,matches[i].length - 2));
-		}
-
-		if(match.length > 0){
-			matched['url'] = match;
-		}else{
-			return;
-		}*/
 	}
 
 	if(mapped_request.post){

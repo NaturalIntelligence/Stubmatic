@@ -16,8 +16,5 @@
   "server": {
     "port": 9999
   },
-  "stubs": "stubs/",
-  "logs": {
-    "path": "logs"
-  }
+  "stubs": "stubs/"
 }

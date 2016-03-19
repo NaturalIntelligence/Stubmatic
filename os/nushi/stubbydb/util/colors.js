@@ -20,5 +20,6 @@ var colors_code = {
 }
 
 exports.color = function(text,color){
-	return colors_code[color.toLowerCase()] + text + NC;
+	var colorcode = colors_code[color.toLowerCase()] || ''; 
+	return colorcode + text + NC;
 }

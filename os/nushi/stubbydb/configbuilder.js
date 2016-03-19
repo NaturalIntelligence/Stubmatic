@@ -1,6 +1,7 @@
 var fs = require('fs');
 var fileutil = require('./util/fileutil');
 var path = require('path');
+var logger = require('./log');
 
 var defaultConfig = {
 	mappings: {
@@ -19,9 +20,6 @@ var defaultConfig = {
 	server: {
 		port: 7777,
 		host: 'localhost'
-	},
-	logs:{
-		path: 'logs'
 	}
 };
 
@@ -50,7 +48,7 @@ exports.buildConfig = function(options,count){
 		try{
 			jsonConfig = JSON.parse(options['-C']);
 		}catch(e){
-			console.log("Invalid json");
+			logger.error("Invalid json");
 			process.exit(1);
 		}
 		buildFromJsonConfig(jsonConfig);
@@ -83,12 +81,12 @@ Otherwise follow current directory structure.
 Use default port only.
 */
 function useDefaultConfig(){
-	console.log(process.cwd());
+	logger.info(process.cwd());
 	if(fileutil.isExist(path.join(process.cwd() , "/config.json"))){
 		var jsonconfig = require(path.join(process.cwd() ,'/config.json'));
 		buildFromJsonConfig(jsonconfig);
 	}else{
-		console.log("config.json is not found. Checking for directory structure");
+		logger.warn("config.json is not found. Checking for directory structure");
 		buildFromDirectory(process.cwd());
 	}
 }
@@ -113,12 +111,6 @@ function buildFromDirectory(dirPath){
 
 	if(fileutil.isExist(dirPath+"stubs")){
 		defaultConfig['stubs'] = dirPath + 'stubs/';
-	}
-
-	if(fileutil.isExist(dirPath+"logs")){
-		defaultConfig['logs']['path'] = dirPath + 'logs/';
-	}else{
-		defaultConfig['logs']['path'] = dirPath;
 	}
 
 	if(fileutil.isExist(dirPath+"dumps")){

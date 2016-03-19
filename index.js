@@ -12,6 +12,14 @@ var options = {}
 for(var i=2; i<process.argv.length;i++){
 	if(process.argv[i].indexOf("-") === 0){
 		var key = process.argv[i];
+		if(key == '-d' ){
+			global.basePath = process.argv[i+1];
+			console.log(global.basePath);
+			console.log("base path");
+		}else if(key == '-v' || key == '--verbose'){
+			require('./os/nushi/stubbydb/log').setVerbose(true);
+		}
+
 		if(key == '--port' || key == '-p'){
 			key = '-p';
 		}else if(key == '--config' || key == '-c'){
@@ -20,7 +28,7 @@ for(var i=2; i<process.argv.length;i++){
 			key = '-m';
 		}else if(key == '--stub' || key == '-s'){
 			key = '-s';
-		}else if(key == '-C' || key == '-d' || key == '--host'){
+		}else if(key == '-C' || key == '-d' || key == '-v' || key == '--host'){
 			//key = '-p';
 		}else{
 			console.log("Invalid options");
@@ -39,4 +47,3 @@ console.log("Configuration: " + JSON.stringify(config));
 
 var stubbyDB = require('./os/nushi/stubbydb/stubbyDB');
 var server = new stubbyDB();
-server.start();
