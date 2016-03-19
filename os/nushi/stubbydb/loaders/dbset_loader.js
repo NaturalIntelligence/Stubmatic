@@ -4,7 +4,7 @@ var fs = require('fs'),
 var lineReader = require('line-reader');
 var deasync = require('deasync');
 
-var dirPath = require("./configbuilder").getConfig().dbsets;
+var dirPath = require("./../configbuilder").getConfig().dbsets;
 var dbsets = [];
 
 if(dirPath){

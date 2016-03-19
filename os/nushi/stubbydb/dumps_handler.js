@@ -3,7 +3,7 @@ var util = require('./util/util');
 var path = require('path');
 var deasync = require('deasync');
 
-exports.replaceDumps = function(data){
+exports.handle = function(data){
 	var regx = "\\[\\[([^\\]]+)\\]\\]";
 	var matches = util.getAllMatches(data,regx);
 	var dumpsdir = require("./configbuilder").getConfig().dumps;

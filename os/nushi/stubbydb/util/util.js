@@ -23,16 +23,8 @@ exports.getAllMatches = function(string, regex_str) {
   return matches;
 }
 
-exports.replaceParts = function(data,parts){
-	data = "" + data;
-	for(var key in parts){
-		var part = parts[key];
-		for(var i=0;i<part.length;i++){
-			rgx = new RegExp("<% "+ key +"\."+ i +" %>","g");
-			data = data.replace(rgx,part[i]);	
-		}
-	}
-	return data;
+exports.clone = function(obj){
+  return JSON.parse(JSON.stringify(obj));
 }
 
 exports.wait = function(ms){

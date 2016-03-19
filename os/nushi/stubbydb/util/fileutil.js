@@ -19,6 +19,7 @@ exports.isExist = function(path){
 		fs.accessSync(path, fs.F_OK);
 		return true;
 	}catch(e){
+		//logger.error(e);
 		return false;
 	}
 }

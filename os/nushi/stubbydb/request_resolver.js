@@ -1,13 +1,18 @@
 var util = require('./util/util');
-var mappings = require('./mappings_loader').mappings;
+var mappings = require('./loaders/mappings_loader').mappings;
 
 exports.resolve = function (http_request){
 	for(var i=0;i<mappings.length;i++){
-        var entry = mappings[i];
-        var req_parts = match(entry.request, http_request);
-        if(req_parts){
-        	entry.request.matches = req_parts;
+        var entry = util.clone(mappings[i]);
+        var matched = match(entry.request, http_request);
+        if(matched){
+        	entry.request.matches = matched;
         	entry.index = i;
+
+        	if(entry.dbset){
+				entry.dbset.db = exports.applyMatches(entry.dbset.db,matched);
+				entry.dbset.key = exports.applyMatches(entry.dbset.key,matched);
+			}
         	return entry;
 		}
     }
@@ -67,4 +72,17 @@ function match(mapped_request, http_request){
 	}
 	
 	return matched;
+}
+
+
+exports.applyMatches = function(data,matches){
+	data = "" + data;
+	for(var matching_key in matches){
+		var part = matches[matching_key];
+		for(var i=0;i<part.length;i++){
+			rgx = new RegExp("<% "+ matching_key +"\."+ i +" %>","g");
+			data = data.replace(rgx,part[i]);	
+		}
+	}
+	return data;
 }

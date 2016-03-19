@@ -1,18 +1,16 @@
+var util = require('./util/util');
+
 function stubbyDB(){
 	console.log("Starting Server");
 
 	this.server = require('http').createServer();
-	var mappings = require('./mappings_loader').mappings;
 	var reqResolver = require('./request_resolver');
 	var resHandler = require('./response_handler');
-	var markersHandler = require('./markers_handler');
-	var dumpsHandler = require('./dumps_handler');
-	var dbsetHandler = require('./dbset_handler');
-	var util = require('./util/util');
 	var color = require('./util/colors').color;
 	var logger = require('./log');
 
 	this.server.on('request', function(request, response) {
+		  var startTime = new Date();
 		  var body = [];
 		  request.on('error', function(err) {
 		    console.error(err);
@@ -20,9 +18,6 @@ function stubbyDB(){
 		    body.push(chunk);
 		  }).on('end', function() {
 		    body = Buffer.concat(body).toString();
-				
-
-		    //Prepare response
 			request['post'] = body;
 
 			console.log(color(request.method+": "+request.url,'Green'));
@@ -35,49 +30,37 @@ function stubbyDB(){
 					console.log(color("Response served with Status Code " + response.statusCode,'Red'));
 					return;
 				}
-				response_config = matchedEntry.response;
-				request_config = matchedEntry.request;
+				
 
-				logger.info("Matching request Config: " + JSON.stringify(request_config));
-
-				response.statusCode = response_config.status;
-				if(response_config.headers){
-					for(var header in response_config.headers){
-						response.setHeader(header,response_config.headers[header]);
-					}
-					response.headers = response_config.headers;
-				}
+				logger.info("Matching request Config: " + JSON.stringify(matchedEntry.request));
 				
 				resHandler.readResponse(matchedEntry,function(data,err){
+					response = buildResponse(response,matchedEntry.response);
 					if(err == 404){
 						response.statusCode = 404;
 					}
-					if(matchedEntry.dbset){
-						console.log(matchedEntry.dbset.key);
-						var key = util.replaceParts(matchedEntry.dbset.key,matchedEntry.request.matches);
-						console.log(key);
-						console.log(typeof key);
-						data = dbsetHandler.replaceWithDbSetPlaceHolders(data,matchedEntry.dbset.db,key);
-					}
-					if(matchedEntry.request.matches){
-						data = util.replaceParts(data,matchedEntry.request.matches);
-					}
-					data = markersHandler.replaceMarkers(data);
-					data = dumpsHandler.replaceDumps(data);
-					response.write(data);
 
-					util.wait(response_config.latency);
+					//1. replace DbSet Place Holders
+					data = require('./dbset_handler').handle(data,matchedEntry.dbset);
+					//2. replace request matches
+					data = reqResolver.applyMatches(data,matchedEntry.request.matches);
+					//3. replace markers
+					data = require('./markers_handler').handle(data);
+					//4. replace dumps
+					data = require('./dumps_handler').handle(data);
+					response.write(data);
 					response.end("");
 
-					
+					var responseTime = (new Date()) - startTime;
 					if(response.statusCode == 200){
-						console.log(color("Response served in " + response_config.latency + " ms with Status Code " + response.statusCode,'Green'));
+						console.log(color("Response served in " + responseTime + " ms with Status Code " + response.statusCode,'Green'));
 					}else{
-						console.log(color("Response served in " + response_config.latency + " ms with Status Code " + response.statusCode,'Red'));
+						console.log(color("Response served in " + responseTime + " ms with Status Code " + response.statusCode,'Red'));
 					}
 				});
 			}catch(e){
 				console.log(color(e,'Red'));
+				logger.error(e);
 			}
 		  });
 	});
@@ -91,5 +74,17 @@ function stubbyDB(){
 	}
 }
 
+function buildResponse(response,config){
+	util.wait(config.latency);
+	response.statusCode = config.status;
+	if(config.headers){
+		for(var header in config.headers){
+			response.setHeader(header,config.headers[header]);
+		}
+		response.headers = config.headers;
+	}
+
+	return response;
+}
 
 module.exports = stubbyDB;

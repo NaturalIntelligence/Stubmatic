@@ -1,6 +1,6 @@
 var YAML = require('yamljs');
-var config = require("./configbuilder").getConfig()
-var color = require('./util/colors').color;
+var config = require("./../configbuilder").getConfig()
+var color = require('./../util/colors').color;
 
 var config_mapping = config.mappings;
 
