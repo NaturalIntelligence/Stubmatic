@@ -1,5 +1,4 @@
-var util = require('./util');
-var preutil = require('./preutil');
+var util = require('./util/util');
 
 //TPDAY, TPDAY+N, TODAY-N
 exports.dateMarker = function(data){
@@ -19,8 +18,8 @@ exports.dateMarker = function(data){
 			dt.setDate(dt.getDate() - days);
 		}
 		
-		rgx = new RegExp(preutil.escapeRegExp(match[0]),"g");
-		data = data.replace(rgx,preutil.formatDate(dt, "yyyy-mm-dd"));
+		rgx = new RegExp(util.escapeRegExp(match[0]),"g");
+		data = data.replace(rgx,util.formatDate(dt, "yyyy-mm-dd"));
 	}
 	return data;
 }
@@ -62,8 +61,8 @@ exports.dateMarker2 = function(data){
 				}
 			}
 		}
-		var rgx = new RegExp(preutil.escapeRegExp(marker_arr[0]),"g");
-		data = data.replace(rgx,preutil.formatDate(today, "yyyy-mm-dd"));
+		var rgx = new RegExp(util.escapeRegExp(marker_arr[0]),"g");
+		data = data.replace(rgx,util.formatDate(today, "yyyy-mm-dd"));
 	});
 	return data;
 }

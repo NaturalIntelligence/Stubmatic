@@ -1,5 +1,5 @@
 var fs = require('fs');
-var util = require('./preutil');
+var fileutil = require('./util/fileutil');
 var path = require('path');
 
 var defaultConfig = {
@@ -84,7 +84,7 @@ Use default port only.
 */
 function useDefaultConfig(){
 	console.log(process.cwd());
-	if(util.isExist(path.join(process.cwd() , "/config.json"))){
+	if(fileutil.isExist(path.join(process.cwd() , "/config.json"))){
 		var jsonconfig = require(path.join(process.cwd() ,'/config.json'));
 		buildFromJsonConfig(jsonconfig);
 	}else{
@@ -107,25 +107,25 @@ It update the path of : mappings, dbsets, and stubs, whichever is presnt
 */
 function buildFromDirectory(dirPath){
 	dirPath = fixDirPath(dirPath);
-	if(util.isExist(dirPath+"dbsets")){
+	if(fileutil.isExist(dirPath+"dbsets")){
 		defaultConfig['dbsets'] = dirPath + 'dbsets/';
 	}
 
-	if(util.isExist(dirPath+"stubs")){
+	if(fileutil.isExist(dirPath+"stubs")){
 		defaultConfig['stubs'] = dirPath + 'stubs/';
 	}
 
-	if(util.isExist(dirPath+"logs")){
+	if(fileutil.isExist(dirPath+"logs")){
 		defaultConfig['logs']['path'] = dirPath + 'logs/';
 	}else{
 		defaultConfig['logs']['path'] = dirPath;
 	}
 
-	if(util.isExist(dirPath+"dumps")){
+	if(fileutil.isExist(dirPath+"dumps")){
 		defaultConfig['dumps'] = dirPath + 'dumps/';
 	}
 
-	var files = util.ls(dirPath+"mappings");
+	var files = fileutil.ls(dirPath+"mappings");
 	if(files.length > 0){
 		defaultConfig['mappings']['requests'] = [];
 		files.forEach(function(filename){

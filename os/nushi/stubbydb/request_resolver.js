@@ -1,17 +1,20 @@
-var util = require('./util');
+var util = require('./util/util');
+var mappings = require('./mappings_loader').mappings;
 
-exports.parseRequest = function (http_request,mappings){
+exports.resolve = function (http_request){
 	for(var i=0;i<mappings.length;i++){
         var entry = mappings[i];
-        var req_parts = matchRequest(entry.request, http_request);
+        var req_parts = match(entry.request, http_request);
         if(req_parts){
-			return {matchedConfigIndex:i, parts:req_parts};
+        	entry.request.matches = req_parts;
+        	entry.index = i;
+        	return entry;
 		}
     }
     return null;
 }
 
-function matchRequest(mapped_request, http_request){
+function match(mapped_request, http_request){
 	var matched = {};
 
 	if(mapped_request.method != http_request.method){
@@ -19,7 +22,7 @@ function matchRequest(mapped_request, http_request){
 	}
 
 	if(mapped_request.url){
-		var match = util.getMatches(http_request.url,mapped_request.url);
+		var match = util.getMatches(http_request.url,'^'+mapped_request.url+'$');
 		if(match){
 			matched['url'] = match;
 		}else{

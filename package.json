@@ -1,8 +1,8 @@
 {
   "name": "stubby-db",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "A nodejs based complete solution for maintaining the stubs for your project",
-  "main": "./js/stubbyDB",
+  "main": "./os/nushi/stubbydb/stubbyDB",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,7 +16,8 @@
     "yamljs": "^0.2.6"
   },
   "bin": {
-    "stubbydb": "index.js"
+    "stubbydb": "index.js",
+    "stubby-db": "index.js",
   },
   "license": "MIT",
   "repository": {
@@ -39,6 +40,9 @@
     "REST",
     "SOAP",
     "dbset",
-    "stubby4j"
+    "stubby4j",
+    "markers",
+    "colors",
+    "mock"
   ]
 }

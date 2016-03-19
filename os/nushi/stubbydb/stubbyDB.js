@@ -2,18 +2,17 @@ function stubbyDB(){
 	console.log("Starting Server");
 
 	this.server = require('http').createServer();
-	var mappings = require('./req_res_mappings').mappings;
-	var reqHandler = require('./request_handler');
+	var mappings = require('./mappings_loader').mappings;
+	var reqResolver = require('./request_resolver');
 	var resHandler = require('./response_handler');
-	var util = require('./util');
-	var color = require('./colors').color;
+	var markersHandler = require('./markers_handler');
+	var dumpsHandler = require('./dumps_handler');
+	var dbsetHandler = require('./dbset_handler');
+	var util = require('./util/util');
+	var color = require('./util/colors').color;
 	var logger = require('./log');
 
 	this.server.on('request', function(request, response) {
-	  	  var headers = request.headers;
-		  var method = request.method;
-		  var url = request.url;
-		  
 		  var body = [];
 		  request.on('error', function(err) {
 		    console.error(err);
@@ -26,19 +25,18 @@ function stubbyDB(){
 		    //Prepare response
 			request['post'] = body;
 
-			console.log(color(method+": "+url,'Green'));
-			logger.info(method+": "+url);
+			console.log(color(request.method+": "+request.url,'Green'));
+			logger.info(request.method+": "+request.url);
 			try{
-				var req_context = reqHandler.parseRequest(request,mappings);
-				if(req_context == null){
+				var matchedEntry = reqResolver.resolve(request);
+				if(matchedEntry == null){
 					response.statusCode = 404;
 					response.end("");
 					console.log(color("Response served with Status Code " + response.statusCode,'Red'));
 					return;
 				}
-				var matchingmapping = mappings[req_context.matchedConfigIndex];
-				response_config = matchingmapping.response;
-				request_config = matchingmapping.request;
+				response_config = matchedEntry.response;
+				request_config = matchedEntry.request;
 
 				logger.info("Matching request Config: " + JSON.stringify(request_config));
 
@@ -50,20 +48,22 @@ function stubbyDB(){
 					response.headers = response_config.headers;
 				}
 				
-				resHandler.readResponse(response_config,req_context,function(data,err){
+				resHandler.readResponse(matchedEntry,function(data,err){
 					if(err == 404){
 						response.statusCode = 404;
 					}
-					if(matchingmapping.dbset){
-
-						var key = util.replaceParts(matchingmapping.dbset.key,req_context.parts);
-						data = util.replaceWithDataSetPlaceHolders(data,matchingmapping.dbset.db,key);
+					if(matchedEntry.dbset){
+						console.log(matchedEntry.dbset.key);
+						var key = util.replaceParts(matchedEntry.dbset.key,matchedEntry.request.matches);
+						console.log(key);
+						console.log(typeof key);
+						data = dbsetHandler.replaceWithDbSetPlaceHolders(data,matchedEntry.dbset.db,key);
 					}
-					if(req_context.parts){
-						data = util.replaceParts(data,req_context.parts);
+					if(matchedEntry.request.matches){
+						data = util.replaceParts(data,matchedEntry.request.matches);
 					}
-					data = util.replaceMarkers(data);
-					data = util.replaceDumps(data);
+					data = markersHandler.replaceMarkers(data);
+					data = dumpsHandler.replaceDumps(data);
 					response.write(data);
 
 					util.wait(response_config.latency);

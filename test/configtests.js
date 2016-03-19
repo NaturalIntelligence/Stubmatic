@@ -1,7 +1,7 @@
 var assert = require('./lib.js').assert;
 
 function getConfig(options){
-	var mod = '../js/configbuilder';
+	var mod = '../os/nushi/stubbydb/configbuilder';
 	delete require.cache[require.resolve(mod)];
 	var configBuilder = require(mod);
 	//configBuilder.reset();
@@ -26,7 +26,8 @@ var expectedConfig = {
 		requests: ["response.yaml"]
 	},
 	server: {
-		port: 9999
+		port: 9999,
+		host: 'localhost'
 	},
 	logs:{
 		path: 'logs'
@@ -62,7 +63,8 @@ var expectedConfig = {
 		requests: ["some.yaml"]
 	},
 	server: {
-		port: 7789
+		port: 7789		,
+		host: 'localhost'
 	},
 	stubs: 'stub/',
 	logs:{
@@ -98,7 +100,8 @@ var expectedConfig = {
 		requests: ["some.yaml"]
 	},
 	server: {
-		port: 7789
+		port: 7789,
+		host: 'localhost'
 	},
 	stubs: 'stub/',
 	logs:{
@@ -111,11 +114,12 @@ actualConfig = getConfig(options);
 
 assert(actualConfig,expectedConfig);
 
-//---------------- -d : project location
+//---------------- -d : project location and different host
 
 var options = {
 	'-d' : __dirname + '/testdir'
 	,'-p' : 7790
+	,'--host' : 'abcd.com'
 }
 
 var expectedConfig = {
@@ -135,7 +139,8 @@ var expectedConfig = {
 		requests: [__dirname + "/testdir/mappings/some.yaml"]
 	},
 	server: {
-		port: 7790
+		port: 7790,
+		host: 'abcd.com'
 	},
 	logs:{
 		path: __dirname + "/testdir/"

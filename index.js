@@ -31,12 +31,12 @@ for(var i=2; i<process.argv.length;i++){
 	}
 }
 
-var configBuilder = require("./js/configbuilder");
+var configBuilder = require("./os/nushi/stubbydb/configbuilder");
 configBuilder.buildConfig(options,process.argv.length);
 var config = configBuilder.getConfig();
 console.log("Configuration: " + JSON.stringify(config));
 
 
-var stubbyDB = require('./js/stubbyDB');
+var stubbyDB = require('./os/nushi/stubbydb/stubbyDB');
 var server = new stubbyDB();
 server.start();
