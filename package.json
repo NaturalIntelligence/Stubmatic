@@ -17,7 +17,7 @@
   },
   "bin": {
     "stubbydb": "index.js",
-    "stubby-db": "index.js",
+    "stubby-db": "index.js"
   },
   "license": "MIT",
   "repository": {
