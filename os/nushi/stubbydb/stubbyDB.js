@@ -28,9 +28,31 @@ function stubbyDB(){
 	var reqResolver = require('./request_resolver');
 	var resHandler = require('./response_handler');
 	var color = require('./util/colors').color;
+	var url = require('url');
 	
 
 	this.server.on('request', function(request, response) {
+		var query = url.parse(request.url, true).query;
+		var requestContext = '';
+		if(query.debug){
+			request.url = request.url.replace('debug=true','');
+			if(request.url[request.url.length-1] == '?'){
+				request.url = request.url.substr(0,request.url.length -1);
+			}
+
+			if(request.url == '/'){
+				requestContext += "\nCurrent Script Directory: " + __dirname;
+				requestContext += "\nConfiguration: " + JSON.stringify(config);
+				requestContext += "\nProject path: " + global.basePath;
+				var os = require('os');
+				requestContext += "\nTotal memory: " + os.totalmem();
+				requestContext += "\nFree memory: " + os.freemem();
+				requestContext += "\nHost name: " + os.hostname();
+			}
+		}
+		
+		
+
 		  var startTime = new Date();
 		  var body = [];
 		  request.on('error', function(err) {
@@ -41,22 +63,39 @@ function stubbyDB(){
 		    body = Buffer.concat(body).toString();
 			request['post'] = body;
 
-			//console.log(color(request.method+": "+request.url,'Green'));
+
+			requestContext += "\n--------------Original request----------------" ;
+			requestContext += "\nURL: " + JSON.stringify(request.url);
+			requestContext += "\nHeaders: " + JSON.stringify(request.headers);
+			requestContext += "\nMethod: " + JSON.stringify(request.method);
+			requestContext += "\nBody: " + JSON.stringify(request.post);
+			requestContext += "\n----------------------------------------------" ;
+
 			logger.info(request.method+": "+request.url,'success');
 			try{
 				var matchedEntry = reqResolver.resolve(request);
+				
+				requestContext += "\nMatched mapping: " + JSON.stringify(matchedEntry);
+
 				if(matchedEntry == null){
 					response.statusCode = 404;
-					response.end("");
+					if(query.debug){
+						response.end(requestContext);
+					}else{
+						response.end("");	
+					}
+					
 					logger.error("Response served with Status Code " + response.statusCode);
 					return;
 				}
 				
 
-				logger.detailInfo("Matching request Config: " + JSON.stringify(matchedEntry.request));
+				logger.detailInfo("Matching Config: " + JSON.stringify(matchedEntry));
 				
 				resHandler.readResponse(matchedEntry,function(data,err){
 					response = buildResponse(response,matchedEntry.response);
+					requestContext += "\nRaw Response body: " + data;
+
 					if(err == 404){
 						response.statusCode = 404;
 					}
@@ -73,8 +112,14 @@ function stubbyDB(){
 					data = require('./markers_handler').handle(data);
 					//4. replace dumps
 					data = require('./dumps_handler').handle(data);
-					response.write(data);
-					response.end("");
+
+					requestContext += "\nRefine Response Body: " + data;
+					if(query.debug){
+						response.end(requestContext);
+					}else{
+						response.write(data);
+						response.end("");	
+					}
 
 					var responseTime = (new Date()) - startTime;
 					if(response.statusCode == 200){
