@@ -4,7 +4,7 @@ var color = require('./util/colors').color;
 
 var debuglogpath;
 var errlogpath;
-var verbose = false;
+var quiet = true;
 
 dirPath= GLOBAL.basePath || process.cwd();
 if(isExist(path.join(dirPath,"logs"))){
@@ -38,7 +38,7 @@ exports.info = function(msg,status){
 		coloredmsg = color(msg,'red');
 	}
 
-	verbose || console.log(coloredmsg || msg);
+	quiet || console.log(coloredmsg || msg);
 	filelogger.info(msg);
 }
 
@@ -47,17 +47,17 @@ exports.detailInfo = function(msg){
 }
 
 exports.warn = function(msg){
-	verbose || console.warn(color(msg,'yellow'));
+	quiet || console.warn(color(msg,'yellow'));
 	filelogger.warn(msg);
 }
 
 exports.error = function(msg){
-	verbose || console.error(color(msg,'red'));
+	quiet || console.error(color(msg,'red'));
 	filelogger.error(msg);
 }
 
 exports.setVerbose= function(flag){
-	verbose = flag;
+	quiet = !flag;
 }
 
 //module.exports = filelogger;

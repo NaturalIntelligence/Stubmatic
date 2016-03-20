@@ -1,6 +1,7 @@
 var util = require('./util/util');
 var config = require("./configbuilder").getConfig();
 var logger = require('./log');
+var dbHandler = require('./dbset_handler');
 
 function stubbyDB(){
 	this.server = require('http').createServer();
@@ -61,7 +62,7 @@ function stubbyDB(){
 					}
 
 					//1. replace DbSet Place Holders
-					data = require('./dbset_handler').handle(data,matchedEntry.dbset);
+					data = dbHandler.handle(data,matchedEntry.dbset);
 					//2. replace request matches
 					data = reqResolver.applyMatches(data,matchedEntry.request.matches);
 					//3. replace markers

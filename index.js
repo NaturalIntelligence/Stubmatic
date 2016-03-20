@@ -14,8 +14,6 @@ for(var i=2; i<process.argv.length;i++){
 		var key = process.argv[i];
 		if(key == '-d' ){
 			global.basePath = process.argv[i+1];
-			console.log(global.basePath);
-			console.log("base path");
 		}else if(key == '-v' || key == '--verbose'){
 			require('./os/nushi/stubbydb/log').setVerbose(true);
 		}
