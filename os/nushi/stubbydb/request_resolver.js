@@ -1,5 +1,6 @@
 var util = require('./util/util');
 var mappings = require('./loaders/mappings_loader').mappings;
+var logger = require('./log');
 
 exports.resolve = function (http_request){
 	for(var i=0;i<mappings.length;i++){
@@ -52,7 +53,10 @@ function match(mapped_request, http_request){
 
 	if(mapped_request.headers){
 		for(var header in mapped_request.headers){
-			if(http_request.headers[header] != mapped_request.headers[header]){
+			var match = util.getMatches(http_request.headers[header],'^'+mapped_request.headers[header]+'$');
+			if(match){
+				matched['headers'] = match;
+			}else{
 				return;
 			}
 		}
