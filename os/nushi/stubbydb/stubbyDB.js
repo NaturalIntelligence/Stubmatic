@@ -63,6 +63,10 @@ function stubbyDB(){
 
 					//1. replace DbSet Place Holders
 					data = dbHandler.handle(data,matchedEntry.dbset);
+					if(data instanceof Error){
+						response.statusCode = 404;
+						response.end("");
+					}
 					//2. replace request matches
 					data = reqResolver.applyMatches(data,matchedEntry.request.matches);
 					//3. replace markers
@@ -81,6 +85,8 @@ function stubbyDB(){
 				});
 			}catch(e){
 				logger.error(e);
+				response.statusCode = 500;
+				response.end("");
 			}
 		  });
 	});

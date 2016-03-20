@@ -1,6 +1,8 @@
 var util = require('./util/util');
 var mappings = require('./loaders/mappings_loader').mappings;
 var logger = require('./log');
+var keyResolver = require('./dbset_key_resolver');
+
 
 exports.resolve = function (http_request){
 	for(var i=0;i<mappings.length;i++){
@@ -10,9 +12,23 @@ exports.resolve = function (http_request){
         	entry.request.matches = matched;
         	entry.index = i;
 
+        	//resolve dbset entries
         	if(entry.dbset){
 				entry.dbset.db = exports.applyMatches(entry.dbset.db,matched);
-				entry.dbset.key = exports.applyMatches(entry.dbset.key,matched);
+				if(entry.dbset.key){
+					entry.dbset.key = exports.applyMatches(entry.dbset.key,matched);
+				}
+				//in case of err:err and key is not found. It sets key as ''. So It'll further error out
+				var result = keyResolver.resolveKey(entry.dbset);
+				if(result instanceof Error){
+					if(result.message == 'skip'){
+						continue;
+					}else{
+						entry.response.file = entry.dbset.err.file;
+					}
+				}else{
+					entry.dbset.key = result;
+				}
 			}
         	return entry;
 		}

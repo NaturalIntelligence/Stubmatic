@@ -1,6 +1,6 @@
 var dbsets = require('./loaders/dbset_loader').dbsets;
 var util = require('./util/util');
-var log = require('./log');
+var logger = require('./log');
 
 //replace DbSet Place Holders
 
@@ -16,8 +16,8 @@ exports.handle = function(data, dbset){
 			if(row){
 				data = data.replace(match[0],row[column]);	
 			}else{
-				log.detailInfo('Key: ' + dbset.key + ' not found in ' + dbset.db);
-				throw new Error('404 Key is not found');
+				logger.detailInfo('Key: ' + dbset.key + ' not found in ' + dbset.db);
+				return new Error();
 			}
 		}
 	}

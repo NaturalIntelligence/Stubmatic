@@ -72,3 +72,8 @@ function isExist(path){
 		return false;
 	}
 }
+
+/*process.on('uncaughtException', function (err) {
+  exports.error(err);
+  //process.exit(1); //want the server keep running
+});*/
