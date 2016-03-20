@@ -40,7 +40,7 @@ exports.buildConfig = function(options,count){
 
 	if(count == 2){//No option is provided. Run with default options
 		useDefaultConfig();
-	}else if(options['-c']){
+	}else if(options['-c'] && !options['-d']){
 		var jsonconfig = require(options['-c']);
 		buildFromJsonConfig(jsonconfig);
 	}else if(options['-C']){
@@ -53,7 +53,13 @@ exports.buildConfig = function(options,count){
 		}
 		buildFromJsonConfig(jsonConfig);
 	}else if(options['-d']){
-		buildFromDirectory(options['-d']);
+		if(options['-c']){
+			var jsonconfig = require(path.join(options['-d'],options['-c']));
+			buildFromJsonConfig(jsonconfig);
+			updateBasePath(options['-d']);
+		}else{
+			buildFromDirectory(options['-d']);
+		}
 	}
 
 	if(options['-p']){
@@ -98,6 +104,27 @@ function buildFromJsonConfig(jsonconfig){
 	defaultConfig = merge(defaultConfig,jsonconfig);
 }
 
+function updateBasePath(basePath){
+	if(defaultConfig['dbsets']){
+		defaultConfig['dbsets'] = path.join(basePath , defaultConfig['dbsets']);
+	}
+
+	if(defaultConfig['stubs']){
+		defaultConfig['stubs'] = path.join(basePath , defaultConfig['stubs']);
+	}
+
+	if(defaultConfig['dumps']){
+		defaultConfig['dumps'] = path.join(basePath , defaultConfig['dumps']);
+	}
+
+	var files = defaultConfig['mappings']['requests'];
+	newMappings = [];
+	files.forEach(function(filename){
+		newMappings.push(path.join(basePath , filename));
+	});
+
+	defaultConfig['mappings']['requests'] = newMappings;
+}
 /*
 build configurtaion on the basis of directory structure
 It'll ignore if there is any config file in specified directory.

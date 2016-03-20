@@ -138,3 +138,72 @@ var expectedConfig = {
 actualConfig = getConfig(options);
 
 assert(actualConfig,expectedConfig);
+
+//---------------- -d -c
+
+var options = {
+	'-d' : __dirname + '/testdir'
+	,'-c' : 'config.json'
+}
+
+var expectedConfig = {
+	mappings: {
+		default: {
+			request:{
+				method: 'GET'
+			},
+			response: {
+				strategy: 'first-found',
+				latency: 0,
+				status: 200
+			}
+		},
+		requests: [__dirname + '/testdir/' + "response.yaml"]
+	},
+	server: {
+		port: 9999,
+		host: 'localhost'
+	},
+	stubs: __dirname + '/testdir/' + 'stub',
+	dbsets: __dirname + '/testdir/' + "dbsets",
+	dumps: __dirname + '/testdir/' + "dumps"
+};
+
+actualConfig = getConfig(options);
+assert(actualConfig,expectedConfig);
+
+//---------------- -d -c -m -p -s
+
+var options = {
+	'-d' : __dirname + '/testdir'
+	,'-c' : 'config.json'
+	,'-p' : 7789
+	,'-m' : 'some.yaml'
+	,'-s' : 'stub/'
+}
+
+var expectedConfig = {
+	mappings: {
+		default: {
+			request:{
+				method: 'GET'
+			},
+			response: {
+				strategy: 'first-found',
+				latency: 0,
+				status: 200
+			}
+		},
+		requests: [ "some.yaml"]
+	},
+	server: {
+		port: 7789,
+		host: 'localhost'
+	},
+	stubs: 'stub/',
+	dbsets: __dirname + '/testdir/' + "dbsets",
+	dumps: __dirname + '/testdir/' + "dumps"
+};
+
+actualConfig = getConfig(options);
+assert(actualConfig,expectedConfig);
