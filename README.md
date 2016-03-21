@@ -190,3 +190,16 @@ Sample Mapping;
 See sample [yaml](https://github.com/NaturalIntelligence/stubby-db-test/blob/master/mappings/dbset.yaml) for more detail. DBset in itself many features. 
 
 Keep checking wiki for latest updates in APIs and more implementation detail.
+
+####DEBUG & Logging
+Debugging with StubbyDB is very easy. StubbyDB creates debug.log, and exceptions.log for more detail about what is going on. You can see on screen logs with '-v' or '--verbose' option.
+
+If query parameter 'debug=true' is provided with request URL. I gives additional detail with the response: Original request, Matched mapping, Raw and fine response etc. Response status depends on how your requests gets resolved.
+
+If 'debug=true' is provided on root url, then it gives system level information, configuration etc.
+
+####Markers
+StubbyDB has inbuilt support for markers. So if you write `{{TODAY+1y-2m+3d}}` in somewhere of response body or file, It'll be converted into 'yyyy-mm-dd' format date. If you say `{{URL:someurl}}`, it'll encode the URL. There are many other markers are in development. And in near future StubbyDB will be able to support markers written by you.
+
+####Configuration
+StubbyDB provides you many way of configuring your project: commandline arguments, configuration file, directory structure.
