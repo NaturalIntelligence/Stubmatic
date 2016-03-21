@@ -11,7 +11,7 @@
     "deasync": "^0.1.4",
     "deepmerge": "^0.2.10",
     "hashtable": "^2.0.1",
-    "line-reader": "^0.3.0",
+    "line-reader": "^0.4.0",
     "winston": "^2.2.0",
     "yamljs": "^0.2.6"
   },
