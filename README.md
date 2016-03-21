@@ -179,9 +179,14 @@ Sample Mapping;
    dbset:
       db: employee
       key: <% url.1 %>
+      #strategy: random #round-robin
+      err:
+         file: fault.xml
 
    response:
       file: stubs/employeedetail
 ```
 
+See sample [yaml](https://github.com/NaturalIntelligence/stubby-db-test/blob/master/mappings/dbset.yaml) for more detail. DBset in itself many features. 
 
+Keep checking wiki for latest updates in APIs and more implementation detail.
