@@ -105,7 +105,6 @@ var merge = require('deepmerge');
 
 function buildFromJsonConfig(jsonconfig){
 	delete defaultConfig.mappings.requests;
-	console.log(jsonconfig);
 	defaultConfig = merge(defaultConfig,jsonconfig);
 }
 

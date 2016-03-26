@@ -1,7 +1,7 @@
 {
   "name": "stubby-db",
-  "version": "3.0.1",
-  "description": "A nodejs based complete solution for maintaining the stubs for your project",
+  "version": "3.0.2",
+  "description": "A complete solution for maintaining stubs for rapid development",
   "main": "./os/nushi/stubbydb/stubbyDB",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

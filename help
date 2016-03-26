@@ -6,7 +6,7 @@ Arguments
   --host                     Host name
   -m, --mapping		     file path of yaml mapping file (response.yaml)
   -s, --stub                 path for stubs only if mapping file has relative path and they are not in current folder
-  -c, --config               name of config file. It must be json file.
+  -c, --config               config file name. It must be json file.
   -C                         json config as command line argument
   -h, --help                 display on screen help
   -d                         location of project directory, if it is not a current directory.
@@ -14,25 +14,26 @@ Arguments
 
 Considerations:
 if -p, -m, -s options are given then relevant properties from config file would be ignored;
-Precedence of loding config is -p,-m-s > -c > -C > -d > default
+Precedence of loding config is -p,-m,-s > -c > -C > -d > default
 
-Default config:
-if no option is given then
-1. check for config.json in current folder
-2. otherwise check for 'dbsets', 'mappings', 'stubs' folder in currrent directory. and set port to 7777.
+No option:
+if "stubbydb" runs without any option then it builds configuration from config.json in current directory otherwise from current directory structure. It bydefault runs on port 7777.
 
-Note:
--c, --config    The purpose of this option to choose different config file instead of config.json from current directory. But if you specify different location then run stubby-db from that location only. Or maintain absolute paths in config.json for dbsets, mappings, and stubs.
-
-Project directory structure:
-
-Project
- |_ dbsets
- |_ dumps
- |_ mappings
- |_ stubs
- |_ logs
+Expected directory structure to build configuration by itself.
+	Project
+	 |__ dbsets
+	 |__ dumps
+	 |__ mappings
+	 |__ stubs
+	 |__ logs
 
 Read the wiki   : https://github.com/NaturalIntelligence/StubbyDB
 Report a bug    : https://github.com/NaturalIntelligence/StubbyDB/issues
+
+Example:
+------------------------
+$stubbydb -p 9999
+$stubbydb -d project-directory-path -c config.json
+$stubbydb -d project-directory-path
+$stubbydb -c config.json
 
