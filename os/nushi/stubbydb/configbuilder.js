@@ -37,11 +37,11 @@ var setConfig = function(path, value) {
 }
 
 exports.buildConfig = function(options,count){
-
-	if(count == 2){//No option is provided. Run with default options
-		useDefaultConfig();
-	}else if(options['-c'] && !options['-d']){
-		var jsonconfig = require(options['-c']);
+	if(options['-c'] && !options['-d']){
+		if(!fileutil.isExist(options['-c'])){
+			console.log(options['-c'] + " doesn't exist");
+		}
+		var jsonconfig = JSON.parse(fs.readFileSync(options['-c'],{encoding: 'utf-8'}));
 		buildFromJsonConfig(jsonconfig);
 	}else if(options['-C']){
 		var jsonConfig;
@@ -54,12 +54,16 @@ exports.buildConfig = function(options,count){
 		buildFromJsonConfig(jsonConfig);
 	}else if(options['-d']){
 		if(options['-c']){
-			var jsonconfig = require(path.join(options['-d'],options['-c']));
+			var configpath = path.join(options['-d'],options['-c']);
+			var jsonconfig = JSON.parse(fs.readFileSync(configpath,{encoding: 'utf-8'}));
+
 			buildFromJsonConfig(jsonconfig);
 			updateBasePath(options['-d']);
 		}else{
 			buildFromDirectory(options['-d']);
 		}
+	}else{
+		useDefaultConfig();
 	}
 
 	if(options['-p']){
@@ -101,6 +105,7 @@ var merge = require('deepmerge');
 
 function buildFromJsonConfig(jsonconfig){
 	delete defaultConfig.mappings.requests;
+	console.log(jsonconfig);
 	defaultConfig = merge(defaultConfig,jsonconfig);
 }
 

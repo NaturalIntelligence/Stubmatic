@@ -8,12 +8,29 @@ if(process.argv[2] == "--help" || process.argv[2] == "-h"){
     process.exit(1);
 }
 
+var path = require('path');
+var fs = require('fs');
+
+var isExist = function(path){
+	try{
+		fs.accessSync(path, fs.F_OK);
+		return true;
+	}catch(e){
+		//logger.error(e);
+		return false;
+	}
+}
+
 var options = {}
 for(var i=2; i<process.argv.length;i++){
 	if(process.argv[i].indexOf("-") === 0){
 		var key = process.argv[i];
 		if(key == '-d' ){
-			global.basePath = process.argv[i+1];
+			if(isExist(process.argv[i+1])){
+				global.basePath = process.argv[i+1];
+			}else{
+				global.basePath = path.join(process.cwd(),process.argv[i+1]);
+			}
 		}else if(key == '-v' || key == '--verbose'){
 			require('./os/nushi/stubbydb/log').setVerbose(true);
 		}
@@ -36,6 +53,8 @@ for(var i=2; i<process.argv.length;i++){
 		options[key] = process.argv[++i];
 	}
 }
+
+
 
 var configBuilder = require("./os/nushi/stubbydb/configbuilder");
 configBuilder.buildConfig(options,process.argv.length);

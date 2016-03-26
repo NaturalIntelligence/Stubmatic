@@ -7,7 +7,8 @@ var debuglogpath;
 var errlogpath;
 var quiet = true;
 
-dirPath= GLOBAL.basePath || process.cwd();
+var dirPath= GLOBAL.basePath || process.cwd();
+
 if(isExist(path.join(dirPath,"logs"))){
 	debuglogpath = path.join(dirPath,"logs","debug.log");
 	errlogpath = path.join(dirPath,"logs","exceptions.log");
