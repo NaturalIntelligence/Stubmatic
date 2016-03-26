@@ -1,6 +1,7 @@
 var winston = require('winston');
 var path = require('path');
 var color = require('./util/colors').color;
+var fs = require('fs');
 
 var debuglogpath;
 var errlogpath;
@@ -60,7 +61,6 @@ exports.setVerbose= function(flag){
 	quiet = !flag;
 }
 
-//module.exports = filelogger;
 
 
 function isExist(path){
@@ -68,7 +68,6 @@ function isExist(path){
 		fs.accessSync(path, fs.F_OK);
 		return true;
 	}catch(e){
-		//logger.error(e);
 		return false;
 	}
 }
