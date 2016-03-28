@@ -1,4 +1,5 @@
 # StubbyDB
+  <img align="right" src="http://naturalintelligence.github.io/StubbyDB/assets/img/stubbydb_logo_300.png?raw=true" alt="Sublime's custom image"/>
 A nodejs based complete solution for maintaining the stubs for your project
 
 To install
@@ -10,6 +11,8 @@ For basic help
 	$stubbydb --help
 
 Important links : [Wiki](https://github.com/NaturalIntelligence/StubbyDB/wiki), [NPM](https://www.npmjs.com/package/stubby-db), [Demo](https://github.com/NaturalIntelligence/stubby-db-test) application, [issues](https://github.com/NaturalIntelligence/StubbyDB/issues)
+
+
 
 ##History
 Developed by a victim.
