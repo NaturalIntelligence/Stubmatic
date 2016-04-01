@@ -1,4 +1,7 @@
 # StubbyDB
+
+[![NPM](https://nodei.co/npm/stubby-db.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/stubby-db/)
+
   <img align="right" src="http://naturalintelligence.github.io/StubbyDB/assets/img/stubbydb_logo_300.png?raw=true" alt="Sublime's custom image"/>
 A nodejs based complete solution for maintaining the stubs for your project
 
