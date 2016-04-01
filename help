@@ -10,7 +10,8 @@ Arguments
   -C                         json config as command line argument
   -h, --help                 display on screen help
   -d                         location of project directory, if it is not a current directory.
-  -v, --verbose              verbose
+  -v, --verbose              verbose; to enable on screen logging
+  -l, --logs                 To enable file based logging
 
 Considerations:
 if -p, -m, -s options are given then relevant properties from config file would be ignored;
