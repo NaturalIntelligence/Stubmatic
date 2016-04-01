@@ -32,8 +32,13 @@ for(var i=2; i<process.argv.length;i++){
 				global.basePath = path.join(process.cwd(),process.argv[i+1]);
 			}
 		}else if(key == '-v' || key == '--verbose'){
+			key = '-v';
 			require('./os/nushi/stubbydb/log').setVerbose(true);
+		}else if(key == '-l' || key == '--logs'){
+			key = '-l';
+			require('./os/nushi/stubbydb/log').writeLogs(true);
 		}
+
 
 		if(key == '--port' || key == '-p'){
 			key = '-p';
@@ -43,7 +48,7 @@ for(var i=2; i<process.argv.length;i++){
 			key = '-m';
 		}else if(key == '--stub' || key == '-s'){
 			key = '-s';
-		}else if(key == '-C' || key == '-d' || key == '-v' || key == '--host'){
+		}else if(key == '-C' || key == '-d' || key == '-v' || key == '--host' || key == '-l'){
 			//key = '-p';
 		}else{
 			console.log("Invalid options");

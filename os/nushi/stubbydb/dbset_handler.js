@@ -17,7 +17,7 @@ exports.handle = function(data, dbset){
 				data = data.replace(match[0],row[column]);	
 			}else{
 				logger.detailInfo('Key: ' + dbset.key + ' not found in ' + dbset.db);
-				return new Error();
+				return new Error('Key: ' + dbset.key + ' not found in ' + dbset.db);
 			}
 		}
 	}
