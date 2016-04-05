@@ -1,7 +1,7 @@
 var YAML = require('yamljs');
 var config = require("./../configbuilder").getConfig()
 var color = require('./../util/colors').color;
-
+var logger = require('./../log');
 var config_mapping = config.mappings;
 
 var allMappings = [];
@@ -13,14 +13,14 @@ for(var i in config_mapping.requests){
     try{
         var mappings = YAML.parseFile(req_mapping);
     }catch(e){
-        console.log(color("Problem in loading " + req_mapping, 'Red'))
+        logger.info(color("Problem in loading " + req_mapping, 'Red'))
     }
 
     if(!mappings || mappings.length == 0){
-        console.log(req_mapping + " is an empty file.");
+        logger.info(req_mapping + " is an empty file.");
         continue;
     }
-    console.log("Loading "+ mappings.length +" mappings from " + req_mapping);
+    logger.info("Loading "+ mappings.length +" mappings from " + req_mapping);
 
     for(var i=0;i<mappings.length;i++){
 

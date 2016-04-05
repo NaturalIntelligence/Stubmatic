@@ -39,7 +39,7 @@ var setConfig = function(path, value) {
 exports.buildConfig = function(options,count){
 	if(options['-c'] && !options['-d']){
 		if(!fileutil.isExist(options['-c'])){
-			console.log(options['-c'] + " doesn't exist");
+			logger.info(options['-c'] + " doesn't exist");
 		}
 		var jsonconfig = JSON.parse(fs.readFileSync(options['-c'],{encoding: 'utf-8'}));
 		buildFromJsonConfig(jsonconfig);

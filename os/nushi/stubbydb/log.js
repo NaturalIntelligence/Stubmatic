@@ -21,7 +21,7 @@ if(quietLog){
 		errlogpath = path.join(dirPath,"exceptions.log");
 	}
 
-	console.log("writing logs to: " + debuglogpath +", "+ errlogpath);
+	//console.log("writing logs to: " + debuglogpath +", "+ errlogpath);
 
 	filelogger = new (winston.Logger)({
 	  transports: [
@@ -79,7 +79,9 @@ function isExist(path){
 	}
 }
 
-/*process.on('uncaughtException', function (err) {
-  exports.error(err);
-  //process.exit(1); //want the server keep running
-});*/
+if(quietLog){
+	process.on('uncaughtException', function (err) {
+	  exports.error(err);
+	  //process.exit(1); //want the server keep running
+	});
+}

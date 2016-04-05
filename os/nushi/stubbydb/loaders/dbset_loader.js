@@ -3,6 +3,7 @@ var fs = require('fs'),
 	path = require('path');
 var lineReader = require('line-reader');
 var deasync = require('deasync');
+var logger = require('./../log');
 
 var dirPath = require("./../configbuilder").getConfig().dbsets;
 var dbsets = [];
@@ -13,7 +14,7 @@ if(dirPath){
             throw new Error(err);
         }
         files.forEach(function (name) {
-            console.log("Loading DB from " + name);
+            logger.info("Loading DB from " + name);
     		var hashtable = new HashTable();
             var filePath = path.join(dirPath, name);
             var stat = fs.statSync(filePath);
