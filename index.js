@@ -32,11 +32,11 @@ for(var i=2; i<process.argv.length;i++){
 				global.basePath = path.join(process.cwd(),process.argv[i+1]);
 			}
 		}else if(key == '-v' || key == '--verbose'){
-			key = '-v';
 			require('./os/nushi/stubbydb/log').setVerbose(true);
+			continue;
 		}else if(key == '-l' || key == '--logs'){
-			key = '-l';
 			require('./os/nushi/stubbydb/log').writeLogs(true);
+			continue;
 		}
 
 
