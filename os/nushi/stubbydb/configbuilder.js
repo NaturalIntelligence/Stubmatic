@@ -70,6 +70,10 @@ exports.buildConfig = function(options,count){
 		setConfig('server.port',options['-p']);
 	}
 
+	if(options['-P']){
+		setConfig('server.securePort',options['-P']);
+	}
+
 	if(options['--host']){
 		setConfig('server.host',options['--host']);
 	}

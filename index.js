@@ -48,8 +48,8 @@ for(var i=2; i<process.argv.length;i++){
 			key = '-m';
 		}else if(key == '--stub' || key == '-s'){
 			key = '-s';
-		}else if(key == '-C' || key == '-d' || key == '-v' || key == '--host' || key == '-l'){
-			//key = '-p';
+		}else if(key == '-C' || key == '-d' || key == '-v' || key == '--host' || key == '-l' || key == '-P'){
+			//valid keys
 		}else{
 			console.log("Invalid options");
 			console.log("Try 'stubbydb --help' for more information.*/")

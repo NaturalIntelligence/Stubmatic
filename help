@@ -2,7 +2,8 @@ Usage: stubby-db [OPTION]...
 Runs stubbyDB server
 
 Arguments
-  -p, --port                 port number
+  -p, --port                 http port number (default is 7777)
+  -P                         https port number
   --host                     Host name
   -m, --mapping		     file path of yaml mapping file (response.yaml)
   -s, --stub                 path for stubs only if mapping file has relative path and they are not in current folder
@@ -12,6 +13,7 @@ Arguments
   -d                         location of project directory, if it is not a current directory.
   -v, --verbose              verbose; to enable on screen logging
   -l, --logs                 To enable file based logging
+
 
 Considerations:
 if -p, -m, -s options are given then relevant properties from config file would be ignored;
