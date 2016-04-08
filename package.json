@@ -1,6 +1,6 @@
 {
   "name": "stubby-db",
-  "version": "3.1.3",
+  "version": "3.2.0",
   "description": "A complete solution for maintaining stubs for rapid development",
   "main": "./os/nushi/stubbydb/stubbyDB",
   "scripts": {

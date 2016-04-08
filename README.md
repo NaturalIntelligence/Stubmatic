@@ -25,7 +25,7 @@ Developed by a victim.
 I was  previously using an open source project to manage stubbed data. However with the time when the project is expanded, I started missing few features in that. I also faced many limitations. Hence I decided to created a simple, light weighted, highly customizable, and easy to handy tool to manage stub data in whichever way I want.
 
 ##Description
-Stubby DB is a npm module. In simple words you can stub the http calls to provide stubbed data. You can make stubbed data service for SOAP or REST calls. Basic functionality is somewhat similar to stubby4j. But it has so many other features. 
+Stubby DB is a npm module. In simple words you can stub the HTTP/HTTPS calls to provide stubbed data. You can make stubbed data service for SOAP or REST calls. Basic functionality is somewhat similar to stubby4j. But it has so many other features. 
 
 ###Features and Basic terminology
 
