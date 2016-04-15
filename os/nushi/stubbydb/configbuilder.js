@@ -136,41 +136,36 @@ function updateBasePath(basePath){
 /*
 build configurtaion on the basis of directory structure
 It'll ignore if there is any config file in specified directory.
-It update the path of : mappings, dbsets, and stubs, whichever is presnt
+It update the path of : mappings, dbsets, and stubs, whichever is present
 */
 function buildFromDirectory(dirPath){
-	dirPath = fixDirPath(dirPath);
-	if(fileutil.isExist(dirPath+"dbsets")){
-		defaultConfig['dbsets'] = dirPath + 'dbsets/';
+	var dbsetPath = path.join(dirPath,"dbsets");
+	if(fileutil.isExist(dbsetPath)){
+		defaultConfig['dbsets'] = dbsetPath;
 	}
 
-	if(fileutil.isExist(dirPath+"stubs")){
-		defaultConfig['stubs'] = dirPath + 'stubs/';
+	var stubsPath = path.join(dirPath,"stubs");
+	if(fileutil.isExist(stubsPath)){
+		defaultConfig['stubs'] = stubsPath;
 	}
 
-	if(fileutil.isExist(dirPath+"dumps")){
-		defaultConfig['dumps'] = dirPath + 'dumps/';
+	var dumpsPath = path.join(dirPath,"dumps");
+	if(fileutil.isExist(dumpsPath)){
+		defaultConfig['dumps'] = dumpsPath;
 	}
 
-	var files = fileutil.ls(dirPath+"mappings");
+	var mappingsPath = path.join(dirPath,"mappings");
+	var files = fileutil.ls(mappingsPath);
 	if(files.length > 0){
 		defaultConfig['mappings']['requests'] = [];
 		files.forEach(function(filename){
-			defaultConfig['mappings']['requests'].push(path.join(dirPath , 'mappings' , filename));
+			defaultConfig['mappings']['requests'].push(path.join(mappingsPath , filename));
 		});
 	}
 }
 
 exports.getConfig= function(){
 	return defaultConfig;
-}
-
-function fixDirPath(dirpath){
-	var lastChar = dirpath.charAt(dirpath.length - 1); 
-	if(lastChar != '/'){
-		return dirpath + '/';
-	}
-	return dirpath;
 }
 
 
