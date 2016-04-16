@@ -135,12 +135,17 @@ function stubbyDB(){
 	if(config.server.securePort){
 		
 		const options = {
-		  key: fs.readFileSync(path.join(__dirname , 'resources/key.pem')),
-		  cert: fs.readFileSync(path.join(__dirname , 'resources/cert.pem'))
-		};	
-		console.log("Imported key & certificates");
-		console.log(config.server.securePort);
-		//this.secureServer.on('error', networkErrHandler );
+		  key: fs.readFileSync(config.server.key),
+		  cert: fs.readFileSync(config.server.cert)
+		};
+		if(config.server.mutualSSL){
+			options.ca = [];
+			config.server.ca.forEach(function(cert){
+				options.ca.push(fs.readFileSync(cert));
+			});
+			options.requestCert= true;
+  			options.rejectUnauthorized= true;
+		}
 		require('https').createServer(options, requestResponseHandler).listen(config.server.securePort,config.server.host, function(){
 		    logger.info("Secure server listening on: https://" + config.server.host + ":" + config.server.securePort);
 

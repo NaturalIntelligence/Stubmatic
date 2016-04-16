@@ -48,7 +48,8 @@ for(var i=2; i<process.argv.length;i++){
 			key = '-m';
 		}else if(key == '--stub' || key == '-s'){
 			key = '-s';
-		}else if(key == '-C' || key == '-d' || key == '-v' || key == '--host' || key == '-l' || key == '-P'){
+		}else if(key == '-C' || key == '-d' || key == '-v' || key == '--host'
+			|| key == '-l' || key == '-P' || key == '--mutualSSL'){
 			//valid keys
 		}else{
 			console.log("Invalid options");

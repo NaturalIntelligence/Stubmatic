@@ -74,6 +74,10 @@ exports.buildConfig = function(options,count){
 		setConfig('server.securePort',options['-P']);
 	}
 
+	if(options['--mutualSSL']){
+		setConfig('server.mutualSSL',options['--mutualSSL']);
+	}
+
 	if(options['--host']){
 		setConfig('server.host',options['--host']);
 	}
@@ -126,12 +130,29 @@ function updateBasePath(basePath){
 	}
 
 	var files = defaultConfig['mappings']['requests'];
-	newMappings = [];
+	var newMappings = [];
 	files.forEach(function(filename){
 		newMappings.push(path.join(basePath , filename));
 	});
 
 	defaultConfig['mappings']['requests'] = newMappings;
+
+	if(defaultConfig.server.key){
+		defaultConfig.server.key = path.join(basePath , defaultConfig.server.key);
+	}
+
+	if(defaultConfig.server.cert){
+		defaultConfig.server.cert = path.join(basePath , defaultConfig.server.cert);
+	}
+
+	if(defaultConfig.server.ca){
+		var newcerfiles = [];
+		defaultConfig.server.ca.forEach(function(cert){
+			newcerfiles.push(path.join(basePath , cert));
+		});
+	}
+
+	defaultConfig.server.ca = newcerfiles;
 }
 /*
 build configurtaion on the basis of directory structure
@@ -161,6 +182,21 @@ function buildFromDirectory(dirPath){
 		files.forEach(function(filename){
 			defaultConfig['mappings']['requests'].push(path.join(mappingsPath , filename));
 		});
+	}
+
+	var trustStorePath = path.join(dirPath,"truststore");
+	if(fileutil.isExist(trustStorePath)){
+		defaultConfig.server.key = path.join(trustStorePath , "server.key");
+		defaultConfig.server.cert = path.join(trustStorePath , "server.crt");
+
+		var cacertPath = path.join(trustStorePath,"ca");
+		var cacerts = fileutil.ls(cacertPath);
+		if(cacerts.length > 0){
+			defaultConfig.server.ca = [];
+			cacerts.forEach(function(filename){
+				defaultConfig.server.ca.push(path.join(cacertPath , filename));
+			});
+		}
 	}
 }
 
