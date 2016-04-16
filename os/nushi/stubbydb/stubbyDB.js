@@ -136,7 +136,7 @@ function stubbyDB(){
 		  key: fs.readFileSync(config.server.key),
 		  cert: fs.readFileSync(config.server.cert)
 		};
-		if(config.server.mutualSSL){
+		if(config.server.mutualSSL === true){
 			options.ca = [];
 			config.server.ca.forEach(function(cert){
 				options.ca.push(fs.readFileSync(cert));
