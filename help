@@ -13,6 +13,7 @@ Arguments
   -d                         location of project directory, if it is not a current directory.
   -v, --verbose              verbose; to enable on screen logging
   -l, --logs                 To enable file based logging
+  --version                  Show currently installed version
 
 
 Considerations:

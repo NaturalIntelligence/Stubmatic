@@ -1,10 +1,15 @@
 #!/usr/bin/env node
 
 if(process.argv[2] == "--help" || process.argv[2] == "-h"){
-	//console.log();
+	console.log();
 	var fs = require('fs');
-	//console.log(fs.readFileSync(__dirname + "/help", 'utf-8'));
-	//console.log();
+	console.log(fs.readFileSync(__dirname + "/help", 'utf-8'));
+    process.exit(1);
+}
+
+if(process.argv[2] == "--version"){
+	var fs = require('fs');
+	console.log(require(__dirname + "/package.json").version);
     process.exit(1);
 }
 
