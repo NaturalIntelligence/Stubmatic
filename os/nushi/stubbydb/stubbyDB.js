@@ -31,7 +31,7 @@ var url = require('url');
 
 function requestResponseHandler(request, response) {
 	var query = url.parse(request.url, true).query;
-	var requestContext = '';
+	var requestContext = {};
 	if(query.debug){
 		request.url = request.url.replace('debug=true','');
 		if(request.url[request.url.length-1] == '?'){
@@ -39,17 +39,16 @@ function requestResponseHandler(request, response) {
 		}
 
 		if(request.url == '/'){
-			requestContext += "\nCurrent Script Directory: " + __dirname;
-			requestContext += "\nConfiguration: " + JSON.stringify(config);
-			requestContext += "\nProject path: " + global.basePath;
+			requestContext.scriptLocation = __dirname;
+			requestContext.config = config;
+			requestContext.projectPath = global.basePath;
 			var os = require('os');
-			requestContext += "\nTotal memory: " + os.totalmem();
-			requestContext += "\nFree memory: " + os.freemem();
-			requestContext += "\nHost name: " + os.hostname();
+			requestContext.memory = {};
+			requestContext.memory.total = os.totalmem();
+			requestContext.memory.free = os.freemem();
+			requestContext.hostname = os.hostname();
 		}
 	}
-	
-	
 
 	  var startTime = new Date();
 	  var body = [];
@@ -61,19 +60,17 @@ function requestResponseHandler(request, response) {
 	    body = Buffer.concat(body).toString();
 		request['post'] = body;
 
-
-		requestContext += "\n--------------Original request----------------" ;
-		requestContext += "\nURL: " + JSON.stringify(request.url);
-		requestContext += "\nHeaders: " + JSON.stringify(request.headers);
-		requestContext += "\nMethod: " + JSON.stringify(request.method);
-		requestContext += "\nBody: " + JSON.stringify(request.post);
-		requestContext += "\n----------------------------------------------" ;
+		requestContext.request = {};
+		requestContext.request.url = request.url;
+		requestContext.request.headers = request.headers;
+		requestContext.request.method = request.method;
+		requestContext.request.body = request.post;
 
 		logger.info(request.method+": "+request.url,'success');
 		try{
 			var matchedEntry = reqResolver.resolve(request);
 			
-			requestContext += "\nMatched mapping: " + JSON.stringify(matchedEntry);
+			requestContext.matchedMapping = matchedEntry;
 
 			if(matchedEntry == null){
 				response.statusCode = 404;
@@ -92,7 +89,8 @@ function requestResponseHandler(request, response) {
 			
 			resHandler.readResponse(matchedEntry,function(data,err){
 				response = buildResponse(response,matchedEntry.response);
-				requestContext += "\nRaw Response body: " + data;
+				requestContext.response = {};
+				requestContext.response.raw = data;
 
 				if(err == 404){
 					response.statusCode = 404;
@@ -107,7 +105,7 @@ function requestResponseHandler(request, response) {
 				//4. replace dumps
 				data = require('./dumps_handler').handle(data);
 
-				requestContext += "\nRefine Response Body: " + data;
+				requestContext.response.refined = data;
 				if(query.debug){
 					response.end(requestContext);
 				}else{
