@@ -75,7 +75,7 @@ function requestResponseHandler(request, response) {
 			if(matchedEntry == null){
 				response.statusCode = 404;
 				if(query.debug){
-					response.end(requestContext);
+					response.end(JSON.stringify(requestContext));
 				}else{
 					response.end("");	
 				}
@@ -107,7 +107,7 @@ function requestResponseHandler(request, response) {
 
 				requestContext.response.refined = data;
 				if(query.debug){
-					response.end(requestContext);
+					response.end(JSON.stringify(requestContext));
 				}else{
 					response.write(data);
 					response.end("");	
@@ -136,11 +136,13 @@ function stubbyDB(){
 		  key: fs.readFileSync(config.server.key),
 		  cert: fs.readFileSync(config.server.cert)
 		};
-		if(config.server.mutualSSL === true){
+		if(config.server.ca){
 			options.ca = [];
 			config.server.ca.forEach(function(cert){
 				options.ca.push(fs.readFileSync(cert));
 			});
+		}
+		if(config.server.mutualSSL === true){
 			options.requestCert= true;
   			options.rejectUnauthorized= true;
 		}

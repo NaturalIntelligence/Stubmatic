@@ -8,7 +8,6 @@ Arguments
   -m, --mapping		     file path of yaml mapping file (response.yaml)
   -s, --stub                 path for stubs only if mapping file has relative path and they are not in current folder
   -c, --config               config file name. It must be json file.
-  -C                         json config as command line argument
   -h, --help                 display on screen help
   -d                         location of project directory, if it is not a current directory.
   -v, --verbose              verbose; to enable on screen logging

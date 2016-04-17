@@ -43,15 +43,6 @@ exports.buildConfig = function(options,count){
 		}
 		var jsonconfig = JSON.parse(fs.readFileSync(options['-c'],{encoding: 'utf-8'}));
 		buildFromJsonConfig(jsonconfig);
-	}else if(options['-C']){
-		var jsonConfig;
-		try{
-			jsonConfig = JSON.parse(options['-C']);
-		}catch(e){
-			logger.error("Invalid json");
-			process.exit(1);
-		}
-		buildFromJsonConfig(jsonConfig);
 	}else if(options['-d']){
 		if(options['-c']){
 			var configpath = path.join(options['-d'],options['-c']);
@@ -191,6 +182,7 @@ function buildFromDirectory(dirPath){
 
 		var cacertPath = path.join(trustStorePath,"ca");
 		var cacerts = fileutil.ls(cacertPath);
+
 		if(cacerts.length > 0){
 			defaultConfig.server.ca = [];
 			cacerts.forEach(function(filename){
