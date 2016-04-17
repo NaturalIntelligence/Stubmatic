@@ -105,8 +105,8 @@ function requestResponseHandler(request, response) {
 				//4. replace dumps
 				data = require('./dumps_handler').handle(data);
 
-				requestContext.response.refined = data;
 				if(query.debug){
+					requestContext.response.refined = data;
 					response.end(JSON.stringify(requestContext));
 				}else{
 					response.write(data);

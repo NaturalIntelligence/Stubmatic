@@ -1,80 +1,77 @@
 var util = require('./util/util');
 
 //TPDAY, TPDAY+N, TODAY-N
-exports.dateMarker = function(data){
-	var regx = "\\{\\{TODAY(?:([\\+\\-])([0-9]+))?\\}\\}";
-	var matches = util.getAllMatches(data,regx);
+exports.dateMarker = function(markers,callback){
+	var regx = "^TODAY(?:([\\+\\-])([0-9]+))?$";
+	
+	for(marker in markers){
+		var result = util.getMatches(marker,regx);
+		if(result){
+			var dt = new Date();
+			var operation = result[1];
+			var days = parseInt(result[2]);
 
-	for(var i in matches){
-
-		var dt = new Date();
-		var match = matches[i];
-		var operation = match[1];
-		var days = parseInt(match[2]);
-
-		if(match[1] == '+'){
-			dt.setDate(dt.getDate() + days);
-		}else if(match[1] == '-'){
-			dt.setDate(dt.getDate() - days);
+			if(result[1] == '+'){
+				dt.setDate(dt.getDate() + days);
+			}else if(result[1] == '-'){
+				dt.setDate(dt.getDate() - days);
+			}
+			callback(marker,util.formatDate(dt, "yyyy-mm-dd"))
 		}
-		
-		rgx = new RegExp(util.escapeRegExp(match[0]),"g");
-		data = data.replace(rgx,util.formatDate(dt, "yyyy-mm-dd"));
 	}
-	return data;
 }
 
 //TODAY, TPDAY+N, TODAY-N
-exports.dateMarker2 = function(data){
-	var regx= "\\{\\{TODAY([\+\-][0-9]+[ymd])([\+\-][0-9]+[ymd])?([\+\-][0-9]+[ymd])?\\}\\}";
-
-	var markers = util.getAllMatches(data,regx);
+exports.dateMarker2 = function(markers,callback){
+	var regx= "^TODAY([\+\-][0-9]+[ymd])([\+\-][0-9]+[ymd])?([\+\-][0-9]+[ymd])?$";
 	
-	markers.forEach(function(marker_arr){
-		var today = new Date();
-		for (var i = 1; i < marker_arr.length - 2; i++) {
-			var match = marker_arr[i];
+	for(marker in markers){
+		var result = util.getMatches(marker,regx);
+		if(result){
+			var today = new Date();
+			for(var i = 1; i < result.length; i++) {
+				var match = result[i];
 
-			if(match){
-				var operation = match[0];
-				var identifier = match[match.length-1];
-				var number = parseInt(match.substr(1,match.length-2));
+				if(match){
+					var operation = match[0];
+					var identifier = match[match.length-1];
+					var number = parseInt(match.substr(1,match.length-2));
 
-				if(identifier == 'y'){
-					if(operation == '+'){
-						today.setFullYear(today.getFullYear() + number);	
-					}else if(operation == '-'){
-						today.setFullYear(today.getFullYear() - number);	
-					}
-				}else if(identifier == 'm'){
-					if(operation == '+'){
-						today.setMonth(today.getMonth() + number);	
-					}else if(operation == '-'){
-						today.setMonth(today.getMonth() - number);	
-					}
-				}else if(identifier == 'd'){
-					if(operation == '+'){
-						today.setDate(today.getDate() + number);	
-					}else if(operation == '-'){
-						today.setDate(today.getDate() - number);	
+					if(identifier == 'y'){
+						if(operation == '+'){
+							today.setFullYear(today.getFullYear() + number);	
+						}else if(operation == '-'){
+							today.setFullYear(today.getFullYear() - number);	
+						}
+					}else if(identifier == 'm'){
+						if(operation == '+'){
+							today.setMonth(today.getMonth() + number);	
+						}else if(operation == '-'){
+							today.setMonth(today.getMonth() - number);	
+						}
+					}else if(identifier == 'd'){
+						if(operation == '+'){
+							today.setDate(today.getDate() + number);	
+						}else if(operation == '-'){
+							today.setDate(today.getDate() - number);	
+						}
 					}
 				}
 			}
-		}
-		var rgx = new RegExp(util.escapeRegExp(marker_arr[0]),"g");
-		data = data.replace(rgx,util.formatDate(today, "yyyy-mm-dd"));
-	});
-	return data;
+
+			callback(marker,util.formatDate(today, "yyyy-mm-dd"));
+		}//Matched marker found
+	}//match against all markers
 }
 
-exports.urlMarker = function(data){
-	var regx = "\\{\\{URL:([^\\}]+)\\}\\}";
-	var matches = util.getAllMatches(data,regx);
-	for(var i in matches){
-		var match = matches[i];
-		data = data.replace(match[0],encodeURI(match[1]));
+exports.urlMarker = function(markers,callback){
+	var regx = "^URL:(.+)$";
+	for(marker in markers){
+		var result = util.getMatches(marker,regx);
+		if(result){
+			callback(marker,encodeURI(result[1]));
+		}
 	}
-	return data;
 }
 
 //tariff ID : RANDOM:5
