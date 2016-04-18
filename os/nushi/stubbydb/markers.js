@@ -57,23 +57,22 @@ exports.dateMarker2 = {
 	}
 };
 
-exports.urlMarker = {
+exports.urlEncoder = {
 	exp : "URL:(.+)",
-	action : function(result){
-		return encodeURI(result[1]);
+	action : function(match){
+		return encodeURI(match[1]);
 	}
 };
 
-
 //tariff ID : RANDOM:5
-/*exports.random = function(data){
-	regx = /\{\{RANDOM:([0-9]+)\}\}/g;
-	regex.exec(data)
-
-	num1 = Math.pow(10, N);
-	num2 = Math.pow(10, N-1);
-	num1 = num1 - num2;
-	ransomnum = Math.floor(Math.random()*num1) + num2;
-	//Math.floor(Math.random()*90000) + 10000; //5 digit
-	return data.replace(/\{\{RANDOM:([0-9]+)\}\}/g,ransomnum);
-}*/
+exports.random = {
+	exp : "RANDOM:([0-9]+)",
+	action : function(match){
+		var N = match[1];
+		var num1 = Math.pow(10, N);
+		var num2 = Math.pow(10, N-1);
+		num1 = num1 - num2;
+		var randomnum = Math.floor(Math.random()*num1) + num2;
+		return randomnum;
+	}
+}
