@@ -4,6 +4,7 @@ var logger = require('./log');
 var dbHandler = require('./dbset_handler');
 var fs = require('fs');
 var path = require('path');
+var zlib = require('zlib');
 
 function networkErrHandler(err) {
 	var msg;
@@ -109,7 +110,15 @@ function requestResponseHandler(request, response) {
 					requestContext.response.refined = data;
 					response.end(JSON.stringify(requestContext));
 				}else{
-					response.write(data);
+					if(request.headers['accept-encoding'] && request.headers['accept-encoding'].indexOf('gzip') > -1){
+						response.setHeader('content-encoding','gzip');
+						response.write(zlib.gzipSync(data));
+					}else if(request.headers['accept-encoding'] && request.headers['accept-encoding'].indexOf('deflate') > -1){
+						response.setHeader('content-encoding','deflate');
+						response.write(zlib.deflateSync(data));
+					}else{
+						response.write(data);
+					}
 					response.end("");	
 				}
 
