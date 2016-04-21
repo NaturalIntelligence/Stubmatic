@@ -211,3 +211,11 @@ StubbyDB has inbuilt support for markers. So if you write `{{TODAY+1y-2m+3d}}` i
 
 ####Configuration
 StubbyDB provides you many way of configuring your project: commandline arguments, configuration file, directory structure.
+
+####SSL hanndshaking
+Stubby DB supports HTTPS and 2 way SSL handshaking as well. Have a look on wiki page and demo application for more detail.
+
+# Compression
+If accept-encoding header is set to deflate or gzip then stubby-db serve compressed response.
+
+
