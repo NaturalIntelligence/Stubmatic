@@ -14,13 +14,13 @@ exports.resolveKey = function (config){
 				return ''; //let's it fail on further level
 			}
 		}else{
-			return row[Object.keys(row)[0]]; //key value as it is
+			return config.key;
 		}
 	}else{//strategy
 		if(config.strategy == 'random'){
-			var len = dbsets[config.db].size();
+			var len = dbsets[config.db].count();
 			var i = Math.floor((Math.random() * len) + 1) - 1;
-			return dbsets[config.db].keys()[i];
+			return dbsets[config.db].getHashes()[i];
 		}/*else if(config.strategy == 'round-robin'){
 			var len = dbsets[config.db].size();
 			var lastIndex = lastKeyIndex[config.db];
@@ -29,7 +29,7 @@ exports.resolveKey = function (config){
 			}else{
 				lastKeyIndex[config.db] = 0;
 			}
-			return dbsets[config.db].keys()[lastKeyIndex[config.db]];
+			return dbsets[config.db].getHashes()[lastKeyIndex[config.db]];
 		}*/
 	}
 }

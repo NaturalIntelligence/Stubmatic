@@ -14,7 +14,7 @@ exports.handle = function(data, dbset){
 			var column = match[1];
 			var row = dbsets[dbset.db].get(dbset.key);
 			if(row){
-				data = data.replace(match[0],row[column]);	
+				data = data.replace(match[0],row.value[column]);	
 			}else{
 				logger.detailInfo('Key: ' + dbset.key + ' not found in ' + dbset.db);
 				return new Error('Key: ' + dbset.key + ' not found in ' + dbset.db);

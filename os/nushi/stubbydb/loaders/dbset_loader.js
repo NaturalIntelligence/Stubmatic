@@ -1,4 +1,4 @@
-var HashTable = require('hashtable');
+var hashes = require('hashes');
 var fs = require('fs'),
 	path = require('path');
 var lineReader = require('line-reader');
@@ -15,7 +15,7 @@ if(dirPath){
         }
         files.forEach(function (name) {
             logger.info("Loading DB from " + name);
-    		var hashtable = new HashTable();
+    		var hashtable = new hashes.HashTable();
             var filePath = path.join(dirPath, name);
             var stat = fs.statSync(filePath);
             var EOF = false;
@@ -31,7 +31,7 @@ if(dirPath){
                 		for(var i in headers){
                 			row[headers[i]]=columns[i];
                 		}
-    					hashtable.put(columns[0], row);
+    					hashtable.add(columns[0], row);
                 	}
     			  	linecount++;
     				if(last){
