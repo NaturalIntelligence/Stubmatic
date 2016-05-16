@@ -219,3 +219,4 @@ Stubby DB supports HTTPS and 2 way SSL handshaking as well. Have a look on wiki 
 If accept-encoding header is set to deflate or gzip then stubby-db serve compressed response.
 
 
+**Note : Although I have many fantastic ideas for stubby-db, I am pausing it's development for some time due to other priorities. However I'll keep supporting for any bug, small features, and any request.**
