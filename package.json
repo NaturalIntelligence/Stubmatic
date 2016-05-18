@@ -1,6 +1,6 @@
 {
   "name": "stubby-db",
-  "version": "3.4.1",
+  "version": "3.4.2",
   "description": "A complete solution for maintaining stubs for rapid development",
   "main": "./os/nushi/stubbydb/stubbyDB",
   "scripts": {
@@ -43,6 +43,9 @@
     "stubby4j",
     "markers",
     "colors",
-    "mock"
+    "mock",
+    "https",
+    "ssl",
+    "gzip"
   ]
 }
