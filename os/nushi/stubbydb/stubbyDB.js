@@ -88,14 +88,16 @@ function requestResponseHandler(request, response) {
 
 			logger.detailInfo("Matching Config: " + JSON.stringify(matchedEntry));
 			
-			resHandler.readResponse(matchedEntry,function(data,err){
-				response = buildResponse(response,matchedEntry.response);
+			resHandler.readResponse(matchedEntry,function(data,responseCode,err){
+				if(err){
+					responseCode = responseCode || 404;
+				}
+				response = buildResponse(response,matchedEntry.response,responseCode);
+				console.log(responseCode);
 				requestContext.response = {};
 				requestContext.response.raw = data;
 
-				if(err == 404){
-					response.statusCode = 404;
-				}
+				
 
 				//1. replace DbSet Place Holders
 				data = dbHandler.handle(data,matchedEntry.dbset);
@@ -171,9 +173,9 @@ function stubbyDB(){
 	}
 }
 
-function buildResponse(response,config){
+function buildResponse(response,config,responseCode){
 	util.wait(config.latency);
-	response.statusCode = config.status;
+	response.statusCode = responseCode || config.status;
 	if(config.headers){
 		for(var header in config.headers){
 			response.setHeader(header,config.headers[header]);

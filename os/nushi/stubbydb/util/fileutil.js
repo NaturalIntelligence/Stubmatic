@@ -1,14 +1,14 @@
 var fs = require('fs');
 var logger = require('../log');
 
-exports.readFromFile = function(fileName,callback){
+exports.readFromFile = function(fileName,callback,responseCode){
 	fs.readFile(fileName, {encoding: 'utf-8'}, function(err,data){
 	    if (!err){
 	    	logger.info("Reading from " + fileName);
-	    	callback(data);
+	    	callback(data,responseCode);
 	    }else{
 	        logger.info(fileName + " not found on disk");
-	        callback("",404);
+	        callback("",responseCode,'err');
 	    }
 	});
 }
