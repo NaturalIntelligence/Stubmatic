@@ -109,10 +109,11 @@ function requestResponseHandler(request, response) {
 					if(query.debug){
 						response.end(JSON.stringify(requestContext));
 					}else{
+						response.setHeader("Content-Type",sendAsAttachment);
+						//response.setHeader("Content-Length",len);
 						var rstream = fs.createReadStream(data);//data is filename in this case
-  						rstream.pipe(res);
-						response = compressIfRequired(response,data,request.headers['accept-encoding'])
-						response.end("");	
+  						rstream.pipe(response);
+						//response = compressIfRequired(response,data,request.headers['accept-encoding'])
 					}
 				}
 				
@@ -191,6 +192,7 @@ function compressIfRequired(response,data,encodingType){
 
 	return response;
 }
+
 function buildResponse(response,config,responseCode){
 	util.wait(config.latency);
 	response.statusCode = responseCode || config.status;

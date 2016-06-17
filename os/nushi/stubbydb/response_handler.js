@@ -57,7 +57,12 @@ exports.readResponse = function (matchedentry,callback){
 					fileName = path.join(stubsDir,reqResolver.applyMatches(fileName,matches));
 					if(fileutil.isExist(fileName)){
 						logger.info('Reading from file: ' + fileName);
-						return fileutil.readFromFile(fileName,callback,responseCode);
+						if(res.contentType){
+							callback(fileName,responseCode)
+						}else{
+							fileutil.readFromFile(fileName,callback,responseCode);
+						}
+						return;
 					}
 				}
 				logger.error('No matching file found.');
@@ -69,6 +74,11 @@ exports.readResponse = function (matchedentry,callback){
 
 		fileName = path.join(stubsDir,reqResolver.applyMatches(fileName,matches));
 		logger.info('Reading from file: ' + fileName);
-		return fileutil.readFromFile(fileName,callback,responseCode);
+		if(res.contentType){
+			callback(fileName,responseCode)
+		}else{
+			fileutil.readFromFile(fileName,callback,responseCode);
+		}
+		return;
 	}
 }
