@@ -1,7 +1,6 @@
 var util = require('./util/util');
 var config = require("./configbuilder").getConfig();
 var logger = require('./log');
-var dbHandler = require('./dbset_handler');
 var fs = require('fs');
 var path = require('path');
 var zlib = require('zlib');
@@ -87,43 +86,36 @@ function requestResponseHandler(request, response) {
 			
 
 			logger.detailInfo("Matching Config: " + JSON.stringify(matchedEntry));
-			
+			var sendAsAttachment = matchedEntry.response.contentType;
 			resHandler.readResponse(matchedEntry,function(data,responseCode,err){
 				if(err){
 					responseCode = responseCode || 404;
 				}
 				response = buildResponse(response,matchedEntry.response,responseCode);
-				console.log(responseCode);
+
 				requestContext.response = {};
-				requestContext.response.raw = data;
 
-				
-
-				//1. replace DbSet Place Holders
-				data = dbHandler.handle(data,matchedEntry.dbset);
-				//2. replace request matches
-				data = reqResolver.applyMatches(data,matchedEntry.request.matches);
-				//3. replace markers
-				data = require('./markers_handler').handle(data);
-				//4. replace dumps
-				data = require('./dumps_handler').handle(data);
-
-				if(query.debug){
-					requestContext.response.refined = data;
-					response.end(JSON.stringify(requestContext));
-				}else{
-					if(request.headers['accept-encoding'] && request.headers['accept-encoding'].indexOf('gzip') > -1){
-						response.setHeader('content-encoding','gzip');
-						response.write(zlib.gzipSync(data));
-					}else if(request.headers['accept-encoding'] && request.headers['accept-encoding'].indexOf('deflate') > -1){
-						response.setHeader('content-encoding','deflate');
-						response.write(zlib.deflateSync(data));
+				if(!sendAsAttachment){
+					requestContext.response.raw = data;
+					data = handleDynamicResponseBody(data,matchedEntry);
+					if(query.debug){
+						requestContext.response.refined = data;
+						response.end(JSON.stringify(requestContext));
 					}else{
-						response.write(data);
+						response = compressIfRequired(response,data,request.headers['accept-encoding'])
+						response.end("");	
 					}
-					response.end("");	
+				}else{
+					if(query.debug){
+						response.end(JSON.stringify(requestContext));
+					}else{
+						var rstream = fs.createReadStream(data);//data is filename in this case
+  						rstream.pipe(res);
+						response = compressIfRequired(response,data,request.headers['accept-encoding'])
+						response.end("");	
+					}
 				}
-
+				
 				var responseTime = (new Date()) - startTime;
 				if(response.statusCode == 200){
 					logger.info("Response served in " + responseTime + " ms with Status Code " + response.statusCode,'success');
@@ -173,6 +165,32 @@ function stubbyDB(){
 	}
 }
 
+function handleDynamicResponseBody(data,matchedEntry){
+	//1. replace DbSet Place Holders
+	data = require('./dbset_handler').handle(data,matchedEntry.dbset);
+	//2. replace request matches
+	data = reqResolver.applyMatches(data,matchedEntry.request.matches);
+	//3. replace markers
+	data = require('./markers_handler').handle(data);
+	//4. replace dumps
+	data = require('./dumps_handler').handle(data);
+
+	return data;
+}
+
+function compressIfRequired(response,data,encodingType){
+	if(encodingType && encodingType.indexOf('gzip') > -1){
+		response.setHeader('content-encoding','gzip');
+		response.write(zlib.gzipSync(data));
+	}else if(encodingType && encodingType.indexOf('deflate') > -1){
+		response.setHeader('content-encoding','deflate');
+		response.write(zlib.deflateSync(data));
+	}else{
+		response.write(data);
+	}
+
+	return response;
+}
 function buildResponse(response,config,responseCode){
 	util.wait(config.latency);
 	response.statusCode = responseCode || config.status;
