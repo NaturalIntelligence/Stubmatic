@@ -95,6 +95,7 @@ function requestResponseHandler(request, response) {
 
 				requestContext.response = {};
 
+				var encodingType = request.headers['accept-encoding'];
 				if(!sendAsAttachment){
 					requestContext.response.raw = data;
 					data = handleDynamicResponseBody(data,matchedEntry);
@@ -102,7 +103,18 @@ function requestResponseHandler(request, response) {
 						requestContext.response.refined = data;
 						response.end(JSON.stringify(requestContext));
 					}else{
-						response = compressIfRequired(response,data,request.headers['accept-encoding'])
+						
+						if(encodingType){
+							if(encodingType.indexOf('gzip') > -1){
+								response.setHeader('content-encoding','gzip');
+								response.write(zlib.gzipSync(data));
+							}else if(encodingType.indexOf('deflate') > -1){
+								response.setHeader('content-encoding','deflate');
+								response.write(zlib.deflateSync(data));
+							}
+						}else{
+							response.write(data);
+						}
 						response.end("");	
 					}
 				}else{
@@ -112,8 +124,20 @@ function requestResponseHandler(request, response) {
 						response.setHeader("Content-Type",sendAsAttachment);
 						//response.setHeader("Content-Length",len);
 						var rstream = fs.createReadStream(data);//data is filename in this case
-  						rstream.pipe(response);
-						//response = compressIfRequired(response,data,request.headers['accept-encoding'])
+
+						if(encodingType){
+							if(encodingType.indexOf('gzip') > -1){
+								response.setHeader('content-encoding','gzip');
+								rstream.pipe(zlib.createGzip()).pipe(response);
+								//response.write(zlib.gzipSync(data));
+							}else if(encodingType.indexOf('deflate') > -1){
+								response.setHeader('content-encoding','deflate');
+								rstream.pipe(zlib.createDeflate()).pipe(response);
+								//response.write(zlib.deflateSync(data));
+							}
+						}else{
+							rstream.pipe(response);
+						}
 					}
 				}
 				
@@ -179,19 +203,6 @@ function handleDynamicResponseBody(data,matchedEntry){
 	return data;
 }
 
-function compressIfRequired(response,data,encodingType){
-	if(encodingType && encodingType.indexOf('gzip') > -1){
-		response.setHeader('content-encoding','gzip');
-		response.write(zlib.gzipSync(data));
-	}else if(encodingType && encodingType.indexOf('deflate') > -1){
-		response.setHeader('content-encoding','deflate');
-		response.write(zlib.deflateSync(data));
-	}else{
-		response.write(data);
-	}
-
-	return response;
-}
 
 function buildResponse(response,config,responseCode){
 	util.wait(config.latency);
