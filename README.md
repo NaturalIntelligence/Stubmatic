@@ -216,8 +216,10 @@ StubbyDB provides you many way of configuring your project: commandline argument
 ####SSL hanndshaking
 Stubby DB supports HTTPS and 2 way SSL handshaking as well. Have a look on wiki page and demo application for more detail.
 
-# Compression
+####Compression
 If accept-encoding header is set to deflate or gzip then stubby-db serve compressed response.
 
+####Attachments
+If contentType property is set in your mappings, stubby db sends file otherwise it sends file response as response body after resolving all markers,expressions,dbsets etc.
 
 **Note : Although I have many fantastic ideas for stubby-db, I am pausing it's development for some time due to other priorities. However I'll keep supporting for any bug, small features, and any request.**
