@@ -145,7 +145,7 @@ When you want to serve the response with some delay. It may be useful to test ne
 
 1. On screen loggin with '-v' or '--verbose' option
 2. File based logging with '-l' or '--logs' option
-3. On demand logging: If query parameter 'debug=true' is provided with request URL. I gives additional detail with the response: Original request, Matched mapping, Raw and fine response etc. Response status depends on how your requests gets resolved. If 'debug=true' is provided on root url, then it gives system level information, configuration etc.
+3. On demand logging with query parameter 'debug=true' with request URL. It gives additional detail with the response: Original request, Matched mapping, Raw and fine response etc. Response status depends on how your requests gets resolved. If 'debug=true' is provided on root url, then it gives system level information, configuration etc.
 
 ####Markers
 StubbyDB has inbuilt support for markers. So if you write `{{TODAY+1y-2m+3d}}` in somewhere of response body or file, It'll be converted into 'yyyy-mm-dd' format date. If you say `{{URL:someurl}}`, it'll encode the URL. There are many other markers are in development. And in near future StubbyDB will be able to support markers written by you.
