@@ -30,17 +30,10 @@ Stubby DB is a npm module. In simple words you can stub the HTTP/HTTPS calls to 
 
 ###Features and Basic terminology
 
-Folder structure
-
-	StubbyDB-Project
-	 |__ dbsets
-	 |__ dumps
-	 |__ mappings
-	 |__ stubs
-	 |__ logs
+To start with stubby db, you need to create **a yaml file** which maps request with response. You may need **response files** as per your need and optional config.json file to ask Stubby DB to use default options defined by you.
 
 ####Mappings
-yaml based mappings are required to map a request with relevant response file. You can have multiple files instead of maintaining a big fat file. You can also mark files which should be used to map the requests. So the the mappings which are in progress can be excluded.
+yaml based mappings are required to map a request with relevant response file. You can have multiple files instead of maintaining a big fat file. You can also mark files which should be used to map the requests and skip which are under development.
 
 ```yaml
 -  request:
@@ -54,26 +47,7 @@ yaml based mappings are required to map a request with relevant response file. Y
    response:
       file: post.xml
 ```
-
-**Short Notations**
-To further reduce the size of yaml mappings, there is a support for short notations;
-
-```yaml
--  request: /stubs/healthcheck
-   	response: OK
-```
-
-**Default configuration**
-To further reduce the size of yaml file, You can use default configuration to be applied with each mapping.
-
-```yaml
--  request:
-      url: /stubs/simple
-      post: Hello ([a-zA-Z]+) ([a-zA-Z]+)!! Your number is ((\+[0-9]{2}) ([0-9]+))
-
-   response:
-      file: post.xml
-```
+For maintainability purpose and to keep the size of mapping file short you can use **Short Notations** and **Default configuration**. Check [wiki](https://github.com/NaturalIntelligence/StubbyDB/wiki/03.0-Mappings) for more detail.
 
 ####Strategy
 Many times, you don't have just one-to-one mapping between the request and response. You want to server different response every time, or you want to serve default response instead of saying 404 (stub data not found). There are many strategies, you can use suits to your requirement;
@@ -93,23 +67,6 @@ Stubby DB is currently supporting following strategies;
 2. random : In above example, serve any file from mentioned list.
 3. round-robin : In above example, serve the files in sequential order. So on second same request, it'll serve response from file2.xml
 
-Coming soon
-* random + first-found
-* round-robin + no-repeat
-* random + no-repeat
-* many others
-
-####Latency
-When you want to serve the response with some delay. It may be useful to test negative scenarios or for performance test.
-
-```yaml
--  request:
-      url: /stubs/simple
-      latency: 500 #In milliseconds
-
-   response:
-      file: post.xml
-```
 
 ####Dynamic Response
 Instead of creating multiple mappings for same request where just few query parameters or headers are being changed. You can use Regular expression to write generic mappings.
@@ -155,6 +112,14 @@ Projects:
 	[[dumps/projects:##Projects##]]
 ```
 
+Sample dbset file: ./dbsets/employee
+
+```
+Num 	|Name 			|Projects
+001 	|Some Name 		|project1, project2
+002 	|Another Name 	|project2, project3, project4
+```
+
 Actual Response
 
 ```
@@ -171,41 +136,16 @@ Description: This is project 2
 :
 ```
 
-Sample dbset file: ./dbsets/employee
+See sample [yaml](https://github.com/NaturalIntelligence/stubby-db-test/blob/master/mappings/dbset.yaml) for more detail. Check [DBset wiki](https://github.com/NaturalIntelligence/StubbyDB/wiki/08.0-DB-Sets#strategy) to know about strategies for DB sets.
 
-```
-Num 	|Name 			|Projects
-001 	|Some Name 		|project1, project2
-002 	|Another Name 	|project2, project3, project4
-```
-	
-Sample Mapping;
-
-```yaml
--  request:
-      url: /stubs/employee/([0-9]+)
-   
-   dbset:
-      db: employee
-      key: <% url.1 %>
-      #strategy: random #round-robin
-      err:
-         file: fault.xml
-
-   response:
-      file: stubs/employeedetail
-```
-
-See sample [yaml](https://github.com/NaturalIntelligence/stubby-db-test/blob/master/mappings/dbset.yaml) for more detail. DBset in itself many features. 
-
-Keep checking wiki for latest updates in APIs and more implementation detail.
+####Latency
+When you want to serve the response with some delay. It may be useful to test negative scenarios or for performance test.
 
 ####DEBUG & Logging
-Debugging with StubbyDB is very easy. StubbyDB creates debug.log, and exceptions.log for more detail about what is going on. You can see on screen logs with '-v' or '--verbose' option.
 
-If query parameter 'debug=true' is provided with request URL. I gives additional detail with the response: Original request, Matched mapping, Raw and fine response etc. Response status depends on how your requests gets resolved.
-
-If 'debug=true' is provided on root url, then it gives system level information, configuration etc.
+1. On screen loggin with '-v' or '--verbose' option
+2. File based logging with '-l' or '--logs' option
+3. On demand logging: If query parameter 'debug=true' is provided with request URL. I gives additional detail with the response: Original request, Matched mapping, Raw and fine response etc. Response status depends on how your requests gets resolved. If 'debug=true' is provided on root url, then it gives system level information, configuration etc.
 
 ####Markers
 StubbyDB has inbuilt support for markers. So if you write `{{TODAY+1y-2m+3d}}` in somewhere of response body or file, It'll be converted into 'yyyy-mm-dd' format date. If you say `{{URL:someurl}}`, it'll encode the URL. There are many other markers are in development. And in near future StubbyDB will be able to support markers written by you.
@@ -214,12 +154,10 @@ StubbyDB has inbuilt support for markers. So if you write `{{TODAY+1y-2m+3d}}` i
 StubbyDB provides you many way of configuring your project: commandline arguments, configuration file, directory structure.
 
 ####SSL hanndshaking
-Stubby DB supports HTTPS and 2 way SSL handshaking as well. Have a look on wiki page and demo application for more detail.
+Stubby DB supports HTTPS and 2 way SSL handshaking as well. Have a look on [wiki](https://github.com/NaturalIntelligence/StubbyDB/wiki/10.0-SSL-handshaking) and demo application for more detail.
 
 ####Compression
 If accept-encoding header is set to deflate or gzip then stubby-db serve compressed response.
 
 ####Attachments
 If contentType property is set in your mappings, stubby db sends file otherwise it sends file response as response body after resolving all markers,expressions,dbsets etc.
-
-**Note : Although I have many fantastic ideas for stubby-db, I am pausing it's development for some time due to other priorities. However I'll keep supporting for any bug, small features, and any request.**
