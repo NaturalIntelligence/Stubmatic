@@ -62,7 +62,7 @@ exports.formatDate = function(dt,format){
   format = format.replace('m', dt.getMinutes());
   format = format.replace('ss', exports.pad(dt.getSeconds(),2));
   format = format.replace('s', dt.getSeconds());
-  format = format.replace(/"/g,'');
+  //format = format.replace(/"/g,'');
   return format;
 }
 
