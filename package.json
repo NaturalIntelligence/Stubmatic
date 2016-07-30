@@ -1,7 +1,7 @@
 {
   "name": "stubby-db",
-  "version": "3.6.0",
-  "description": "A complete solution for maintaining stubs for rapid development",
+  "version": "3.7.0",
+  "description": "Provides easiest way to maintain stubs",
   "main": "./os/nushi/stubbydb/stubbyDB",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -46,6 +46,7 @@
     "mock",
     "https",
     "ssl",
-    "gzip"
+    "gzip",
+    "expression"
   ]
 }

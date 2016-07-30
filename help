@@ -1,6 +1,10 @@
 Usage: stubby-db [OPTION]... 
 Runs stubbyDB server
 
+############## Warning ##########
+There is change in markers. Visit home page for more information.
+#################################
+
 Arguments
   -p, --port                 http port number (default is 7777)
   -P                         https port number

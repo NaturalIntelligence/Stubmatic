@@ -66,7 +66,9 @@ for(var i=2; i<process.argv.length;i++){
 }
 
 
-
+console.log("############## Warning ##########");
+console.log("There is change in markers. Visit home page for more information.");
+console.log("#################################");
 var configBuilder = require("./os/nushi/stubbydb/configbuilder");
 configBuilder.buildConfig(options,process.argv.length);
 var config = configBuilder.getConfig();
