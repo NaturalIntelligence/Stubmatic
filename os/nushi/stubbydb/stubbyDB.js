@@ -196,7 +196,7 @@ function handleDynamicResponseBody(data,matchedEntry){
 	//2. replace request matches
 	data = reqResolver.applyMatches(data,matchedEntry.request.matches);
 	//3. replace markers
-	data = require('./markers_handler').handle(data);
+	data = require('./expressions_handler').handle(data);
 	//4. replace dumps
 	data = require('./dumps_handler').handle(data);
 

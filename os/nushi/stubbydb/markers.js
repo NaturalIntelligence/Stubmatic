@@ -3,7 +3,7 @@ var util = require('./util/util');
 //TPDAY, TPDAY+N, TODAY-N
 exports.dateMarker = {
 	exp : "TODAY(?:([\\+\\-])([0-9]+))?",
-	action : function(match){
+	evaluate : function(match){
 		var dt = new Date();
 		var operation = match[1];
 		var days = parseInt(match[2]);
@@ -13,7 +13,8 @@ exports.dateMarker = {
 		}else if(match[1] == '-'){
 			dt.setDate(dt.getDate() - days);
 		}
-		return util.formatDate(dt, "yyyy-mm-dd");
+		//util.formatDate(dt, "yyyy-mm-dd")
+		return dt;
 	}
 };
 
@@ -21,7 +22,7 @@ exports.dateMarker = {
 //TODAY, TPDAY+N, TODAY-N
 exports.dateMarker2 = {
 	exp : "TODAY([\+\-][0-9]+[ymd])([\+\-][0-9]+[ymd])?([\+\-][0-9]+[ymd])?",
-	action : function(result){
+	evaluate : function(result){
 		var today = new Date();
 		for(var i = 1; i < result.length; i++) {
 			var match = result[i];
@@ -52,14 +53,15 @@ exports.dateMarker2 = {
 				}
 			}
 		}
+		//util.formatDate(today, "yyyy-mm-dd")
+		return today;
 
-		return util.formatDate(today, "yyyy-mm-dd");
 	}
 };
 
 exports.urlEncoder = {
 	exp : "URL:(.+)",
-	action : function(match){
+	evaluate : function(match){
 		return encodeURI(match[1]);
 	}
 };
@@ -67,7 +69,7 @@ exports.urlEncoder = {
 //tariff ID : RANDOM:5
 exports.random = {
 	exp : "RANDOM:([0-9]+)",
-	action : function(match){
+	evaluate : function(match){
 		var N = match[1];
 		var num1 = Math.pow(10, N);
 		var num2 = Math.pow(10, N-1);
