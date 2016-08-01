@@ -13,7 +13,6 @@ exports.handle = function(data){
 			var matches = util.getMatches(expression[1],function_regx);
 			var functionName = matches[1];
 			var parameters = matches[2].split(/,(?!(?:[^"\']))/);
-			console.log(parameters);
 			for (index = 0; index < parameters.length; index++) {
 			    var value = evaluateMarker(parameters[index]);
 			    if(value){
@@ -22,7 +21,6 @@ exports.handle = function(data){
 					parameters[index] = eval(parameters[index]);
 				}
 			}
-			console.log(parameters);
 			var result = functions_func[functionName].apply(functionName,parameters);
 			if(result){
 				data = data.replace('{{' + expression[1] + '}}',result);

@@ -17,12 +17,10 @@ charsets['alpha_num'] = "abcdefghijklmnopqrstuvwxyz0123456789";
 exports.random = function(len,type){
     var text = "";
     var charset = "";
-    console.log(type);
     if(!type)
     	charset = charsets['num'];
     else
     	charset = charsets[type.toLowerCase()];
-    console.log(charset);
     for( var i=0; i < len; i++ )
         text += charset.charAt(Math.floor(Math.random() * charset.length));
     return text;

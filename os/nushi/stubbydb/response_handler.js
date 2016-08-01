@@ -50,7 +50,6 @@ exports.readResponse = function (matchedentry,callback){
 					if(typeof res.files[i] === 'object'){
 						fileName = res.files[i].name;
 						responseCode = res.files[i].status;
-						console.log(res.files[i]);
 					}else{
 						fileName = res.files[i];
 					}
