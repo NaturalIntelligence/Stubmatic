@@ -19,7 +19,7 @@ var defaultConfig = {
 	},
 	server: {
 		port: 7777,
-		host: 'localhost'
+		host: '127.0.0.1'
 	}
 };
 
