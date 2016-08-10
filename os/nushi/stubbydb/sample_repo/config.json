@@ -1,0 +1,29 @@
+{
+  "dbsets": "dbsets/",
+  "mappings": {
+    "default": {
+      "request": {
+        "method": "GET"
+      },
+      "response": {
+        "strategy": "first-found",
+        "latency": 0,
+        "status": 200
+      }
+    },
+    "requests": ["mappings/response.yaml"]
+  },
+  "server": {
+    "port": 7777
+    /*,"securePort" : 8000
+    ,"mutualSSL" : true
+    ,"ca" : ["truststore/ca/ca.crt"]
+    ,"key" : "truststore/server.key"
+    ,"cert" : "truststore/server.crt"*/
+  },
+  "stubs": "stubs/",
+  "logs": {
+    "path": "logs/"
+  },
+  "dumps": "dumps/"
+}

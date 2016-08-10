@@ -13,6 +13,11 @@ if(process.argv[2] == "--version"){
     process.exit(1);
 }
 
+if(process.argv[2] == "init"){
+	require('./init').init(process.argv[3] || "stub-repo");
+    process.exit(1);
+}
+
 var path = require('path');
 var fs = require('fs');
 
