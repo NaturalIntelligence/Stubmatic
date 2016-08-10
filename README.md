@@ -153,8 +153,8 @@ When you want to serve the response with some delay. It may be useful to test ne
 2. File based logging with '-l' or '--logs' option
 3. On demand logging with query parameter 'debug=true' with request URL. It gives additional detail with the response: Original request, Matched mapping, Raw and fine response etc. Response status depends on how your requests gets resolved. If 'debug=true' is provided on root url, then it gives system level information, configuration etc.
 
-####Markers
-StubbyDB has inbuilt support for markers. So if you write `{{TODAY+1y-2m+3d}}` in somewhere of response body or file, It'll be converted into 'yyyy-mm-dd' format date. If you say `{{URL:someurl}}`, it'll encode the URL. There are many other markers are in development. And in near future StubbyDB will be able to support markers written by you.
+####Expressions
+Expressions are build by markers and functions. If you write a marker `{{TODAY+1y-2m+3d}}` in response body or file, It'll be converted into date. If you write `{{formatDate(TODAY,"dd D, MMM YYYY HH:mm:ss")}}` current date will be written in specified format. See complete list of markers & functions on [expressions](https://github.com/NaturalIntelligence/StubbyDB/wiki/06.0-Expressions) page.
 
 ####Configuration
 StubbyDB provides you many way of configuring your project: commandline arguments, configuration file, directory structure.
