@@ -4,6 +4,7 @@ var logger = require('./log');
 var fs = require('fs');
 var path = require('path');
 var zlib = require('zlib');
+var mappings = require('./loaders/mappings_loader').mappings;
 
 function networkErrHandler(err) {
 	var msg;
@@ -84,15 +85,17 @@ function requestResponseHandler(request, response) {
 				return;
 			}
 			
-
-			logger.detailInfo("Matching Config: " + JSON.stringify(matchedEntry));
+			logger.detailInfo("Matching Config: " + JSON.stringify(mappings[matchedEntry.index]));
 			var sendAsAttachment = matchedEntry.response.contentType;
 			resHandler.readResponse(matchedEntry,function(data,responseCode,err){
 				if(err){
 					responseCode = responseCode || 404;
 				}
-				response = buildResponse(response,matchedEntry.response,responseCode);
+				if(!query.debug){
+					util.wait(calculateLatency(matchedEntry.response.latency));
+				}
 
+				response = buildResponse(response,matchedEntry.response,responseCode);
 				requestContext.response = {};
 
 				var encodingType = request.headers['accept-encoding'];
@@ -205,7 +208,7 @@ function handleDynamicResponseBody(data,matchedEntry){
 
 
 function buildResponse(response,config,responseCode){
-	util.wait(config.latency);
+	
 	response.statusCode = responseCode || config.status;
 	if(config.headers){
 		for(var header in config.headers){
@@ -217,5 +220,11 @@ function buildResponse(response,config,responseCode){
 	return response;
 }
 
+function calculateLatency(latency){
+	if(Array.isArray(latency)){
+		return util.getRandomInt(latency[0],latency[1])
+	}
+	return latency;
+}
 
 module.exports = stubbyDB;

@@ -1,6 +1,6 @@
 -  request:
       #method: POST
-      url: /stubbydb/hellonushi
+      url: /hellonushi
       #post: password=([a-zA-Z0-9]+)
       #headers:
       #      custom: (\w)
@@ -19,7 +19,7 @@
       # body: >
       #   multiple line response
       #   another line
-      strategy: random
+      #strategy: random
       #file: response.txt
       files: ["response.txt", {"name":"fault.txt","status":500}]
       headers:

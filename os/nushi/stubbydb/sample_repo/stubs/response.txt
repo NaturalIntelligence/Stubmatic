@@ -11,15 +11,15 @@ You can use captured request part to select a file dynamically or to serve dynam
 < % url.2 %> < % post.1 %>
 
 
-Or use markers to show today's date: {{TODAY}} and some other date of next year {{TODAY+1y+2m-1d}}
+Or use markers to show today's date: { {TODAY}} and some other date of next year { {TODAY+1y+2m-1d}}
 
 You can format it as well
-{{format(TODAY,'dd/MM/YYYY')}}
-{{format(TODAY+3,'dd/MM/YYYY')}}
-{{format(TODAY+3d-2m,'dd/MM/YYYY')}}
-{{TODAY+3}}
+{ {formatDate(TODAY,'dd/MM/YYYY')}}
+{ {formatDate(TODAY+3,'dd/MM/YYYY')}}
+{ {formatDate(TODAY+3d-2m,'dd/MM/YYYY')}}
+{ {TODAY+3}}
 
 Show random numbers: 
-{{random(5)}}
-{{random(4,'alpha_num')}}-{{random(4,'alpha_num')}}-{{random(4,'alpha_num')}}-{{random(4,'alpha_num')}}
+{ {random(5)}}
+{ {random(4,'alpha_num')}}-{{random(4,'alpha_num')}}-{{random(4,'alpha_num')}}-{{random(4,'alpha_num')}}
 

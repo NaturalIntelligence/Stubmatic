@@ -10,12 +10,14 @@ var defaultConfig = config_mapping.default;
 
 for(var i in config_mapping.requests){
     var req_mapping = config_mapping.requests[i];
+    var mappings;
     try{
-        var mappings = YAML.parseFile(req_mapping);
+        mappings = YAML.parseFile(req_mapping);
     }catch(e){
         logger.info(color("Problem in loading " + req_mapping, 'Red'))
     }
 
+    
     if(!mappings || mappings.length == 0){
         logger.info(req_mapping + " is an empty file.");
         continue;
@@ -72,4 +74,5 @@ for(var i in config_mapping.requests){
 
     allMappings = allMappings.concat(mappings);
 }
+
 exports.mappings = allMappings;

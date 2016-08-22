@@ -2,7 +2,7 @@ var util = require('./util/util');
 var functions_func = require('./functions');
 var function_regx = '([a-zA-Z0-9_]+)\\((.*)\\)';
 var expressions_regx = "\\{\\{([^\\}]+)\\}\\}";
-
+var logger = require('./log')
 
 exports.handle = function(data){
 	
@@ -12,18 +12,23 @@ exports.handle = function(data){
 		if(isFunction(expression[1])){
 			var matches = util.getMatches(expression[1],function_regx);
 			var functionName = matches[1];
-			var parameters = matches[2].split(/,(?!(?:[^"\']))/);
-			for (index = 0; index < parameters.length; index++) {
-			    var value = evaluateMarker(parameters[index]);
-			    if(value){
-					parameters[index] = eval(value);
-				}else{
-					parameters[index] = eval(parameters[index]);
+			if(functions_func[functionName]){
+				var parameters = matches[2].split(/,(?!(?:[^"\']))/);
+				for (index = 0; index < parameters.length; index++) {
+				    var value = evaluateMarker(parameters[index]);
+				    if(value){
+						parameters[index] = eval(value);
+					}else{
+						parameters[index] = eval(parameters[index]);
+					}
 				}
-			}
-			var result = functions_func[functionName].apply(functionName,parameters);
-			if(result){
-				data = data.replace('{{' + expression[1] + '}}',result);
+
+				var result = functions_func[functionName].apply(functionName,parameters);
+				if(result){
+					data = data.replace('{{' + expression[1] + '}}',result);
+				}
+			}else{
+				logger.error('Incorrect function: '+ functionName);
 			}
 		}else{
 			var value = evaluateMarker(expression[1]);
