@@ -15,11 +15,6 @@
   },
   "server": {
     "port": 7777
-    /*,"securePort" : 8000
-    ,"mutualSSL" : true
-    ,"ca" : ["truststore/ca/ca.crt"]
-    ,"key" : "truststore/server.key"
-    ,"cert" : "truststore/server.crt"*/
   },
   "stubs": "stubs/",
   "logs": {
