@@ -115,13 +115,13 @@ exports.jodaDateMarker2 = {
 						if(operation == '+'){
 							today = today.plusYears(number);	
 						}else if(operation == '-'){
-							today = today.minusYears(-number);	
+							today = today.minusYears(number);	
 						}
 					}else if(identifier == 'm'){					
 						if(operation == '+'){
 							today = today.plusMonths(number);
 						}else if(operation == '-'){
-							today = today.minusMonths(-number);	
+							today = today.minusMonths(number);	
 						}
 					}else if(identifier == 'd'){
 						if(operation == '+'){
