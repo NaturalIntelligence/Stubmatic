@@ -1,4 +1,5 @@
 var util = require('./util/util');
+var RequestContext = require('./RequestContext');
 var config = require("./configbuilder").getConfig();
 var logger = require('./log');
 var fs = require('fs');
@@ -26,13 +27,13 @@ function networkErrHandler(err) {
 }
 
 var reqResolver = require('./request_resolver');
-var resHandler = require('./response_handler');
+var resFileResolver = require('./response_handler');
 var color = require('./util/colors').color;
 var url = require('url');
 
 function requestResponseHandler(request, response) {
+	var rc = new RequestContext(request);
 	var query = url.parse(request.url, true).query;
-	var requestContext = {};
 	if(query.debug){
 		request.url = request.url.replace('debug=true','');
 		if(request.url[request.url.length-1] == '?'){
@@ -40,18 +41,17 @@ function requestResponseHandler(request, response) {
 		}
 
 		if(request.url == '/'){
-			requestContext.scriptLocation = __dirname;
-			requestContext.config = config;
-			requestContext.projectPath = global.basePath;
+			rc.scriptLocation = __dirname;
+			rc.config = config;
+			rc.projectPath = global.basePath;
 			var os = require('os');
-			requestContext.memory = {};
-			requestContext.memory.total = os.totalmem();
-			requestContext.memory.free = os.freemem();
-			requestContext.hostname = os.hostname();
+			rc.memory = {};
+			rc.memory.total = os.totalmem();
+			rc.memory.free = os.freemem();
+			rc.hostname = os.hostname();
 		}
 	}
 
-	  var startTime = new Date();
 	  var body = [];
 	  request.on('error', function(err) {
 	  	logger.error(msg);
@@ -61,96 +61,87 @@ function requestResponseHandler(request, response) {
 	    body = Buffer.concat(body).toString();
 		request['post'] = body;
 
-		requestContext.request = {};
-		requestContext.request.url = request.url;
-		requestContext.request.headers = request.headers;
-		requestContext.request.method = request.method;
-		requestContext.request.body = request.post;
-
-		logger.info(request.method+": "+request.url,'success');
+		logger.info(rc.getTransactionId() + " " + request.method+": "+request.url,'success');
 		try{
 			var matchedEntry = reqResolver.resolve(request);
-			
-			requestContext.matchedMapping = matchedEntry;
+			logger.debug(rc.getTransactionId() + " after reqResolver : " + rc.howLong() + " ms");
+
+			rc.matchedMapping = matchedEntry;
 
 			if(matchedEntry == null){
 				response.statusCode = 404;
 				if(query.debug){
-					response.end(JSON.stringify(requestContext));
+					response.end(JSON.stringify(rc));
 				}else{
 					response.end("");	
 				}
 				
-				logger.error("Response served with Status Code " + response.statusCode);
+				logger.error(rc.getTransactionId() + " Response served with Status Code " + response.statusCode);
 				return;
 			}
 			
-			logger.detailInfo("Matching Config: " + JSON.stringify(mappings[matchedEntry.index]));
+			logger.detailInfo(rc.getTransactionId() + " Matching Config: " + JSON.stringify(mappings[matchedEntry.index]));
 			var sendAsAttachment = matchedEntry.response.contentType;
-			resHandler.readResponse(matchedEntry,function(data,responseCode,err){
-				if(err){
-					responseCode = responseCode || 404;
+			
+			
+			var status = matchedEntry.response.status;
+
+			//Set Headers
+			if(matchedEntry.response.headers){
+				for(var header in matchedEntry.response.headers){
+					response.setHeader(header,matchedEntry.response.headers[header]);
 				}
-				if(!query.debug){
-					util.wait(calculateLatency(matchedEntry.response.latency));
-				}
+				response.headers = matchedEntry.response.headers;
+			}
 
-				response = buildResponse(response,matchedEntry.response,responseCode);
-				requestContext.response = {};
+			var data = "";
+			//Read and Build Response body
+			if(matchedEntry.response.body){
+				data = matchedEntry.response.body;
+				data = handleDynamicResponseBody(data,matchedEntry);
+				logger.debug(rc.getTransactionId() + " after handleDynamicResponse Body : " + rc.howLong() + " ms");
+			}else{
+					logger.debug(rc.getTransactionId() + " before readResponse : " + rc.howLong() + " ms");
+				var dataFile = resFileResolver.readResponse(matchedEntry);
+					logger.debug(rc.getTransactionId() + " after readResponse : " + rc.howLong() + " ms");
+				if(typeof dataFile  === 'object'){
 
-				var encodingType = request.headers['accept-encoding'];
-				if(!sendAsAttachment){
-					requestContext.response.raw = data;
-					data = handleDynamicResponseBody(data,matchedEntry);
-					if(query.debug){
-						requestContext.response.refined = data;
-						response.end(JSON.stringify(requestContext));
-					}else{
-						
-						if(encodingType){
-							if(encodingType.indexOf('gzip') > -1){
-								response.setHeader('content-encoding','gzip');
-								response.write(zlib.gzipSync(data));
-							}else if(encodingType.indexOf('deflate') > -1){
-								response.setHeader('content-encoding','deflate');
-								response.write(zlib.deflateSync(data));
-							}
-						}else{
-							response.write(data);
-						}
-						response.end("");	
-					}
-				}else{
-					if(query.debug){
-						response.end(JSON.stringify(requestContext));
-					}else{
-						response.setHeader("Content-Type",sendAsAttachment);
-						//response.setHeader("Content-Length",len);
-						var rstream = fs.createReadStream(data);//data is filename in this case
-
-						if(encodingType){
-							if(encodingType.indexOf('gzip') > -1){
-								response.setHeader('content-encoding','gzip');
-								rstream.pipe(zlib.createGzip()).pipe(response);
-								//response.write(zlib.gzipSync(data));
-							}else if(encodingType.indexOf('deflate') > -1){
-								response.setHeader('content-encoding','deflate');
-								rstream.pipe(zlib.createDeflate()).pipe(response);
-								//response.write(zlib.deflateSync(data));
-							}
-						}else{
-							rstream.pipe(response);
-						}
-					}
+					status =  dataFile.status;
+					dataFile = dataFile.name;
+					console.log(dataFile.name);
 				}
 				
-				var responseTime = (new Date()) - startTime;
-				if(response.statusCode == 200){
-					logger.info("Response served in " + responseTime + " ms with Status Code " + response.statusCode,'success');
+				logger.info('Reading from file: ' + dataFile);
+				
+				if(!sendAsAttachment){
+					data = fs.readFileSync(dataFile, {encoding: 'utf-8'});
+						logger.debug(rc.getTransactionId() + " after readFileSync : " + rc.howLong() + " ms");
+						//rc.rawResponse(data);
+					data = handleDynamicResponseBody(data,matchedEntry);
+						//rc.refinedResponse(data);
+						logger.debug(rc.getTransactionId() + " after handleDynamicResponse File : " + rc.howLong() + " ms");
 				}else{
-					logger.info("Response served in " + responseTime + " ms with Status Code " + response.statusCode,'fail');
+					data = dataFile;
 				}
-			});
+			}
+
+			//Set Response Code
+			response.statusCode = status;
+
+			if(query.debug){
+				response.end(JSON.stringify(rc));
+			}
+			//Latency
+			setTimeout(function(){
+				sendResponse(response,data,sendAsAttachment,request.headers['accept-encoding']);	
+				logger.debug(rc.getTransactionId() + " after sendResponse : " + rc.howLong() + " ms");
+			
+				if(response.statusCode == 200){
+					logger.info(rc.getTransactionId() + " Response served in " + rc.howLong() + " ms with Status Code " + response.statusCode,'success');
+				}else{
+					logger.info(rc.getTransactionId() + " Response served in " + rc.howLong() + " ms with Status Code " + response.statusCode,'fail');
+				}
+			},calculateLatency(matchedEntry.response.latency));
 		}catch(e){
 			logger.error(e);
 			response.statusCode = 500;
@@ -206,25 +197,46 @@ function handleDynamicResponseBody(data,matchedEntry){
 	return data;
 }
 
-
-function buildResponse(response,config,responseCode){
-	
-	response.statusCode = responseCode || config.status;
-	if(config.headers){
-		for(var header in config.headers){
-			response.setHeader(header,config.headers[header]);
-		}
-		response.headers = config.headers;
-	}
-
-	return response;
-}
-
 function calculateLatency(latency){
 	if(Array.isArray(latency)){
 		return util.getRandomInt(latency[0],latency[1])
 	}
 	return latency;
+}
+
+function sendResponse(response,data,sendAsAttachment,encodingType){
+	if(!sendAsAttachment){
+		if(encodingType){
+			if(encodingType.indexOf('gzip') > -1){
+				response.setHeader('content-encoding','gzip');
+				response.write(zlib.gzipSync(data));
+			}else if(encodingType.indexOf('deflate') > -1){
+				response.setHeader('content-encoding','deflate');
+				response.write(zlib.deflateSync(data));
+			}
+		}else{
+			response.write(data);
+		}
+		response.end("");	
+	}else{
+		response.setHeader("Content-Type",sendAsAttachment);
+		//response.setHeader("Content-Length",len);
+		var rstream = fs.createReadStream(data);//data is filename in this case
+
+		if(encodingType){
+			if(encodingType.indexOf('gzip') > -1){
+				response.setHeader('content-encoding','gzip');
+				rstream.pipe(zlib.createGzip()).pipe(response);
+				//response.write(zlib.gzipSync(data));
+			}else if(encodingType.indexOf('deflate') > -1){
+				response.setHeader('content-encoding','deflate');
+				rstream.pipe(zlib.createDeflate()).pipe(response);
+				//response.write(zlib.deflateSync(data));
+			}
+		}else{
+			rstream.pipe(response);
+		}
+	}
 }
 
 module.exports = stubbyDB;

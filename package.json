@@ -1,6 +1,6 @@
 {
   "name": "stubby-db",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "Provides easiest way to maintain stubs",
   "main": "./os/nushi/stubbydb/stubbyDB",
   "scripts": {
@@ -8,7 +8,6 @@
   },
   "author": "Amit Gupta (https://github.com/amitguptagwl)",
   "dependencies": {
-    "deasync": "^0.1.4",
     "deepmerge": "^0.2.10",
     "hashes": "^0.1.3",
     "js-joda": "^1.1.11",
@@ -49,8 +48,5 @@
     "ssl",
     "gzip",
     "expression"
-  ],
-  "devDependencies": {
-    "js-joda": "^1.1.11"
-  }
+  ]
 }

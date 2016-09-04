@@ -11,7 +11,7 @@ exports.resolveKey = function (config){
 			}else if(config.err && config.err.file){
 				return new Error();
 			}else{
-				return ''; //let's it fail on further level
+				return ''; //let it fail on further level
 			}
 		}else{
 			return config.key;

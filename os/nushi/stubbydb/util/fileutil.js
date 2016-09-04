@@ -1,16 +1,7 @@
 var fs = require('fs');
-var logger = require('../log');
 
-exports.readFromFile = function(fileName,callback,responseCode){
-	fs.readFile(fileName, {encoding: 'utf-8'}, function(err,data){
-	    if (!err){
-	    	logger.info("Reading from " + fileName);
-	    	callback(data,responseCode);
-	    }else{
-	        logger.info(fileName + " not found on disk");
-	        callback("",responseCode,'err');
-	    }
-	});
+exports.readFromFile = function(rc,fileName,callback){
+	return fs.readFileSync(fileName, {encoding: 'utf-8'});
 }
 
 exports.isExist = function(path){
@@ -18,7 +9,6 @@ exports.isExist = function(path){
 		fs.accessSync(path, fs.F_OK);
 		return true;
 	}catch(e){
-		//logger.error(e);
 		return false;
 	}
 }

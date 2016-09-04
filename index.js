@@ -47,6 +47,9 @@ for(var i=2; i<process.argv.length;i++){
 		}else if(key == '-l' || key == '--logs'){
 			require('./os/nushi/stubbydb/log').writeLogs(true);
 			continue;
+		}else if(key == '--debug'){
+			require('./os/nushi/stubbydb/log').debugLogs(true);
+			continue;
 		}
 
 

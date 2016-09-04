@@ -1,7 +1,6 @@
-var fileutil = require('./util/fileutil');
+var fs = require('fs');
 var util = require('./util/util');
 var path = require('path');
-var deasync = require('deasync');
 
 exports.handle = function(data){
 	var regx = "\\[\\[([^\\]]+)\\]\\]";
@@ -18,11 +17,11 @@ exports.handle = function(data){
 		for (var index in files) {
 			var filePath= path.join(dumpsdir , dir , files[index]);
 			var readFileFlag = false;
-			fileutil.readFromFile(filePath,function(filecontent){
-				contentToreplace += filecontent;
-				readFileFlag = true;
-			});
-			deasync.loopWhile(function(){return !readFileFlag;});
+			try{
+				contentToreplace += fs.readFileSync(filePath, {encoding: 'utf-8'});
+			}catch(err){
+				//skip the error
+			}
 		}
 		data = data.replace(match[0],contentToreplace);
 	}

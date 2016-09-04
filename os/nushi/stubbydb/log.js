@@ -1,6 +1,7 @@
 var color = require('./util/colors').color;
 
 var quiet = true;
+var debug = false;
 var quietLog = true;
 var filelogger = {};
 
@@ -52,6 +53,11 @@ exports.detailInfo = function(msg){
 	quietLog || filelogger.info(msg);
 }
 
+exports.debug = function(msg){
+	quiet || (debug && console.warn(color(msg,'yellow')));
+	quietLog || (debug && filelogger.info(msg));
+}
+
 exports.warn = function(msg){
 	quiet || console.warn(color(msg,'yellow'));
 	quietLog || filelogger.warn(msg);
@@ -64,6 +70,10 @@ exports.error = function(msg){
 
 exports.setVerbose= function(flag){
 	quiet = !flag;
+}
+
+exports.debugLogs= function(flag){
+	debug = flag;
 }
 
 exports.writeLogs= function(flag){
