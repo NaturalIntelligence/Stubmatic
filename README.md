@@ -34,6 +34,11 @@ I was  previously using an open source project to manage stubbed data. However w
 ##Description
 Stubby DB is a npm module. In simple words you can stub the HTTP/HTTPS calls to provide stubbed data. You can make stubbed data service for SOAP or REST calls. Basic functionality is somewhat similar to stubby4j. But it has so many other features. 
 
+<p align="center"><a href="https://youtu.be/7mA4-MXxwgk">
+<img src="http://naturalintelligence.github.io/StubbyDB/assets/img/Stubby%20DB%20Youtube.jpg?raw=true" alt="Sublime's custom image"/>
+</a>
+</p>
+
 ###Features and Basic terminology
 
 To start with stubby db, you need to create **a yaml file** which maps request with response. You may need **response files** as per your need and optional config.json file to ask Stubby DB to use default options defined by you.
