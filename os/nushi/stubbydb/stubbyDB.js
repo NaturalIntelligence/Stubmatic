@@ -36,6 +36,7 @@ function requestResponseHandler(request, response) {
 	var query = url.parse(request.url, true).query;
 	if(query.debug){
 		request.url = request.url.replace('debug=true','');
+		response.setHeader("Content-Type","application/json");
 		if(request.url[request.url.length-1] == '?'){
 			request.url = request.url.substr(0,request.url.length -1);
 		}
