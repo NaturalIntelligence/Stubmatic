@@ -33,8 +33,10 @@ var url = require('url');
 
 function requestResponseHandler(request, response) {
 	var rc = new RequestContext(request);
-	var query = url.parse(request.url, true).query;
-	if(query.debug){
+	var parsedURL = url.parse(request.url, true);
+	request.url = parsedURL.pathname;
+	request.query = parsedURL.query;
+	if(request.query.debug){
 		request.url = request.url.replace('debug=true','');
 		response.setHeader("Content-Type","application/json");
 		if(request.url[request.url.length-1] == '?'){
@@ -71,7 +73,7 @@ function requestResponseHandler(request, response) {
 
 			if(matchedEntry == null){
 				response.statusCode = 404;
-				if(query.debug){
+				if(request.query.debug){
 					response.end(JSON.stringify(rc));
 				}else{
 					response.end("");	
@@ -129,7 +131,7 @@ function requestResponseHandler(request, response) {
 			//Set Response Code
 			response.statusCode = status;
 
-			if(query.debug){
+			if(request.query.debug){
 				response.end(JSON.stringify(rc));
 			}
 			//Latency

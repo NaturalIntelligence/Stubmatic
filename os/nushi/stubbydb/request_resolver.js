@@ -68,10 +68,37 @@ function match(mapped_request, http_request){
 	}	
 
 	if(mapped_request.headers){
+		matched['headers'] = [];
+		matched['headers'][0] = "N/A";
 		for(var header in mapped_request.headers){
-			var match = util.getMatches(http_request.headers[header],'^'+mapped_request.headers[header]+'$');
-			if(match){
-				matched['headers'] = match;
+			var matches = util.getAllMatches(http_request.headers[header],'^'+mapped_request.headers[header]+'$');
+			var match = [];
+			for(var i in matches){
+				match = match.concat(matches[i].slice(0,matches[i].length - 2));
+			}
+			if(match.length > 0){
+				var captured = match.slice(1);
+				if(captured)
+					matched['headers'] = matched['headers'].concat(captured);
+			}else{
+				return;
+			}
+		}
+	}
+
+	if(mapped_request.query){
+		matched['query'] = [];
+		matched['query'][0] = "N/A";
+		for(var key in mapped_request.query){
+			var matches = util.getAllMatches(http_request.query[key],'^'+mapped_request.query[key]+'$');
+			var match = [];
+			for(var i in matches){
+				match = match.concat(matches[i].slice(0,matches[i].length - 2));
+			}
+			if(match.length > 0){
+				var captured = match.slice(1);
+				if(captured)
+					matched['query'] = matched['query'].concat(captured);
 			}else{
 				return;
 			}
