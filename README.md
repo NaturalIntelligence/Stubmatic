@@ -15,16 +15,10 @@ For basic help
 
 	$stubbydb --help
 
-Important links : [Video Tutorial](https://youtu.be/7mA4-MXxwgk), [Wiki](https://github.com/NaturalIntelligence/StubbyDB/wiki), [NPM](https://www.npmjs.com/package/stubby-db), [Demo](https://github.com/NaturalIntelligence/stubby-db-test) application, [issues](https://github.com/NaturalIntelligence/StubbyDB/issues)
+Important links : [Video Tutorial](https://youtu.be/7mA4-MXxwgk), [Wiki](https://github.com/NaturalIntelligence/StubbyDB/wiki), [NPM](https://www.npmjs.com/package/stubby-db), [Demo](https://github.com/NaturalIntelligence/stubby-db-test) application, [issues](https://github.com/NaturalIntelligence/StubbyDB/issues), [changelogs](https://github.com/NaturalIntelligence/StubbyDB/wiki/Changelog)
 
 
 [![Donate to author](https://www.paypalobjects.com/webstatic/en_US/btn/btn_donate_92x26.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KQJAX48SPUKNC)
-
-#Warning
-StubbyDB *3.7.0* onwards there are some changes in markers.
-
-* *URL:link_to_encode* is depricated. Instead, you can use *urlEncode(url)*
-* All dates marker will give date in long format instead of 'yyyy-MM-dd' format. So use *format(TODAY,'yyyy-MM-dd')* to convert into particular format.
 
 ##History
 Developed by a victim.
