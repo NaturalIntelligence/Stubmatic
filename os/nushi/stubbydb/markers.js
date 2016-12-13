@@ -60,27 +60,6 @@ exports.dateMarker2 = {
 	}
 };
 
-exports.urlEncoder = {
-	exp : "URL:(.+)",
-	evaluate : function(match){
-		return encodeURI(match[1]);
-	}
-};
-
-//tariff ID : RANDOM:5
-exports.random = {
-	exp : "RANDOM:([0-9]+)",
-	evaluate : function(match){
-		var N = match[1];
-		var num1 = Math.pow(10, N);
-		var num2 = Math.pow(10, N-1);
-		num1 = num1 - num2;
-		var randomnum = Math.floor(Math.random()*num1) + num2;
-		return randomnum;
-	}
-}
-
-
 //NOW, NOW+N, NOW-N
 exports.jodaDateMarker = {
 	exp : "JODA_TODAY(?:([\\+\\-])([0-9]+))?",

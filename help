@@ -2,7 +2,7 @@ Usage: stubby-db [OPTION]...
 Runs stubbyDB server
 
 ############## Warning ##########
-There is change in markers. Visit home page for more information.
+Deprecated markers have been removed. Use relevant functions instead.
 #################################
 
 Arguments
