@@ -1,6 +1,6 @@
 {
   "name": "stubby-db",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "Provides easiest way to create stubs/simulators",
   "main": "./os/nushi/stubbydb/stubbyDB",
   "scripts": {

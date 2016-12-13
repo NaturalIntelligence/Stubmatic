@@ -36,6 +36,7 @@ function requestResponseHandler(request, response) {
 	var parsedURL = url.parse(request.url, true);
 	request.url = parsedURL.pathname;
 	request.query = parsedURL.query;
+
 	if(request.query.debug){
 		request.url = request.url.replace('debug=true','');
 		response.setHeader("Content-Type","application/json");
@@ -111,7 +112,7 @@ function requestResponseHandler(request, response) {
 
 					status =  dataFile.status;
 					dataFile = dataFile.name;
-					console.log(dataFile.name);
+					logger.info(dataFile.name);
 				}
 				
 				logger.info('Reading from file: ' + dataFile);
@@ -133,8 +134,10 @@ function requestResponseHandler(request, response) {
 
 			if(request.query.debug){
 				response.end(JSON.stringify(rc));
+				return;
 			}
 			//Latency
+			logger.debug("RequestContext: " + JSON.stringify(rc));
 			setTimeout(function(){
 				sendResponse(response,data,sendAsAttachment,request.headers['accept-encoding']);	
 				logger.debug(rc.getTransactionId() + " after sendResponse : " + rc.howLong() + " ms");
