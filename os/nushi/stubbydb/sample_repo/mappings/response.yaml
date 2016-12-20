@@ -1,6 +1,6 @@
 -  request:
       #method: POST
-      url: /hellonushi
+      url: /hello
       #post: password=([a-zA-Z0-9]+)
       #headers:
       #      custom: (\w)

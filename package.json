@@ -1,5 +1,6 @@
 {
   "name": "stubby-db",
+  "preferGlobal": true,
   "version": "4.2.1",
   "description": "Provides easiest way to create stubs/simulators",
   "main": "./os/nushi/stubbydb/stubbyDB",
@@ -29,9 +30,7 @@
   },
   "homepage": "https://github.com/NaturalIntelligence/StubbyDB",
   "keywords": [
-    "dumps",
     "skeleton",
-    "db",
     "stubby",
     "stub",
     "stubbydb",
@@ -39,15 +38,11 @@
     "restful",
     "REST",
     "SOAP",
-    "dbset",
-    "stubby4j",
-    "markers",
-    "colors",
     "mock",
+    "http",
     "https",
     "ssl",
     "gzip",
-    "expression",
     "simulator"
   ]
 }

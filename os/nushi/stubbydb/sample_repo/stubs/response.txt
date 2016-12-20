@@ -10,7 +10,6 @@ You can use captured request part to select a file dynamically or to serve dynam
 
 < % url.2 %> < % post.1 %>
 
-
 Or use markers to show today's date: { {TODAY}} and some other date of next year { {TODAY+1y+2m-1d}}
 
 You can format it as well
@@ -23,3 +22,4 @@ Show random numbers:
 { {random(5)}}
 { {random(4,'alpha_num')}}-{{random(4,'alpha_num')}}-{{random(4,'alpha_num')}}-{{random(4,'alpha_num')}}
 
+Check http://naturalintelligence.github.io/StubbyDB/ for more detail
