@@ -16,8 +16,59 @@ Important links : [Video Tutorial](https://youtu.be/7mA4-MXxwgk), [Wiki](https:/
 To install stubmatic, you need to install [nodejs](https://nodejs.org/en/download/) and npm first. It is recommanded to be on latest version of both. npm is bundeled with nodejs. Now follow above commands to install stubmatic and to set up a repo.
 
 ## How to start
-Stubmatic works on request response mappings specified in a yaml file. A mapping can serve the response contents from body or from a file. 
+Stubmatic works on request response mappings specified in a yaml file. Response contents can be read from *body* or *file* attribute of a maping. 
 
-When a request reache to stubmatic server, it matches the request against all mappings. Whichever mapping matches first, will be used to serve the response. A complete response can be built with multiple files. It can also have some placeholder to show dynamic data, like date, or some random number or some part from request itself. Stubmatic first process and build complete response then respond back to any HTTP(s) request.
+```yaml
+-  request:
+      url: /stubs/(admin|staff|customer|security)/([0-9]+)/2
+
+   response:
+      body: >
+        multiple line response
+        another line
+```
+When a request reaches to stubmatic server, it matches the request against all mappings. Whichever mapping matches first(top to bottom), will be used to serve the response. A complete response can be built with multiple files. It can also have some placeholder to show dynamic data, like date, or some random number or some part from request itself. Stubmatic first process and build complete response then respond back to any HTTP(s) request.
 
 Using regular expression, single mapping can be used to match multiple requests and serve response from different files.
+
+#### Sample SOAP request mapping
+```yaml
+-  request:
+     method: POST
+     url: /soap-simulator/services/ServiceName
+     post: actionName[\s\S]*mobile.([0-9]+)
+  response:
+     headers:
+           content-type: text/xml
+     strategy: "first-found"
+     files: ["stubs/<% post.1 %>/response.xml","stubs/ServiceName/actionName/default.xml"]
+```
+#### Sample REST request mapping
+```yaml
+-  request:
+     method: GET
+     url: /rest-simulator/services/ServiceName/actionName/([0-9]+)
+  response:
+     headers:
+           content-type: text/xml
+     strategy: "first-found"
+     files: ["stubs/<% url.1 %>/response.xml","stubs/ServiceName/actionName/default.xml"]
+```
+To make the response dynamic, stubmatic comes with various features
+
+* **Strategy**: it helps to pick one file to serve the response.
+* **Regular Expressions**: You can use RE to match a request, capture some part of the request, to decide response file at runtime, to change contents of response at runtime etc. You can capture request part from URL, request body, headers, and query parameters.
+* **Expressions**: Stubmatic has support for inbuilt functions and markers to display date, random number etc.
+* **Dumps**: You can devide the response from multiple files to keep it simplified. And join them at runtime using dumps.
+* **DB sets**: Instead of creating multiple response files for each request, you can create *response skeleton*. Later you can fill data in this skeleton from dumps and data tables (DB sets).
+* **Latency**: You can set fix or random delay to serve the response
+* **HTTPS**: It supports HTTP and HTTPS both. You can set up 1 way and 2 way SSL hanshaking.
+* **Attachments**: You can write mapping to response a file.
+* **Compression**: If accept-encoding header is set to deflate or gzip then Stubmatic serves compressed response.
+* **Configuration**: If configuration file is missing, Stubmatic can build the response on the basis of directory structure.
+* **Other**: There are also many other small features, like set response code, response headers, logging, debugging etc.
+
+#### Other highlitghs
+* Stubmatic consumes very less memory and CPU
+* It is performance ready and being used by many organizations
+* No bug reported yet (from Apr 2016 to till date)
