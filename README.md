@@ -12,3 +12,12 @@ A stub server to mock behaviour of HTTP(s) / REST / SOAP services [<img align="r
 
 Important links : [Video Tutorial](https://youtu.be/7mA4-MXxwgk), [Wiki](https://github.com/NaturalIntelligence/StubbyDB/wiki), [NPM](https://www.npmjs.com/package/stubby-db), [Demo](https://github.com/NaturalIntelligence/stubby-db-test) application, [issues](https://github.com/NaturalIntelligence/StubbyDB/issues), [changelogs](https://github.com/NaturalIntelligence/StubbyDB/wiki/Changelog)
 
+## Configuration
+To install stubmatic, you need to install [nodejs](https://nodejs.org/en/download/) and npm first. It is recommanded to be on latest version of both. npm is bundeled with nodejs. Now follow above commands to install stubmatic and to set up a repo.
+
+## How to start
+Stubmatic works on request response mappings specified in a yaml file. A mapping can serve the response contents from body or from a file. 
+
+When a request reache to stubmatic server, it matches the request against all mappings. Whichever mapping matches first, will be used to serve the response. A complete response can be built with multiple files. It can also have some placeholder to show dynamic data, like date, or some random number or some part from request itself. Stubmatic first process and build complete response then respond back to any HTTP(s) request.
+
+Using regular expression, single mapping can be used to match multiple requests and serve response from different files.
