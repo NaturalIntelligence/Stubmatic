@@ -1,0 +1,48 @@
+{
+  "name": "stubby-db",
+  "preferGlobal": true,
+  "version": "4.2.1",
+  "description": "Provides easiest way to create stubs/simulators",
+  "main": "./os/nushi/stubbydb/stubbyDB",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Amit Gupta (https://github.com/amitguptagwl)",
+  "dependencies": {
+    "deepmerge": "^0.2.10",
+    "hashes": "^0.1.3",
+    "js-joda": "^1.1.11",
+    "line-reader": "^0.4.0",
+    "winston": "^2.2.0",
+    "yamljs": "^0.2.6"
+  },
+  "bin": {
+    "stubbydb": "index.js",
+    "stubby-db": "index.js"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NaturalIntelligence/StubbyDB.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NaturalIntelligence/StubbyDB/issues"
+  },
+  "homepage": "https://github.com/NaturalIntelligence/StubbyDB",
+  "keywords": [
+    "skeleton",
+    "stubby",
+    "stub",
+    "stubbydb",
+    "soap",
+    "restful",
+    "REST",
+    "SOAP",
+    "mock",
+    "http",
+    "https",
+    "ssl",
+    "gzip",
+    "simulator"
+  ]
+}

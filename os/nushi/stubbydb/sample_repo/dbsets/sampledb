@@ -1,0 +1,2 @@
+key-header	|name 		| date			| includes
+somekey		| Amit		| {{TODAY}}		| file1,file2

@@ -1,0 +1,24 @@
+{
+  "dbsets": "dbsets/",
+  "mappings": {
+    "default": {
+      "request": {
+        "method": "GET"
+      },
+      "response": {
+        "strategy": "first-found",
+        "latency": 0,
+        "status": 200
+      }
+    },
+    "requests": ["mappings/response.yaml"]
+  },
+  "server": {
+    "port": 7777
+  },
+  "stubs": "stubs/",
+  "logs": {
+    "path": "logs/"
+  },
+  "dumps": "dumps/"
+}
