@@ -156,7 +156,7 @@ function requestResponseHandler(request, response) {
 	  });
 }
 
-function stubbyDB(){
+function stubmatic(){
 
 	if(config.server.securePort){
 		
@@ -245,4 +245,4 @@ function sendResponse(response,data,sendAsAttachment,encodingType){
 	}
 }
 
-module.exports = stubbyDB;
+module.exports = stubmatic;

@@ -32,5 +32,5 @@ exports.init = function(dest){
       process.exit(1);
     }
   });
-  console.log('StubbyDB repo is ready for use.');
+  console.log('stubmatic repo is ready for use.');
 }

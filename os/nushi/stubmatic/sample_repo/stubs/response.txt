@@ -22,4 +22,4 @@ Show random numbers:
 { {random(5)}}
 { {random(4,'alpha_num')}}-{{random(4,'alpha_num')}}-{{random(4,'alpha_num')}}-{{random(4,'alpha_num')}}
 
-Check http://naturalintelligence.github.io/StubbyDB/ for more detail
+Check http://naturalintelligence.github.io/stubmatic/ for more detail

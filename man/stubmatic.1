@@ -1,0 +1,41 @@
+Usage: stubmatic [OPTION]... 
+Runs stubmatic server
+
+Example:
+
+stubmatic [--version] [-v|--verbose [--debug]] [-l|--logs] [-d <repo location>] [-p|--port <port number>] [-P <port number>] [-c|--config <config file>]
+
+
+Arguments
+  -p, --port                 http port number (default is 7777)
+  -P                         https port number
+  --host                     Host name
+  -m, --mapping		     file path of yaml mapping file (response.yaml)
+  -s, --stub                 path for stubs only if mapping file has relative path and they are not in current folder
+  -c, --config               config file name. It must be json file.
+  -h, --help                 display on screen help
+  -d                         absolute or relative location of repo. '.' is default.
+  -v, --verbose              verbose; to enable on screen logging
+  -l, --logs                 To enable file based logging
+  --version                  Show currently installed version
+  --debug                    To debug request calls (use with -v option)
+
+
+Considerations:
+if -p, -m, -s options are given then relevant properties from config file would be ignored;
+Precedence of loding config is -p,-m,-s > -c > -d > default
+
+No option:
+if "stubmatic" runs without any option then it builds configuration from config.json in current directory otherwise from current directory structure on default port 7777.
+
+
+Read the wiki   : https://github.com/NaturalIntelligence/stubmatic
+Report a bug    : https://github.com/NaturalIntelligence/stubmatic/issues
+
+Example:
+------------------------
+$stubmatic -p 9999
+$stubmatic -d project-directory-path -c config.json
+$stubmatic -d project-directory-path
+$stubmatic -c config.json
+

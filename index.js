@@ -3,7 +3,7 @@
 if(process.argv[2] == "--help" || process.argv[2] == "-h"){
 	console.log();
 	var fs = require('fs');
-	console.log(fs.readFileSync(__dirname + "/help", 'utf-8'));
+	console.log(fs.readFileSync(__dirname + "/man/stubmatic.1", 'utf-8'));
     process.exit(1);
 }
 
@@ -42,13 +42,13 @@ for(var i=2; i<process.argv.length;i++){
 				global.basePath = path.join(process.cwd(),process.argv[i+1]);
 			}
 		}else if(key == '-v' || key == '--verbose'){
-			require('./os/nushi/stubbydb/log').setVerbose(true);
+			require('./os/nushi/stubmatic/log').setVerbose(true);
 			continue;
 		}else if(key == '-l' || key == '--logs'){
-			require('./os/nushi/stubbydb/log').writeLogs(true);
+			require('./os/nushi/stubmatic/log').writeLogs(true);
 			continue;
 		}else if(key == '--debug'){
-			require('./os/nushi/stubbydb/log').debugLogs(true);
+			require('./os/nushi/stubmatic/log').debugLogs(true);
 			continue;
 		}
 
@@ -66,7 +66,7 @@ for(var i=2; i<process.argv.length;i++){
 			//valid keys
 		}else{
 			console.log("Invalid options");
-			console.log("Try 'stubbydb --help' for more information.*/")
+			console.log("Try 'stubmatic --help' for more information.*/")
 			process.exit(1);
 		}
 		options[key] = process.argv[++i];
@@ -74,14 +74,11 @@ for(var i=2; i<process.argv.length;i++){
 }
 
 
-console.log("############## Warning ##########");
-console.log("There is change in markers. Visit home page for more information.");
-console.log("#################################");
-var configBuilder = require("./os/nushi/stubbydb/configbuilder");
+var configBuilder = require("./os/nushi/stubmatic/configbuilder");
 configBuilder.buildConfig(options,process.argv.length);
 var config = configBuilder.getConfig();
 console.log("Configuration: " + JSON.stringify(config));
 
 
-var stubbyDB = require('./os/nushi/stubbydb/stubbyDB');
-var server = new stubbyDB();
+var stubmatic = require('./os/nushi/stubmatic/stubmatic');
+var server = new stubmatic();
