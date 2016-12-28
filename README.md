@@ -1,3 +1,8 @@
+
+As the name of this project is a bit confusing, I am planning to rename the project to "Stubmatic"(suggested by my friend [Nilesh](https://github.com/nileshmiskin)). 
+
+**Note: This project has been renamed to [Stubmatic](https://github.com/NaturalIntelligence/Stubmatic). So any change after 4.2.0 will be happening on Stubmatic only. Movement is under progress**
+
 # StubbyDB
 
 [![NPM](https://nodei.co/npm/stubby-db.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/stubby-db/)
