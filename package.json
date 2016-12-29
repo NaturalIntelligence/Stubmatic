@@ -1,7 +1,7 @@
 {
   "name": "stubmatic",
   "preferGlobal": true,
-  "version": "4.2.1",
+  "version": "4.2.2",
   "description": "A stub server to mock behaviour of HTTP(s) / REST / SOAP services",
   "man":"./man/stubmatic.1",
   "scripts": {
