@@ -121,17 +121,17 @@
             </div>
             <div class="row">
                 <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">
+                    <a href="#exampleModal1" class="portfolio-link" data-toggle="modal">
                         <div class="example_box v-align" style=" background-color: #18bc9c;"> Create stubs for SOAP webservices and the use of file strategies</div>
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
+                    <a href="#exampleModal2" class="portfolio-link" data-toggle="modal">
                         <div class="example_box v-align" style=" background-color: #334d5c;"> <span>Create stubs for REST webservices with delay in response</span></div>
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
+                    <a href="#exampleModal3" class="portfolio-link" data-toggle="modal">
                         <div class="example_box v-align" style=" background-color: #1037b5;"> Send a file in response</div>
                     </a>
                 </div>
@@ -139,17 +139,17 @@
             <div class="row">&nbsp;</div>
             <div class="row">
                 <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
+                    <a href="#exampleModal4" class="portfolio-link" data-toggle="modal">
                         <div class="example_box v-align" style=" background-color: #130f0f;"> <span>Capture data from request and build dynamic response</span></div>
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                    <a href="#portfolioModal5" class="portfolio-link" data-toggle="modal">
+                    <a href="#exampleModal5" class="portfolio-link" data-toggle="modal">
                         <div class="example_box v-align" style=" background-color: #fa9f42;"> <span>Use of DB sets and expressions</span></div>
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
-                <a href="#portfolioModal6" class="portfolio-link" data-toggle="modal">
+                <a href="#exampleModal6" class="portfolio-link" data-toggle="modal">
                     <div class="example_box v-align" style=" background-color: #1fa4b6;"> <span>Use of dumps with db sets</span></div>
                     </a>
                 </div>
@@ -270,7 +270,7 @@
     </div>
 
     <!-- Portfolio Modals -->
-    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="portfolio-modal modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
                 <div class="lr">
@@ -286,7 +286,7 @@
                             <div class="empty"></div>
                             <p>Writing stub for a SOAP webservice is pretty much same as writing stub for a POST HTTP call.</p>
                             <p>SOAP requests are in XML format and arrive to server as a part of HTTP request body. So if you know how to validate request body, you can easily write stubs for any SOAP webservice.</p>
-                            <p>Let's take an example</p>
+                            <p>Let's take an <strong>example</strong></p>
                             <p>Suppose the URL for a SOAP webservice is: <code>"http://localhost:7777/services/Userdetails"</code>. And this is the sample request;</p>
 <pre class="code xml">
 &lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sub="http://example.com/servicename"&gt;
@@ -298,12 +298,16 @@
    &lt;/soapenv:Body&gt;
 &lt;/soapenv:Envelope&gt;
 </pre>
-
-<p>Let's create the repo
+<div class="empty"></div>
+<p><i class="fa fa-arrow-right"></i> Let's create the repo
     <br/><kbd>$stubmatic init soap-simulator</kbd>
     <br/><kbd>$cd soap-simulator</kbd>
-    <br/><kbd>$vi response.xml</kbd>
-    <br/> Write some sample XML response.
+    
+</p>
+<div class="empty"></div>
+    <p><i class="fa fa-arrow-right"></i> Write some sample XML response. <kbd>$vi stubs/response.xml</kbd>
+    </p>
+
     <pre class="code xml">
 &lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mcd="http://example.com/userdetails"&gt;
    &lt;soapenv:Header xmlns:cor="http://example.com/coredata_1"&gt;
@@ -317,24 +321,94 @@
    &lt;/soapenv:Body&gt;
 &lt;/soapenv:Envelope&gt;
     </pre>
-    <br/><kbd>$vi mappings.yaml</kbd>
-    <br/><strong>Mapping</strong>
+    <div class="empty"></div>
+<p><i class="fa fa-arrow-right"></i> Add the mapping <kbd>$vi mappings/response.yaml</kbd>
+</p>
     <pre class="code yaml">
 -  request:
      method: POST
      url: /services/Userdetails
      post: userID>7642908761347
-  response:
+   response:
      headers:
            content-type: text/xml
      file: "response.xml"    
     </pre>
-    Above example will match the request and will serve the response
-    <ol>
-        <li></li>
-        <li></li>
-    </ol>
-</p>
+<small>* If you see any error or red entry on screen <code class="bg-danger">Problem in loading mappings/response.yaml</code>, it means there is some syntatical or space/indentation mistake.</small>
+<div class="empty"></div>
+<p><i class="fa fa-arrow-right"></i> Now Start the stubmatic server</p>
+<pre class="code bash">
+$stubmatic -v
+Configuration: {"mappings":{"default":{"request":{"method":"GET"},"response":{"strategy":"first-found","latency":0,"status":200}},"requests":["mappings/response.yaml"]},"server":{"port":7777,"host":"0.0.0.0"},"dbsets":"dbsets/","stubs":"stubs/","logs":{"path":"logs/"},"dumps":"dumps/"}
+Loading 2 mappings from mappings/response.yaml
+Loading DB from sampledb
+Server listening on: http://0.0.0.0:7777
+</pre>
+<small>*<code>-v</code> is optional</small>
+
+<div class="empty"></div>
+<p><i class="fa fa-arrow-right"></i> Test it</p>
+You'll see following on the console.
+<pre class="code bash">
+<span class="text-success">97dda9950h POST: /services/Userdetails</span>
+Reading from file: stubs/response.xml
+<span class="text-success">97dda9950h Response served in 144 ms with Status Code 200</span>
+</pre>
+
+<h3>Improvement</h3>
+<h4>1. Capture some part of request</h4>
+<p>For simplification we have mapped only one request. We can add as many as we want. We can also use regular expressions. We can also specify the SOAP action in the mapping if "userId" can be repeated in multiple SOAP requests</p>
+<pre class="code yaml">
+-  request:
+     method: POST
+     url: /services/Userdetails
+     post: getUserDetail[\s\S]*userID.([0-9]+)
+   response:
+     headers:
+           content-type: text/xml
+     file: "response.xml"
+</pre>
+
+<p>Change the response to display userId same as we receive in request</p>
+    <pre class="code xml">
+&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mcd="http://example.com/userdetails"&gt;
+   &lt;soapenv:Header xmlns:cor="http://example.com/coredata_1"&gt;
+      &lt;cor:TransactionID&gt;7b2c7bec-1412-44a3-a600-b966a4ba05b7&lt;/cor:TransactionID&gt;
+   &lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+        &lt;mcd:UserDetails&gt;
+            &lt;mcd:UserId&gt;&lt;% post.1 %&gt;&lt;/mcd:UserId&gt;
+            &lt;mcd:UserName&gt;Amit Gupta&lt;/mcd:UserName&gt;
+        &lt;/mcd:UserDetails&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+    </pre>
+<p> <small>You can definetely select some part of URL, Headers parameter, and query parameter as well using Regular Expression</small></p>
+
+<h4>2. File selection</h4>
+<p>You can use RE to select filename dynamically.</p>
+<pre class="code yaml">
+-  request:
+     method: POST
+     url: /services/Userdetails
+     post: getUserDetail[\s\S]*userID.([0-9]+)
+   response:
+     headers:
+           content-type: text/xml
+     file: "<% post.1 %>-response.xml"
+</pre>
+<p>You can also use file <a href="https://github.com/NaturalIntelligence/Stubmatic/wiki/04.0-Response-Resolution-Strategy">strategy</a> to server response from specific file.</p>
+<pre class="code yaml">
+-  request:
+     method: POST
+     url: /services/Userdetails
+     post: getUserDetail[\s\S]*userID.([0-9]+)
+   response:
+     headers:
+           content-type: text/xml
+     strategy: first-found
+     files: ["<% post.1 %>-response.xml","fault.xml"]
+</pre>
                             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                         </div>
                     </div>
@@ -342,7 +416,7 @@
             </div>
         </div>
     </div>
-    <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="portfolio-modal modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
                 <div class="lr">
@@ -365,7 +439,7 @@
             </div>
         </div>
     </div>
-    <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="portfolio-modal modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
                 <div class="lr">
@@ -388,7 +462,7 @@
             </div>
         </div>
     </div>
-    <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="portfolio-modal modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
                 <div class="lr">
@@ -411,7 +485,7 @@
             </div>
         </div>
     </div>
-    <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="portfolio-modal modal fade" id="exampleModal5" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
                 <div class="lr">
@@ -434,7 +508,7 @@
             </div>
         </div>
     </div>
-    <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="portfolio-modal modal fade" id="exampleModal6" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
                 <div class="lr">
