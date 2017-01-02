@@ -5,7 +5,7 @@ var fs = require('fs');
 var copyRecursiveSync = function(src, dest, cb) {
   var exists = fs.existsSync(src);
   var stats = exists && fs.statSync(src);
-  //var isDirectory = exists && stats.isDirectory();
+  var isDirectory = exists && stats.isDirectory();
   if(stats.isDirectory()) {
     fs.mkdirSync(dest);
     fs.readdirSync(src).forEach(function(childItemName) {
@@ -24,7 +24,7 @@ function copyFile(source, target) {
 }
 
 exports.init = function(dest){
-	var srcPath = path.join(__dirname, '/os/nushi/stubbydb/sample_repo/'); 
+	var srcPath = path.join(__dirname, '/os/nushi/stubmatic/sample_repo/'); 
 	var destPath = path.join(process.cwd(), dest) ;
 	copyRecursiveSync(srcPath, destPath, function(err){
     if(err) {
