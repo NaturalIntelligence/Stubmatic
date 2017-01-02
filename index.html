@@ -122,7 +122,7 @@
             <div class="row">
                 <div class="col-sm-4 portfolio-item">
                     <a href="#exampleModal1" class="portfolio-link" data-toggle="modal">
-                        <div class="example_box v-align" style=" background-color: #18bc9c;"> Create stubs for SOAP webservices and the use of file strategies</div>
+                        <div class="example_box v-align" style=" background-color: #18bc9c;"> Set up project, create stubs for SOAP webservices, use of file strategies</div>
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
@@ -140,7 +140,7 @@
             <div class="row">
                 <div class="col-sm-4 portfolio-item">
                     <a href="#exampleModal4" class="portfolio-link" data-toggle="modal">
-                        <div class="example_box v-align" style=" background-color: #130f0f;"> <span>Capture data from request and build dynamic response</span></div>
+                        <div class="example_box v-align" style=" background-color: #130f0f;"> <span>Error response</span></div>
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
@@ -426,12 +426,38 @@ Reading from file: stubs/response.xml
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
+                    <div class="col-lg-10 col-lg-offset-1">
                         <div class="modal-body">
                             <h2>Instructions</h2>
                             <div class="empty"></div>
-                            <p>I'm rewriting this section with better explanation. Please revisit in few days.
-                            </p>
+                            <p>Check the first example to setup the project. Here I'm explaining how to map REST requests.</p>
+                            <p>Mapping</p>
+<pre class="code yaml">
+-  request:
+     url: /services/Userdetails/([0-9]+)
+   response:
+     headers:
+           content-type: application/json
+     file: "response.json"
+</pre>
+* create response.json <kbd>$vi stubs/response.json</kbd>
+<p>Hit <code>http://localhost:7777/services/Userdetails/7642908761347</code> from your browser or from some rest client.</p>
+
+<p>
+<strong>Add delay</strong><br/>
+Sometimes we want to serve the response with delay to simulate the network delay. You can give fix delay or random delay.
+</p>
+<pre class="code yaml">
+-  request:
+     url: /services/Userdetails/([0-9]+)
+   response:
+     latency: 3000
+     #latency: [1000,3000]
+     headers:
+           content-type: application/json
+     file: "response.json"
+</pre>
+
                             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                         </div>
                     </div>
@@ -449,12 +475,21 @@ Reading from file: stubs/response.xml
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
+                    <div class="col-lg-10 col-lg-offset-1">
                         <div class="modal-body">
                             <h2>Instructions</h2>
                             <div class="empty"></div>
-                            <p>I'm rewriting this section with better explanation. Please revisit in few days.
-                            </p>
+                            <p>Check the first example to setup the project. Here I'm explaining how to map a request to send HTTP response as a file.</p>
+                            <p>Mapping</p>
+<pre class="code yaml">
+-  request:
+     url: /services/Userdetails/([0-9]+)/resume
+   response:
+     file: <% post.1 %>-resume.pdf
+     contentType: application/pdf
+</pre>
+* don't forget to place pdf file in "stubs" folder
+<br/>
                             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                         </div>
                     </div>
@@ -472,12 +507,21 @@ Reading from file: stubs/response.xml
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
+                    <div class="col-lg-10 col-lg-offset-1">
                         <div class="modal-body">
                             <h2>Instructions</h2>
                             <div class="empty"></div>
-                            <p>I'm rewriting this section with better explanation. Please revisit in few days.
-                            </p>
+                            <p>Check the first example to setup the project. Here I'm explaining how to serve error response.</p>
+<p>We have already seen how to serve default response. Now see how to change it's response code.</p>
+<pre class="code yaml">
+-  request:
+     url: /services/Userdetails/([0-9]+)
+   response:
+     status: 200
+     files: ["<% post.1 %>-response.json", {"name":"fault.json","status":500}]
+</pre>
+* You can also use <code>random</code> file strategy to send error response randomly.
+<br/>
                             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                         </div>
                     </div>
@@ -495,7 +539,7 @@ Reading from file: stubs/response.xml
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
+                    <div class="col-lg-10 col-lg-offset-1">
                         <div class="modal-body">
                             <h2>Instructions</h2>
                             <div class="empty"></div>
@@ -518,7 +562,7 @@ Reading from file: stubs/response.xml
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
+                    <div class="col-lg-10 col-lg-offset-1">
                         <div class="modal-body">
                             <h2>Instructions</h2>
                             <div class="empty"></div>
