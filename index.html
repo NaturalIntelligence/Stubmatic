@@ -21,6 +21,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/atom-one-dark.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -279,12 +280,61 @@
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2">
+                    <div class="col-lg-10 col-lg-offset-1">
                         <div class="modal-body">
                             <h2>Instructions</h2>
                             <div class="empty"></div>
-                            <p>I'm rewriting this section with better explanation. Please revisit in few days.
-                            </p>
+                            <p>Writing stub for a SOAP webservice is pretty much same as writing stub for a POST HTTP call.</p>
+                            <p>SOAP requests are in XML format and arrive to server as a part of HTTP request body. So if you know how to validate request body, you can easily write stubs for any SOAP webservice.</p>
+                            <p>Let's take an example</p>
+                            <p>Suppose the URL for a SOAP webservice is: <code>"http://localhost:7777/services/Userdetails"</code>. And this is the sample request;</p>
+<pre class="code xml">
+&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:sub="http://example.com/servicename"&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;sub:getUserDetail&gt;
+         &lt;sub:userID&gt;7642908761347&lt;/sub:userID&gt;
+      &lt;/sub:getuserDetail&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre>
+
+<p>Let's create the repo
+    <br/><kbd>$stubmatic init soap-simulator</kbd>
+    <br/><kbd>$cd soap-simulator</kbd>
+    <br/><kbd>$vi response.xml</kbd>
+    <br/> Write some sample XML response.
+    <pre class="code xml">
+&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mcd="http://example.com/userdetails"&gt;
+   &lt;soapenv:Header xmlns:cor="http://example.com/coredata_1"&gt;
+      &lt;cor:TransactionID&gt;7b2c7bec-1412-44a3-a600-b966a4ba05b7&lt;/cor:TransactionID&gt;
+   &lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+        &lt;mcd:UserDetails&gt;
+            &lt;mcd:UserId&gt;7642908761347&lt;/mcd:UserId&gt;
+            &lt;mcd:UserName&gt;Amit Gupta&lt;/mcd:UserName&gt;
+        &lt;/mcd:UserDetails&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+    </pre>
+    <br/><kbd>$vi mappings.yaml</kbd>
+    <br/><strong>Mapping</strong>
+    <pre class="code yaml">
+-  request:
+     method: POST
+     url: /services/Userdetails
+     post: userID>7642908761347
+  response:
+     headers:
+           content-type: text/xml
+     file: "response.xml"    
+    </pre>
+    Above example will match the request and will serve the response
+    <ol>
+        <li></li>
+        <li></li>
+    </ol>
+</p>
                             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                         </div>
                     </div>
@@ -436,14 +486,27 @@
 
     <!-- Plugin JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-
+    <script  src="js/highlight.pack.js" ></script>
     <!-- Theme JavaScript -->
     <script src="js/freelancer.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){
             $('.example_box').fitText(0.6, { minFontSize: '20px', maxFontSize: '40px' });
+            hljs.configure({   // optionally configure hljs
+              languages: ["diff", "javascript", "css", "apache", "ini",
+               "bash", "objectivec", "python", "php", "xml", "coffeescript",
+                "cs", "http", "markdown", "ruby", "yaml", "perl", "json",
+                 "nginx", "makefile", "sql", "cpp"],
+              useBR: false
+            });
+            $('pre.code').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
+            //hljs.initHighlightingOnLoad();
         });
+
+
     </script>
 
 </body>
