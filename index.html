@@ -145,12 +145,12 @@
                 </div>
                 <div class="col-sm-4 portfolio-item">
                     <a href="#exampleModal5" class="portfolio-link" data-toggle="modal">
-                        <div class="example_box v-align" style=" background-color: #fa9f42;"> <span>Use of DB sets and expressions</span></div>
+                        <div class="example_box v-align" style=" background-color: #fa9f42;"> <span>Make Response skeleton using dbsets and expressions </span></div>
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
                 <a href="#exampleModal6" class="portfolio-link" data-toggle="modal">
-                    <div class="example_box v-align" style=" background-color: #1fa4b6;"> <span>Use of dumps with db sets</span></div>
+                    <div class="example_box v-align" style=" background-color: #1fa4b6;"> <span>Construct response from small chunks/dumps</span></div>
                     </a>
                 </div>
             </div>
@@ -543,8 +543,93 @@ Sometimes we want to serve the response with delay to simulate the network delay
                         <div class="modal-body">
                             <h2>Instructions</h2>
                             <div class="empty"></div>
-                            <p>I'm rewriting this section with better explanation. Please revisit in few days.
-                            </p>
+                            <p>Check the first example to setup the project. Here I'm explaining how to use DB sets to create response skeleton.</p>
+<p>Let's continue with 1st example where we were showing same name for different user</p>
+<pre class="code yaml">
+-  request:
+     method: POST
+     url: /services/Userdetails
+     post: getUserDetail[\s\S]*userID.([0-9]+)
+   response:
+     headers:
+           content-type: text/xml
+     file: "response.xml"
+</pre>
+
+<p>Response File</p>
+    <pre class="code xml">
+&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mcd="http://example.com/userdetails"&gt;
+   &lt;soapenv:Header xmlns:cor="http://example.com/coredata_1"&gt;
+      &lt;cor:TransactionID&gt;7b2c7bec-1412-44a3-a600-b966a4ba05b7&lt;/cor:TransactionID&gt;
+   &lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+        &lt;mcd:UserDetails&gt;
+            &lt;mcd:UserId&gt;&lt;% post.1 %&gt;&lt;/mcd:UserId&gt;
+            &lt;mcd:UserName&gt;Amit Gupta&lt;/mcd:UserName&gt;
+        &lt;/mcd:UserDetails&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+    </pre>
+<p>Now what I want is to display different information for each user id.</p>
+    <pre class="code xml">
+&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mcd="http://example.com/userdetails"&gt;
+   &lt;soapenv:Header xmlns:cor="http://example.com/coredata_1"&gt;
+      &lt;cor:TransactionID&gt;7b2c7bec-1412-44a3-a600-b966a4ba05b7&lt;/cor:TransactionID&gt;
+   &lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+        &lt;mcd:UserDetails&gt;
+            &lt;mcd:UserId&gt;&lt;% post.1 %&gt;&lt;/mcd:UserId&gt;
+            &lt;mcd:UserName&gt;##name##&lt;/mcd:UserName&gt;
+            &lt;mcd:UserDob&gt;##dob##&lt;/mcd:UserDob&gt;
+        &lt;/mcd:UserDetails&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+    </pre>
+<p>To do this, let's create a db set(a text file which looks like a table) <kbd>$vi dbsets/userdetails</kbd></p>
+<pre class="code">
+id   | name      |  dob                                  | scenario
+12345| Amit Gupta| {{formatDate(TODAY-30y,'dd-MM-YYYY')}}| > 30 years
+23451| Deepika   | {{formatDate(TODAY-26y,'dd-MM-YYYY')}}| < 30 years 
+</pre> 
+* Scenario is optional last column, just to remember why I did the entry<br/>
+* values in dob can be simple values. But I'm using <a href="https://github.com/NaturalIntelligence/Stubmatic/wiki/06.0-Expressions"> expressions</a> to make it dynamic.<br/>
+
+<p><strong>Final step</strong>: Link request mapping with dbset</p>
+<pre class="code yaml">
+-  request:
+     method: POST
+     url: /services/Userdetails
+     post: getUserDetail[\s\S]*userID.([0-9]+)
+
+   dbset:
+      db: userdetails
+      key: <% post.1 %>
+
+   response:
+     headers:
+           content-type: text/xml
+     file: "response.xml"
+</pre>
+
+* Make a SOAP request with user id "12345".
+
+<p>Response</p>
+<pre class="code xml">
+&lt;soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mcd="http://example.com/userdetails"&gt;
+   &lt;soapenv:Header xmlns:cor="http://example.com/coredata_1"&gt;
+      &lt;cor:TransactionID&gt;7b2c7bec-1412-44a3-a600-b966a4ba05b7&lt;/cor:TransactionID&gt;
+   &lt;/soapenv:Header&gt;
+   &lt;soapenv:Body&gt;
+      &lt;mcd:UserDetails&gt;
+         &lt;mcd:UserId&gt;12345&lt;/mcd:UserId&gt;
+         &lt;mcd:UserName&gt;Amit Gupta&lt;/mcd:UserName&gt;
+         &lt;mcd:UserDob&gt;02-01-1987&lt;/mcd:UserDob&gt;
+      &lt;/mcd:UserDetails&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;
+</pre>
+
+<p>Check <a href="https://github.com/NaturalIntelligence/Stubmatic/wiki/08.0-DB-Sets">another example</a> in detail.</p>
                             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                         </div>
                     </div>
@@ -566,8 +651,9 @@ Sometimes we want to serve the response with delay to simulate the network delay
                         <div class="modal-body">
                             <h2>Instructions</h2>
                             <div class="empty"></div>
-                            <p>I'm rewriting this section with better explanation. Please revisit in few days.
-                            </p>
+                            <p>Check the first example to setup the project. Here I'm explaining how to use Dumps to break large response file into chunks called dumps.</p>
+                            <p>Dumps can be resued in multiple response file to maintain the consistency. And they can also be included conditionally using db sets.</p>
+                            <p>For example: Including project 1,2,3 for one user while project 2,3,4,5 for other user. Check this <a href="https://github.com/NaturalIntelligence/Stubmatic/wiki/08.0-DB-Sets">good example</a> to understand in detail.</p>
                             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                         </div>
                     </div>
