@@ -6,7 +6,7 @@ A stub server to mock behaviour of HTTP(s) / REST / SOAP services
 <img align="right" src="https://naturalintelligence.github.io/Stubmatic/img/stubmatic_logo.png?raw=true" width="180px" alt="Stubmatic logo"/>
 
 1. Installation : `$npm install stubmatic -g`
-2. Set up repo  : `$npm install init [repo-name]`
+2. Set up repo  : `$stubmatic init [repo-name]`
 3. Start server : `$stubmatic [-d <repo-name>]`
 4. Help         : `$stubmatic --help`
 
