@@ -38,11 +38,6 @@ function requestResponseHandler(request, response) {
 	request.query = parsedURL.query;
 
 	if(request.query.debug){
-		request.url = request.url.replace('debug=true','');
-		response.setHeader("Content-Type","application/json");
-		if(request.url[request.url.length-1] == '?'){
-			request.url = request.url.substr(0,request.url.length -1);
-		}
 
 		if(request.url == '/'){
 			rc.scriptLocation = __dirname;
@@ -64,6 +59,7 @@ function requestResponseHandler(request, response) {
 	  }).on('end', function() {
 	    body = Buffer.concat(body).toString();
 		request['post'] = body;
+		rc.requestBody = body;
 
 		logger.info(rc.getTransactionId() + " " + request.method+": "+request.url,'success');
 		try{
@@ -74,11 +70,8 @@ function requestResponseHandler(request, response) {
 
 			if(matchedEntry == null){
 				response.statusCode = 404;
-				if(request.query.debug){
-					response.end(JSON.stringify(rc));
-				}else{
-					response.end("");	
-				}
+				logger.debug(JSON.stringify(rc, null, "\t"));
+				response.end("");	
 				
 				logger.error(rc.getTransactionId() + " Response served with Status Code " + response.statusCode);
 				return;
@@ -132,12 +125,8 @@ function requestResponseHandler(request, response) {
 			//Set Response Code
 			response.statusCode = status;
 
-			if(request.query.debug){
-				response.end(JSON.stringify(rc));
-				return;
-			}
 			//Latency
-			logger.debug("RequestContext: " + JSON.stringify(rc));
+			logger.debug("RequestContext: " + JSON.stringify(rc, null, "\t"));
 			setTimeout(function(){
 				sendResponse(response,data,sendAsAttachment,request.headers['accept-encoding']);	
 				logger.debug(rc.getTransactionId() + " after sendResponse : " + rc.howLong() + " ms");
