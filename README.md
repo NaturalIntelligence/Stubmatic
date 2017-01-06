@@ -57,7 +57,9 @@ Using regular expression, single mapping can be used to match multiple requests 
 ```
 To make the response dynamic, stubmatic comes with various features
 
-* **Strategy**: it helps to pick one file to serve the response.
+* **Strategy**: it helps to pick specific or random file to serve the response.
+* **Default mapping and short notations**: Helps to keep mapping file as small as possible whitout verbosing same information
+* **Multiple mapping files**: Helps to keep the project organized.
 * **Regular Expressions**: You can use RE to match a request, capture some part of the request, to decide response file at runtime, to change contents of response at runtime etc. You can capture request part from URL, request body, headers, and query parameters.
 * **Expressions**: Stubmatic has support for inbuilt functions and markers to display date, random number etc.
 * **Dumps**: You can devide the response from multiple files to keep it simplified. And join them at runtime using dumps.
