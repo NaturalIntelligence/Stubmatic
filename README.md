@@ -1,6 +1,7 @@
 # Stubmatic
 A stub server to mock behaviour of HTTP(s) / REST / SOAP services 
 
+<img src="https://circleci.com/gh/NaturalIntelligence/Stubmatic.png?style=shield&circle-token=:circle-token" alt="circleci build status" />
 > Stubmatic is the new name for my other project [Stubby DB](https://github.com/NaturalIntelligence/StubbyDB). All the changes to stubby db after version **4.2.0** will be happend here only. Previous github & npm repo will be kept for old references.
 
 <img align="right" src="https://naturalintelligence.github.io/Stubmatic/img/stubmatic_logo.png?raw=true" width="180px" alt="Stubmatic logo"/>
