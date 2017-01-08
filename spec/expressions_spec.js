@@ -9,22 +9,20 @@ describe("Expression handler", function() {
   	spyOn(markers, 'now').and.callFake(() => new Date(2016,11,29,16,43,57));
     spyOn(markers, 'nowJoda').and.callFake(() => LocalDateTime.of(2016,12,29,16,43,57));
 
-  	var expected = "today is Thu Dec 29 2016 16:43:57 GMT+0000 (GMT), tomorrow is Fri Dec 30 2016 16:43:57 GMT+0000 (GMT), and yesterday it was Wed Dec 28 2016 16:43:57 GMT+0000 (GMT)";
+  	var expected = /today is Thu Dec 29 2016 16:43:57 GMT\+0000 \((GMT|UTC)\), tomorrow is Fri Dec 30 2016 16:43:57 GMT\+0000 \((GMT|UTC)\), and yesterday it was Wed Dec 28 2016 16:43:57 GMT\+0000 \((GMT|UTC)\)/;
 
   	var result = expressionHandler.handle("today is {{TODAY}}, tomorrow is {{TODAY+1}}, and yesterday it was {{TODAY-1}}");
-  	expect(result).toBe(expected);
+  	expect(result).toMatch(expected);
 
   	result = expressionHandler.handle("today is {{JODA_TODAY}}, tomorrow is {{JODA_TODAY+1}}, and yesterday it was {{JODA_TODAY-1}}");
-  	expect(result).toBe(expected);
+  	expect(result).toMatch(expected);
 
-
-  	expected = "today is Thu Dec 29 2016 16:43:57 GMT+0000 (GMT), tomorrow is Fri Dec 30 2016 16:43:57 GMT+0000 (GMT), and yesterday it was Wed Dec 28 2016 16:43:57 GMT+0000 (GMT)";
 
   	result = expressionHandler.handle("today is {{TODAY}}, tomorrow is {{TODAY+1d}}, and yesterday it was {{TODAY-1d}}");
-  	expect(result).toBe(expected);
+  	expect(result).toMatch(expected);
 
   	result = expressionHandler.handle("today is {{JODA_TODAY}}, tomorrow is {{JODA_TODAY+1d}}, and yesterday it was {{JODA_TODAY-1d}}");
-  	expect(result).toBe(expected);
+  	expect(result).toMatch(expected);
 
   });
 
