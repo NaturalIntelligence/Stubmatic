@@ -28,28 +28,14 @@ exports.dateMarker2 = {
 			var match = result[i];
 
 			if(match){
-				var operation = match[0];
 				var identifier = match[match.length-1];
-				var number = parseInt(match.substr(1,match.length-2));
-
+				var number = Number(match.substr(0,match.length-1));
 				if(identifier == 'y'){
-					if(operation == '+'){
-						today.setFullYear(today.getFullYear() + number);	
-					}else if(operation == '-'){
-						today.setFullYear(today.getFullYear() - number);	
-					}
+					today.setFullYear(today.getFullYear() + number);	
 				}else if(identifier == 'm'){
-					if(operation == '+'){
-						today.setMonth(today.getMonth() + number);	
-					}else if(operation == '-'){
-						today.setMonth(today.getMonth() - number);	
-					}
+					today.setMonth(today.getMonth() + number);	
 				}else if(identifier == 'd'){
-					if(operation == '+'){
-						today.setDate(today.getDate() + number);	
-					}else if(operation == '-'){
-						today.setDate(today.getDate() - number);	
-					}
+					today.setDate(today.getDate() + number);	
 				}
 			}
 		}
@@ -85,28 +71,15 @@ exports.jodaDateMarker2 = {
 			var match = result[i];
 
 			if(match){
-				var operation = match[0];
 				var identifier = match[match.length-1];
-				var number = parseInt(match.substr(1,match.length-2));
+				var number = Number(match.substr(0,match.length-1));
 
 				if(identifier == 'y'){
-					if(operation == '+'){
-						today = today.plusYears(number);	
-					}else if(operation == '-'){
-						today = today.minusYears(number);	
-					}
+					today = today.plusYears(number);	
 				}else if(identifier == 'm'){					
-					if(operation == '+'){
-						today = today.plusMonths(number);
-					}else if(operation == '-'){
-						today = today.minusMonths(number);	
-					}
+					today = today.plusMonths(number);
 				}else if(identifier == 'd'){
-					if(operation == '+'){
-						today = today.plusDays(number);
-					}else if(operation == '-'){
-						today = today.minusDays(number);	
-					}
+					today = today.plusDays(number);
 				}
 			}
 		}
