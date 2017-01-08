@@ -6,6 +6,10 @@ exports.formatDate = function(dt_str,format){
 	return dt;
 };
 
+exports.JS = function(val){
+    return val;
+};
+
 exports.urlEncode = function(url){
 	return encodeURI(url);
 };

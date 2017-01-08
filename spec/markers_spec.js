@@ -11,7 +11,7 @@ describe("Marker", function() {
   var tomorrow = new Date(2016,11,30);
 
   beforeEach(function(){
-    spyOn(markers, 'now').andReturn(new Date(2016,11,29));
+    spyOn(markers, 'now').and.returnValue(new Date(2016,11,29));
   });
 
   it("TODAY should return current date", function() {
@@ -85,7 +85,7 @@ describe("Marker", function() {
   var tomorrow = LocalDateTime.of(2016,12,30,16,43,57);
 
   beforeEach(function(){
-    spyOn(markers, 'nowJoda').andReturn(LocalDateTime.of(2016,12,29,16,43,57));
+    spyOn(markers, 'nowJoda').and.returnValue(LocalDateTime.of(2016,12,29,16,43,57));
   });
 
   it("JODA_TODAY should return current date", function() {
