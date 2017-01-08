@@ -1,12 +1,13 @@
 var util = require('./util/util');
 var LocalDateTime = require('js-joda').LocalDateTime;
 
-//TPDAY, TPDAY+N, TODAY-N
+//TODAY, TPDAY+N, TODAY-N
+//TODO: mark it deprecated
 exports.dateMarker = {
 	exp : "TODAY(?:([\\+\\-])([0-9]+))?",
 	evaluate : function(match){
 		var dt = new Date();
-		var operation = match[1];
+		//var operation = match[1];
 		var days = parseInt(match[2]);
 
 		if(match[1] == '+'){
@@ -14,7 +15,6 @@ exports.dateMarker = {
 		}else if(match[1] == '-'){
 			dt.setDate(dt.getDate() - days);
 		}
-		//util.formatDate(dt, "yyyy-mm-dd")
 		return dt;
 	}
 };
@@ -54,13 +54,13 @@ exports.dateMarker2 = {
 				}
 			}
 		}
-		//util.formatDate(today, "yyyy-mm-dd")
 		return today;
 
 	}
 };
 
 //NOW, NOW+N, NOW-N
+//TODO: mark it deprecated
 exports.jodaDateMarker = {
 	exp : "JODA_TODAY(?:([\\+\\-])([0-9]+))?",
 	evaluate : function(match){
@@ -111,7 +111,6 @@ exports.jodaDateMarker2 = {
 					}
 				}
 			}
-			//util.formatDate(today, "yyyy-mm-dd")
 			return today;
 	}
 };
