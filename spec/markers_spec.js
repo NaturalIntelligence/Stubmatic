@@ -3,108 +3,145 @@ var jodaDateMarker =require('.././os/nushi/stubmatic/markers').jodaDateMarker.ev
 var jodaDateMarker2 =require('.././os/nushi/stubmatic/markers').jodaDateMarker2.evaluate
 var expressions =require('.././os/nushi/stubmatic/expressions_handler')
 var util =require('.././os/nushi/stubmatic/util/util')
+var LocalDateTime = require('js-joda').LocalDateTime;
 
-describe("TODAY Marker", function() {
-  var today = new Date();
+describe("Marker", function() {
+  var today = new Date(2016,11,29);
+  var yesterday = new Date(2016,11,28);
+  var tomorrow = new Date(2016,11,30);
 
-  it("should return current date", function() {
+  beforeEach(function(){
+    spyOn(markers, 'now').andReturn(new Date(2016,11,29));
+  });
+
+  it("TODAY should return current date", function() {
   	var result = markers.dateMarker.evaluate(['TODAY', null, null ]);
-  	assertDatePart(today,result);
+    assertDatePart(result,today);
   });
 
-  it("should return yesterday date", function() {
-  	var yesterday = new Date();
-	yesterday.setDate(today.getDate() - 1);
-
+  it("TODAY-1 should return yesterday date", function() {
   	var result = markers.dateMarker.evaluate([ 'TODAY-1', '-', '1' ]);
-    assertDatePart(yesterday,result);
-
-  	result = markers.dateMarker2.evaluate([ 'TODAY-1d', '-1d' ]);
-    assertDatePart(yesterday,result);
+    assertDatePart(result,yesterday);
   });
 
-  it("should return tomorrow date", function() {
-  	var tomorrow = new Date();
-	tomorrow.setDate(today.getDate() + 1);
+  it("TODAY-1d should return yesterday date", function() {
+  	var result = markers.dateMarker2.evaluate([ 'TODAY-1d', '-1d' ]);
+    assertDatePart(result,yesterday);
+  });
 
+  it("TODAY+1 should return tomorrow date", function() {
   	var result = markers.dateMarker.evaluate([ 'TODAY+1', '+', '1' ]);
-    assertDatePart(tomorrow,result);
-
-  	result = markers.dateMarker2.evaluate([ 'TODAY+1d', '+1d' ]);
-    assertDatePart(tomorrow,result);
+    assertDatePart(result,tomorrow);
   });
 
-  it("should return appropriate date", function() {
-  	var futuredt = new Date();
-	futuredt.setFullYear(today.getFullYear() + 1);
+  it("TODAY+1d should return tomorrow date", function() {
+  	result = markers.dateMarker2.evaluate([ 'TODAY+1d', '+1d' ]);
+    assertDatePart(result,tomorrow);
+  });
+
+  it("TODAY+1y should return a date after an year", function() {
+  	var futuredt = new Date(today);
+	  futuredt.setFullYear(today.getFullYear() + 1);
 
   	var result = markers.dateMarker2.evaluate([ 'TODAY+1y', '+1y']);
-    assertDatePart(futuredt,result);
+    assertDatePart(result,futuredt);
 
-	futuredt.setMonth(today.getMonth() - 2);
-	result = markers.dateMarker2.evaluate([ 'TODAY+1y-2m', '+1y','-2m']);
-    assertDatePart(futuredt,result);
+	});
+
+  it("TODAY+1y-2m should return a date after 10 months", function() {
+    var futuredt = new Date(today);
+    futuredt.setFullYear(today.getFullYear() + 1);
+    futuredt.setMonth(today.getMonth() - 2);
+
+	  var result = markers.dateMarker2.evaluate([ 'TODAY+1y-2m', '+1y','-2m']);
+    assertDatePart(result,futuredt);
 	
-	futuredt.setDate(today.getDate() + 3);
-	result = markers.dateMarker2.evaluate([ 'TODAY+1y-2m+3d', '+1y','-2m', '+3d']);
-    assertDatePart(futuredt,result);
+  });
+
+  it("TODAY+1y-2m+3d should return a date after 10 months and 3 days", function() {
+    var futuredt = new Date(today);
+    futuredt.setFullYear(today.getFullYear() + 1);
+    futuredt.setMonth(today.getMonth() - 2);
+	  futuredt.setDate(today.getDate() + 3);
+
+	  var result = markers.dateMarker2.evaluate([ 'TODAY+1y-2m+3d', '+1y','-2m', '+3d']);
+    assertDatePart(result,futuredt);
 
   });
+
+  it("TODAY+2m+5d should return next month date when date spills in next month", function() {
+
+    var result = markers.dateMarker2.evaluate([ 'TODAY+2m', '+2m']);
+
+    expect(result.toString()).toBe("Wed Mar 01 2017 00:00:00 GMT+0000 (GMT)");
+
+  });
+
 });
 
-describe("JODA_TODAY Marker", function() {
-	var JODA_today = require('js-joda').LocalDateTime.now();
+describe("Marker", function() {
+	var today = LocalDateTime.of(2016,12,29,16,43,57);
+  var yesterday = LocalDateTime.of(2016,12,28,16,43,57);
+  var tomorrow = LocalDateTime.of(2016,12,30,16,43,57);
 
-  it("should return current date", function() {
+  beforeEach(function(){
+    spyOn(markers, 'nowJoda').andReturn(LocalDateTime.of(2016,12,29,16,43,57));
+  });
+
+  it("JODA_TODAY should return current date", function() {
   	var result = jodaDateMarker(['JODA_TODAY', null, null ]);
-  	assertJodaDatePart(JODA_today,result);
+    expect(result.toString()).toBe("Thu Dec 29 2016 16:43:57 GMT+0000 (GMT)");
   });
 
-  it("should return yesterday date", function() {
-  	var yesterday = JODA_today.minusDays(1);
+  it("JODA_TODAY-1 should return yesterday date", function() {
   	var result = jodaDateMarker([ 'JODA_TODAY-1', '-', '1' ]);
-    assertJodaDatePart(yesterday,result);
+    expect(result.toString()).toBe("Wed Dec 28 2016 16:43:57 GMT+0000 (GMT)");
 
+  });
+
+  it("JODA_TODAY-1d should return yesterday date", function() {
   	result = jodaDateMarker2([ 'JODA_TODAY-1d', '-1d' ]);
-    assertJodaDatePart(yesterday,result);
+    expect(result.toString()).toBe("Wed Dec 28 2016 16:43:57 GMT+0000 (GMT)");
   });
 
-  it("should return tomorrow date", function() {
-  	var tomorrow = JODA_today.plusDays(1);
+  it("JODA_TODAY+1 should return tomorrow date", function() {
   	var result = jodaDateMarker([ 'JODA_TODAY+1', '+', '1' ]);
-    assertJodaDatePart(tomorrow,result);
-
-  	result = jodaDateMarker2([ 'JODA_TODAY+1d', '+1d' ]);
-    assertJodaDatePart(tomorrow,result);
+    expect(result.toString()).toBe("Fri Dec 30 2016 16:43:57 GMT+0000 (GMT)");
   });
 
-  it(" should return appropriate date", function() {
-  	var futuredt = JODA_today;
+  it("JODA_TODAY+1d should return tomorrow date", function() {
+  	result = jodaDateMarker2([ 'JODA_TODAY+1d', '+1d' ]);
+    expect(result.toString()).toBe("Fri Dec 30 2016 16:43:57 GMT+0000 (GMT)");
+  });
 
-  	futuredt = futuredt.plusYears(1);
+  it("JODA_TODAY+1y should return appropriate date", function() {
   	var result = jodaDateMarker2([ 'JODA_TODAY+1y', '+1y']);
-    assertJodaDatePart(futuredt,result);
+    expect(result.toString()).toBe("Fri Dec 29 2017 16:43:57 GMT+0000 (GMT)");
 
-	futuredt = futuredt.minusMonths(2);
-	result = jodaDateMarker2([ 'JODA_TODAY+1y-2m', '+1y','-2m']);
-    assertJodaDatePart(futuredt,result);
-	
-	futuredt = futuredt.plusDays(3);
-	result = jodaDateMarker2([ 'JODA_TODAY+1y-2m+3d', '+1y','-2m', '+3d']);
-    assertJodaDatePart(futuredt,result);
+  });
+
+  it("JODA_TODAY should return appropriate date", function() {
+	  result = jodaDateMarker2([ 'JODA_TODAY+1y-2m', '+1y','-2m']);
+    expect(result.toString()).toBe("Sun Oct 29 2017 16:43:57 GMT+0000 (GMT)");
+	});
+
+  it("JODA_TODAY should return appropriate date", function() {
+    result = jodaDateMarker2([ 'JODA_TODAY+1y-2m+3d', '+1y','-2m', '+3d']);
+    expect(result.toString()).toBe("Wed Nov 01 2017 16:43:57 GMT+0000 (GMT)");
 
   });
   
+  it("TODAY+2m should return last date of previous month when date spills in next month", function() {
+    var result = markers.jodaDateMarker2.evaluate([ 'TODAY+2m', '+2m']);
+    expect(result.toString()).toBe("Tue Feb 28 2017 16:43:57 GMT+0000 (GMT)");
+
+  });
+
 });
 
-function assertDatePart(expected,actual){
-	expect(expected.getDate()).toBe(actual.getDate());
-    expect(expected.getMonth()).toBe(actual.getMonth());
-    expect(expected.getYear()).toBe(actual.getYear());
-}
 
-function assertJodaDatePart(expected,actual){
-	expect(expected.dayOfMonth()).toBe(actual.dayOfMonth());
-    expect(expected.monthValue()).toBe(actual.monthValue());
-    expect(expected.year()).toBe(actual.year());
+function assertDatePart(expected,actual){
+  expect(expected.getDate()).toBe(actual.getDate());
+  expect(expected.getMonth()).toBe(actual.getMonth());
+  expect(expected.getYear()).toBe(actual.getYear());
 }

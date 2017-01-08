@@ -6,8 +6,7 @@ var LocalDateTime = require('js-joda').LocalDateTime;
 exports.dateMarker = {
 	exp : "TODAY(?:([\\+\\-])([0-9]+))?",
 	evaluate : function(match){
-		var dt = new Date();
-		//var operation = match[1];
+		var dt = exports.now();
 		var days = parseInt(match[2]);
 
 		if(match[1] == '+'){
@@ -24,7 +23,7 @@ exports.dateMarker = {
 exports.dateMarker2 = {
 	exp : "TODAY([\+\-][0-9]+[ymd])([\+\-][0-9]+[ymd])?([\+\-][0-9]+[ymd])?",
 	evaluate : function(result){
-		var today = new Date();
+		var today = exports.now();
 		for(var i = 1; i < result.length; i++) {
 			var match = result[i];
 
@@ -64,7 +63,7 @@ exports.dateMarker2 = {
 exports.jodaDateMarker = {
 	exp : "JODA_TODAY(?:([\\+\\-])([0-9]+))?",
 	evaluate : function(match){
-		var today = LocalDateTime.now();
+		var today = exports.nowJoda();
 		var operation = match[1];
 		var days = parseInt(match[2]);
 
@@ -73,7 +72,7 @@ exports.jodaDateMarker = {
 		}else if(match[1] == '-'){
 			today = today.minusDays(days);
 		}
-		return today;
+		return new Date(today.toLocalDate() + " " + today.toLocalTime());
 	}
 };
 
@@ -81,37 +80,44 @@ exports.jodaDateMarker = {
 exports.jodaDateMarker2 = {
 		exp : "JODA_TODAY([\+\-][0-9]+[ymd])([\+\-][0-9]+[ymd])?([\+\-][0-9]+[ymd])?",
 		evaluate : function(result){
-		var today = LocalDateTime.now();
-			for(var i = 1; i < result.length; i++) {
-				var match = result[i];
+		var today = exports.nowJoda();
+		for(var i = 1; i < result.length; i++) {
+			var match = result[i];
 
-				if(match){
-					var operation = match[0];
-					var identifier = match[match.length-1];
-					var number = parseInt(match.substr(1,match.length-2));
+			if(match){
+				var operation = match[0];
+				var identifier = match[match.length-1];
+				var number = parseInt(match.substr(1,match.length-2));
 
-					if(identifier == 'y'){
-						if(operation == '+'){
-							today = today.plusYears(number);	
-						}else if(operation == '-'){
-							today = today.minusYears(number);	
-						}
-					}else if(identifier == 'm'){					
-						if(operation == '+'){
-							today = today.plusMonths(number);
-						}else if(operation == '-'){
-							today = today.minusMonths(number);	
-						}
-					}else if(identifier == 'd'){
-						if(operation == '+'){
-							today = today.plusDays(number);
-						}else if(operation == '-'){
-							today = today.minusDays(number);	
-						}
+				if(identifier == 'y'){
+					if(operation == '+'){
+						today = today.plusYears(number);	
+					}else if(operation == '-'){
+						today = today.minusYears(number);	
+					}
+				}else if(identifier == 'm'){					
+					if(operation == '+'){
+						today = today.plusMonths(number);
+					}else if(operation == '-'){
+						today = today.minusMonths(number);	
+					}
+				}else if(identifier == 'd'){
+					if(operation == '+'){
+						today = today.plusDays(number);
+					}else if(operation == '-'){
+						today = today.minusDays(number);	
 					}
 				}
 			}
-			return today;
+		}
+		return new Date(today.toLocalDate() + " " + today.toLocalTime());
 	}
 };
 
+exports.now = function(){
+	return new Date();
+}
+
+exports.nowJoda = function(){
+	return LocalDateTime.now();
+}
