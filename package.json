@@ -3,9 +3,9 @@
   "preferGlobal": true,
   "version": "4.2.3",
   "description": "A stub server to mock behaviour of HTTP(s) / REST / SOAP services",
-  "man":"./man/stubmatic.1",
+  "man": "./man/stubmatic.1",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine-node spec"
   },
   "author": "Amit Gupta (https://github.com/amitguptagwl)",
   "dependencies": {
@@ -14,7 +14,8 @@
     "js-joda": "^1.1.11",
     "line-reader": "^0.4.0",
     "winston": "^2.2.0",
-    "yamljs": "^0.2.6"
+    "yamljs": "^0.2.6",
+    "fast-lorem-ipsum": "^0.0.1"
   },
   "bin": {
     "stubmatic": "index.js"
@@ -43,5 +44,10 @@
     "ssl",
     "gzip",
     "simulator"
-  ]
+  ],
+  "devDependencies": {
+    "jasmine": "^2.5.2",
+    "jasmine-core": "^2.5.2",
+    "jasmine-node": "^1.14.5"
+  }
 }
