@@ -561,3 +561,7 @@ path {
   -webkit-border-radius: 40px;
   -moz-border-radius: 40px;
 }
+
+.gitter-chat-embed{
+  z-index:1500;
+}
