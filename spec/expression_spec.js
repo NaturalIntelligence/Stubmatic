@@ -84,7 +84,7 @@ describe("Expression:: it ", function() {
         +"{{foo('key',bar('amit'))}},"
         +"{{bar(35))}},"
         +"{{unknown()}}.";
-    expect(process(data,fetch(data))).toBe("expressions key:value,amit:gupta,amit:28,key:amit,35),.");
+    expect(process(data,fetch(data))).toBe("expressions key:value,amit:gupta,amit:28,key:amit,35,.");
 
     delete fns.foo;
     delete fns.bar;

@@ -36,11 +36,11 @@ var fetch = function(data){
 /**
 replace evaluated expressions in original data
 **/
-var process = function(data,expressions){
+var process = function(data,expressions,rc){
 	var newData = "";
 	var startIndex = 0;
 	for(var i=0; i<expressions.length; i++){
-		newData+= data.substr(startIndex,expressions[i].startIndex - startIndex) + exports.evaluate(expressions[i].data);
+		newData+= data.substr(startIndex,expressions[i].startIndex - startIndex) + exports.evaluate(expressions[i].data,rc);
 		startIndex = expressions[i].startIndex + expressions[i].data.length + 4;//length of '{{}}' is 2
 	}
 	newData+= data.substr(startIndex,data.length - startIndex);
@@ -52,7 +52,7 @@ var process = function(data,expressions){
 An expression can have either a function or marker.
 However a funcion can have a function or marker parameters again.
 **/
-exports.evaluate = function(exp){
+exports.evaluate = function(exp,rc){
 
 	if(isFunction(exp)){
 		var fExp = buildFunctionExp(exp);
@@ -64,7 +64,7 @@ exports.evaluate = function(exp){
 			}else if(isFunction(fExp.args[i])){
 				fExp.args[i] = exports.evaluate(fExp.args[i]);
 			}else{
-				fExp.args[i] = evaluateMarker(fExp.args[i]);
+				fExp.args[i] = evaluateMarker(fExp.args[i],rc);
 			}
 		}
 		if(functions[fExp.name])
@@ -72,44 +72,48 @@ exports.evaluate = function(exp){
 	    else
 	    	return "";
 	}else{//marker
-		return evaluateMarker(exp);
+		return evaluateMarker(exp,rc);
 	}
-	return "amit";
 }
 
 /**
 Build functionExp for function expression has string, number, function or marker params
 **/
-const fRegx = '([a-zA-Z]+[a-zA-Z0-9]*)\\((.*(?!\\())\\)';
 var buildFunctionExp = function(exp){
-	var matches = util.getMatches(exp,fRegx);
-	var inFunction = false;
+	var paramStart = 0, startIndex = 0;
+	var inFunction = false, nestedFunction = false;
 	var args = [];
-	var startIndex = 0;
-	for(var i=0;i<matches[2].length;i++){
-		if(matches[2][i] === '('){
-			inFunction = true;
-		}else if(matches[2][i] === ')'){
-			inFunction = false;
-		}else if(matches[2][i] === ',' && !inFunction){
-			var param = matches[2].substr(startIndex,i);
+	for(var i=0;i<exp.length;i++){
+	    if(nestedFunction){
+	       if(exp[i] === ')'){
+	         nestedFunction = false;
+	       }
+	    }else if(exp[i] === '(') {
+			if(inFunction === false){
+		        paramStart = i;
+		        startIndex = i+1;
+		        inFunction = true;
+		      }else{
+		        nestedFunction = true;
+		      }	
+		}else if(exp[i] === ')'){
+	    	args.push(exp.substring(startIndex,i));
+		}else if(exp[i] === ','){
+			args.push(exp.substring(startIndex,i));
 			startIndex = i+1;
-			args.push(param);
 		}
 	}
-	var param = matches[2].substr(startIndex,i);
-	args.push(param);
-
-	return new FunctionExp(matches[1],args);
+	
+	return new FunctionExp(exp.substr(0,paramStart),args);
 }
 
-var evaluateMarker = function(exp){
+var evaluateMarker = function(exp,rc){
 	for(var marker in markers){
 		if(markers[marker].exp){
 			var regx = "^" + markers[marker].exp + "$";
 			var result = util.getMatches(exp.toString(),regx);
 			if(result){
-				return evaluateMarker(markers[marker].evaluate(result));
+				return evaluateMarker(markers[marker].evaluate(result,rc));
 			}
 		}
 	}
