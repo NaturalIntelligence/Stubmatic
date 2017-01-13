@@ -6,6 +6,7 @@ var fs = require('fs');
 var path = require('path');
 var zlib = require('zlib');
 var mappings = require('./loaders/mappings_loader').mappings;
+var expEngine = require('./expressions/engine')
 
 function networkErrHandler(err) {
 	var msg;
@@ -185,7 +186,7 @@ function handleDynamicResponseBody(data,matchedEntry){
 	//2. replace request matches
 	data = reqResolver.applyMatches(data,matchedEntry.request.matches);
 	//3. replace markers
-	data = require('./expressions_handler').handle(data);
+	data = expEngine.process(data,expEngine.fetch(data));
 	//4. replace dumps
 	data = require('./dumps_handler').handle(data);
 

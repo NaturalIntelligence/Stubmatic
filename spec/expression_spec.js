@@ -1,7 +1,7 @@
-var expressionEngine = require('.././os/nushi/stubmatic/expressions/expression');
-var process = require('.././os/nushi/stubmatic/expressions/expression').process;
-var evalMarker = require('.././os/nushi/stubmatic/expressions/expression').evaluateMarker;
-var fetch = require('.././os/nushi/stubmatic/expressions/expression').fetch;
+var expressionEngine = require('.././os/nushi/stubmatic/expressions/engine');
+var process = require('.././os/nushi/stubmatic/expressions/engine').process;
+var evalMarker = require('.././os/nushi/stubmatic/expressions/engine').evaluateMarker;
+var fetch = require('.././os/nushi/stubmatic/expressions/engine').fetch;
 
 var markers = require('.././os/nushi/stubmatic/markers');
 var fns = require('.././os/nushi/stubmatic/functions');
