@@ -1,19 +1,38 @@
 var util = require('./util/util');
 var fastLoremIpsum = require('fast-lorem-ipsum').fastLoremIpsum;
+var logger = require('./log');
+var path = require('path');
+var fs = require('fs');
 
 exports.formatDate = function(dt_str,format){
 	var dt = util.formatDate(new Date(dt_str), format);
 	return dt;
 };
 
-exports.JS = function(val){
+/*exports.JS = function(val){
     return val;
-};
+};*/
 
 exports.urlEncode = function(url){
 	return encodeURI(url);
 };
 
+exports.dump = function(dumpPath,dumps){
+
+    var dumpsdir = require("./configbuilder").getConfig().dumps;
+    var contentToreplace = "";
+    for (var index in dumps) {
+        var filePath= path.join(dumpsdir , dumpPath , dumps[index]);
+        var readFileFlag = false;
+        try{
+            contentToreplace += fs.readFileSync(filePath, {encoding: 'utf-8'});
+        }catch(err){
+            logger.error(err);
+        }
+    }
+
+    return contentToreplace ;
+};
 
 var charsets = [];
 charsets['num'] = "0123456789";
@@ -31,6 +50,13 @@ exports.random = function(len,type){
         text += charset.charAt(Math.floor(Math.random() * charset.length));
     return text;
 }
+
+//TODO: Need to be tested
+/*exports.anyNumerBetween = function(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}*/
 
 /*exports.anyDateBetween = function(start,end){
     return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
