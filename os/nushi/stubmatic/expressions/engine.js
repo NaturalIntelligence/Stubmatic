@@ -61,14 +61,12 @@ exports.evaluate = function(exp,rc){
 				fExp.args[i] = Number(fExp.args[i]);
 			}else if(isString(fExp.args[i])){
 				fExp.args[i] = fExp.args[i].substr(1,fExp.args[i].length-2);
-			}else if(isFunction(fExp.args[i])){
-				fExp.args[i] = exports.evaluate(fExp.args[i]);
 			}else{
-				fExp.args[i] = evaluateMarker(fExp.args[i],rc);
+				fExp.args[i] = exports.evaluate(fExp.args[i],rc);
 			}
 		}
 		if(functions[fExp.name])
-	    	return functions[fExp.name].apply(fExp.name,fExp.args);
+	    	return functions[fExp.name].apply(fExp.name,fExp.args,rc);
 	    else
 	    	return "";
 	}else{//marker

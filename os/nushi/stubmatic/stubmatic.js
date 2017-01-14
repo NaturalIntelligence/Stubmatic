@@ -7,6 +7,8 @@ var path = require('path');
 var zlib = require('zlib');
 var mappings = require('./loaders/mappings_loader').mappings;
 var expEngine = require('./expressions/engine')
+require('./loaders/dbset_loader').load();
+
 
 function networkErrHandler(err) {
 	var msg;
@@ -33,6 +35,7 @@ var color = require('./util/colors').color;
 var url = require('url');
 
 function requestResponseHandler(request, response) {
+
 	var rc = new RequestContext(request);
 	var parsedURL = url.parse(request.url, true);
 	request.url = parsedURL.pathname;
@@ -67,7 +70,7 @@ function requestResponseHandler(request, response) {
 			var matchedEntry = reqResolver.resolve(request);
 			logger.debug(rc.getTransactionId() + " after reqResolver : " + rc.howLong() + " ms");
 
-			rc.matchedMapping = matchedEntry;
+			rc.resolved = matchedEntry;
 
 			if(matchedEntry == null){
 				response.statusCode = 404;
@@ -96,7 +99,7 @@ function requestResponseHandler(request, response) {
 			//Read and Build Response body
 			if(matchedEntry.response.body){
 				data = matchedEntry.response.body;
-				data = handleDynamicResponseBody(data,matchedEntry);
+				data = handleDynamicResponseBody(data,rc);
 				logger.debug(rc.getTransactionId() + " after handleDynamicResponse Body : " + rc.howLong() + " ms");
 			}else{
 					logger.debug(rc.getTransactionId() + " before readResponse : " + rc.howLong() + " ms");
@@ -115,7 +118,7 @@ function requestResponseHandler(request, response) {
 					data = fs.readFileSync(dataFile, {encoding: 'utf-8'});
 						logger.debug(rc.getTransactionId() + " after readFileSync : " + rc.howLong() + " ms");
 						//rc.rawResponse(data);
-					data = handleDynamicResponseBody(data,matchedEntry);
+					data = handleDynamicResponseBody(data,rc);
 						//rc.refinedResponse(data);
 						logger.debug(rc.getTransactionId() + " after handleDynamicResponse File : " + rc.howLong() + " ms");
 				}else{
@@ -180,13 +183,13 @@ function stubmatic(){
 	}
 }
 
-function handleDynamicResponseBody(data,matchedEntry){
+function handleDynamicResponseBody(data,rc){
 	//1. replace DbSet Place Holders
-	data = require('./dbset_handler').handle(data,matchedEntry.dbset);
+	data = require('./dbset_handler').handle(data,rc.resolved.dbset);
 	//2. replace request matches
-	data = reqResolver.applyMatches(data,matchedEntry.request.matches);
+	data = reqResolver.applyMatches(data,rc.resolved.request.matches);
 	//3. replace markers
-	data = expEngine.process(data,expEngine.fetch(data));
+	data = expEngine.process(data,expEngine.fetch(data),rc);
 	//4. replace dumps
 	data = require('./dumps_handler').handle(data);
 

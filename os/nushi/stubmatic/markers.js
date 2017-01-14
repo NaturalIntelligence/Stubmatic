@@ -87,6 +87,32 @@ exports.jodaDateMarker2 = {
 	}
 };
 
+//handle strategy: random (not *)
+//default key: *
+//skip
+var dbsetLoader = require('./loaders/dbset_loader');
+exports.dbkeys = {
+	exp : "#([a-zA-Z0-9_]+)",
+	evaluate : function(match,rc){
+		var colName = match[1];
+		var dbset = rc.resolved.dbset;
+		var dbsets = dbsetLoader.getDBsets();
+		var row = dbsets[dbset.db].get(dbset.key) || dbsets[dbset.db].get('*');
+
+		if(row){
+			return row.value[colName];	
+		}else{
+			return "";
+		}
+	}
+}
+
+/*exports.requestCapture = {
+	exp : "(url|post|headers|query)\.([0-9]+)",
+	evaluate : function(result){
+		return "gupta";
+	}
+}*/
 exports.now = function(){
 	return new Date();
 }

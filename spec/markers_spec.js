@@ -1,7 +1,7 @@
 var markers =require('.././os/nushi/stubmatic/markers')
 var jodaDateMarker =require('.././os/nushi/stubmatic/markers').jodaDateMarker.evaluate
 var jodaDateMarker2 =require('.././os/nushi/stubmatic/markers').jodaDateMarker2.evaluate
-var util =require('.././os/nushi/stubmatic/util/util')
+var util =require('.././os/nushi/stubmatic/util/util');
 var LocalDateTime = require('js-joda').LocalDateTime;
 
 describe("Marker", function() {
@@ -120,9 +120,56 @@ describe("Marker", function() {
 
 });
 
-
 function assertDatePart(expected,actual){
   expect(expected.getDate()).toBe(actual.getDate());
   expect(expected.getMonth()).toBe(actual.getMonth());
   expect(expected.getYear()).toBe(actual.getYear());
 }
+
+var dbsetsLoader = require('.././os/nushi/stubmatic/loaders/dbset_loader');
+var hashes = require('hashes');
+var dbkeys =require('.././os/nushi/stubmatic/markers').dbkeys.evaluate;
+describe("Marker", function() {
+
+  beforeEach(function(){
+    var empTable = new hashes.HashTable();
+    empTable.add("3456",{ "id" : "3456","name":"amit gupta", "age" : "30"});
+    empTable.add("1234",{ "id" : "1234","name":"arti gupta", "age" : "30"});
+    empTable.add("*",{ "id" : "*","name":"unknown name", "age" : "100"});
+
+    var deptTable = new hashes.HashTable();
+    deptTable.add("d1",{ "dept_id" : "d1","name":"Science department"});
+    deptTable.add("d2",{ "dept_id" : "d2","name":"Physics department"});
+
+    var fakedbset = [];
+    fakedbset["emp"]= empTable;
+    fakedbset["dept"]= deptTable;
+
+    spyOn(dbsetsLoader, 'getDBsets').and.callFake(() => { return fakedbset} );
+  });
+
+  it("dbkeys (#key) should return value from dbset", function() {
+    var rc = { resolved : { dbset : { db: "emp", key: "3456" }}};
+    var result = dbkeys(['#name', 'name', null ],rc);
+    expect(result).toBe("amit gupta");
+
+    rc = { resolved : { dbset : { db: "emp", key: "1234" }}};
+    result = dbkeys(['#name', 'name', null ],rc);
+    expect(result).toBe("arti gupta");
+
+  });
+
+  it("dbkeys (#key) should return default value from dbset", function() {
+    var rc = { resolved : { dbset : { db: "emp", key: "7890" }}};
+    var result = dbkeys(['#name', 'name', null ],rc);
+    expect(result).toBe("unknown name");
+  });
+
+  it("dbkeys (#key) should return empty string", function() {
+    var rc = { resolved : { dbset : { db: "dept", key: "7890" }}};
+    var result = dbkeys(['#name', 'name', null ],rc);
+    expect(result).toBe("");
+  });
+
+});
+

@@ -5,7 +5,7 @@
   "description": "A stub server to mock behaviour of HTTP(s) / REST / SOAP services",
   "man": "./man/stubmatic.1",
   "scripts": {
-    "test": "jasmine spec/*"
+    "test": "jasmine spec/*.js"
   },
   "author": "Amit Gupta (https://github.com/amitguptagwl)",
   "dependencies": {
