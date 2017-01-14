@@ -25,7 +25,7 @@ exports.load = function(){
                     //console.log(filePath);
                     //console.log(fs.readFileSync(filePath).toString());
                     lineReader.eachLine(filePath, function(line, last) {
-                        console.log(line);
+                        //console.log(line);
                         var columns = splitAndTrim(line);
                         if(linecount == 0){
                             headers= columns;
