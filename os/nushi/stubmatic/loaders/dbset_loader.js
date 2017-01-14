@@ -1,7 +1,7 @@
 var hashes = require('hashes');
 var fs = require('fs'),
     path = require('path');
-var lineReader = require('line-reader');
+var readline = require('readline');
 var logger = require('./../log');
 
 var configbuilder = require("./../configbuilder");
@@ -22,10 +22,12 @@ exports.load = function(){
                 if (stat.isFile()) {
                     var linecount = 0;
                     var headers;
-                    //console.log(filePath);
-                    //console.log(fs.readFileSync(filePath).toString());
-                    lineReader.eachLine(filePath, function(line, last) {
-                        //console.log(line);
+                    var rd = readline.createInterface({
+                        input: fs.createReadStream(filePath)
+                        /*,output: process.stdout
+                        ,terminal: false*/
+                    });
+                    rd.on('line', function(line) {
                         var columns = splitAndTrim(line);
                         if(linecount == 0){
                             headers= columns;
@@ -37,11 +39,8 @@ exports.load = function(){
                             hashtable.add(columns[0], row);
                         }
                         linecount++;
-                        if(last){
-                            dbsets[name] = hashtable;
-                        }
                     });
-                    //console.log("loaded data: " + JSON.stringify(hashtable));
+                    dbsets[name] = hashtable;
                 }
             });
 
