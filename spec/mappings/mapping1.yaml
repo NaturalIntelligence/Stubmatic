@@ -1,0 +1,40 @@
+#Scenario: short natoation
+-  GET: /url1/1
+   file: someFile.txt
+
+-  HEAD: /url1/2
+   response: ok
+
+-  PUT: /url1/3
+   latency: 3000
+   status: 502
+
+-  POST: /url1/4
+   files: ['someFile.txt','default.txt']
+
+#DONE
+-  request:
+      url: /url2
+      headers:
+        custom: 'Custom'
+
+   response:
+      latency: [1000,2000]
+      body: This is sample contents served from body
+
+-  request:
+      url: /url3
+
+   response:
+      latency: 3000
+      file: responseFilePath
+
+-  request:
+      url: /url4
+      
+   dbset:
+      db: dbsetname
+      key: keyname
+
+   response:
+      file: responseFilePath

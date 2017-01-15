@@ -1,0 +1,17 @@
+-  request:
+      url: /url3
+
+   response:
+      latency: 4000
+      body: this is repeated mapping
+
+
+-  request:
+      method: POST
+      url: /url5
+      #post:
+      bodyText: new property to match and capture request body
+
+   response:
+      body: this will overwrite old mapping
+
