@@ -65,8 +65,8 @@ if(process.argv[2] === "--help" || process.argv[2] === "-h"){
 
 
 	var configBuilder = require("./os/nushi/stubmatic/configbuilder");
-	configBuilder.buildConfig(options,process.argv.length);
-	console.log("Configuration: " + JSON.stringify(configBuilder.getConfig()));
+	configBuilder.buildConfig(options);
+	console.log("Configuration: " + JSON.stringify(configBuilder.getConfig(),null, 4));
 
 
 	var stubmatic = require('./os/nushi/stubmatic/stubmatic');

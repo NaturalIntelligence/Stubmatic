@@ -22,8 +22,8 @@ exports.load = function(){
         }
     }
 
-    for(var fileName in config.mappings.requests){
-        var req_mapping = config.mappings.requests[fileName];
+    for(var fileName in config.mappings.files){
+        var req_mapping = config.mappings.files[fileName];
         var mappings;
         try{
             mappings = YAML.parseFile(req_mapping);
