@@ -5,17 +5,7 @@ var logger = require('./log');
 
 var defaultConfig = {
 	mappings: {
-		default: {
-			request:{
-				method: 'GET'
-			},
-			response: {
-				strategy: 'first-found',
-				latency: 0,
-				status: 200
-			}
-		},
-		requests: ["response.yaml"]
+		files: ["response.yaml"]
 	},
 	server: {
 		port: 7777,
@@ -74,8 +64,8 @@ exports.buildConfig = function(options,count){
 	}
 
 	if(options['-m']){
-		defaultConfig.mappings.requests = [];
-		defaultConfig.mappings.requests.push(options['-m']);
+		defaultConfig.mappings.files = [];
+		defaultConfig.mappings.files.push(options['-m']);
 	}
 
 	if(options['-s']){
@@ -103,7 +93,7 @@ function useDefaultConfig(){
 var merge = require('deepmerge');
 
 function buildFromJsonConfig(jsonconfig){
-	delete defaultConfig.mappings.requests;
+	delete defaultConfig.mappings.files;
 	defaultConfig = merge(defaultConfig,jsonconfig);
 }
 
@@ -120,13 +110,13 @@ function updateBasePath(basePath){
 		defaultConfig['dumps'] = path.join(basePath , defaultConfig['dumps']);
 	}
 
-	var files = defaultConfig['mappings']['requests'];
+	var files = defaultConfig['mappings']['files'];
 	var newMappings = [];
 	files.forEach(function(filename){
 		newMappings.push(path.join(basePath , filename));
 	});
 
-	defaultConfig['mappings']['requests'] = newMappings;
+	defaultConfig['mappings']['files'] = newMappings;
 
 	if(defaultConfig.server.key){
 		defaultConfig.server.key = path.join(basePath , defaultConfig.server.key);
@@ -169,9 +159,9 @@ function buildFromDirectory(dirPath){
 	var mappingsPath = path.join(dirPath,"mappings");
 	var files = fileutil.ls(mappingsPath);
 	if(files.length > 0){
-		defaultConfig['mappings']['requests'] = [];
+		defaultConfig['mappings']['files'] = [];
 		files.forEach(function(filename){
-			defaultConfig['mappings']['requests'].push(path.join(mappingsPath , filename));
+			defaultConfig['mappings']['files'].push(path.join(mappingsPath , filename));
 		});
 	}
 
