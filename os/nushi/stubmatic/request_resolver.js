@@ -61,69 +61,43 @@ function matchAndCapture(mapped_request, http_request){
 		}
 	}	
 
-	//matched['headers'] = matchParamters(http_request,mapped_request,"headers");
 	if(mapped_request.headers){
-		matched['headers'] = [];
-		matched['headers'][0] = "N/A";
-		for(var header in mapped_request.headers){
-			var matches = util.getAllMatches(http_request.headers[header],'^'+mapped_request.headers[header]+'$');
-			var match = [];
-			for(var i in matches){
-				match = match.concat(matches[i].slice(0,matches[i].length - 2));
-			}
-			if(match.length > 0){
-				var captured = match.slice(1);
-				if(captured)
-					matched['headers'] = matched['headers'].concat(captured);
-			}else{
-				return;
-			}
-		}
+		var result = matchParamters(http_request,mapped_request,"headers");
+		if(result)
+			matched['headers'] = result;
+		else
+			return;
 	}
 
-	//matched['query'] = matchParamters(http_request,mapped_request,"query");
 	if(mapped_request.query){
-		matched['query'] = [];
-		matched['query'][0] = "N/A";
-		for(var key in mapped_request.query){
-			var matches = util.getAllMatches(http_request.query[key],'^'+mapped_request.query[key]+'$');
-			var match = [];
-			for(var i in matches){
-				match = match.concat(matches[i].slice(0,matches[i].length - 2));
-			}
-			if(match.length > 0){
-				var captured = match.slice(1);
-				if(captured)
-					matched['query'] = matched['query'].concat(captured);
-			}else{
-				return;
-			}
-		}
+		var result = matchParamters(http_request,mapped_request,"query");
+		if(result)
+			matched['query'] = result;
+		else
+			return;
 	}
 	
 	return matched;
 }
 
 function matchParamters(http_request,mapped_request,param_name){
-	if(mapped_request[param_name]){
-		matched[param_name] = [];
-		matched[param_name][0] = "N/A";
-		for(var key in mapped_request[param_name]){
-			var matches = util.getAllMatches(http_request[param_name][key],'^'+mapped_request[param_name][key]+'$');
-			var match = [];
-			for(var i in matches){
-				match = match.concat(matches[i].slice(0,matches[i].length - 2));
-			}
-			if(match.length > 0){
-				var captured = match.slice(1);
-				if(captured)
-					matched[param_name] = matched[param_name].concat(captured);
-			}else{
-				return null;
-			}
+	var clips = [];
+	clips[0] = "N/A";
+	for(var key in mapped_request[param_name]){
+		var matches = util.getAllMatches(http_request[param_name][key],'^'+mapped_request[param_name][key]+'$');
+		var match = [];
+		for(var i in matches){
+			match = match.concat(matches[i].slice(0,matches[i].length - 2));
 		}
-		return matched[param_name];
+		if(match.length > 0){
+			var captured = match.slice(1);
+			if(captured)
+				clips = clips.concat(captured);
+		}else{
+			return;
+		}
 	}
+	return clips;
 }
 
 exports.applyMatches = function(data,matches){
