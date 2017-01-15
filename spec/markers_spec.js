@@ -159,12 +159,6 @@ describe("Marker", function() {
 
   });
 
-  it("dbkeys (#key) should return default value from dbset", function() {
-    var rc = { resolved : { dbset : { db: "emp", key: "7890" }}};
-    var result = dbkeys(['#name', 'name', null ],rc);
-    expect(result).toBe("unknown name");
-  });
-
   it("dbkeys (#key) should return empty string", function() {
     var rc = { resolved : { dbset : { db: "dept", key: "7890" }}};
     var result = dbkeys(['#name', 'name', null ],rc);

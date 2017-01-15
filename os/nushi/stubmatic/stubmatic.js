@@ -5,9 +5,11 @@ var logger = require('./log');
 var fs = require('fs');
 var path = require('path');
 var zlib = require('zlib');
-var mappings = require('./loaders/mappings_loader').mappings;
 var expEngine = require('./expressions/engine')
 require('./loaders/dbset_loader').load();
+var mappingLoader = require('./loaders/mappings_loader');
+mappingLoader.load();
+var mappings = mappingLoader.getMappings();
 
 
 function networkErrHandler(err) {

@@ -97,7 +97,7 @@ exports.dbkeys = {
 		var colName = match[1];
 		var dbset = rc.resolved.dbset;
 		var dbsets = dbsetLoader.getDBsets();
-		var row = dbsets[dbset.db].get(dbset.key) || dbsets[dbset.db].get('*');
+		var row = dbsets[dbset.db].get(dbset.key);
 
 		if(row){
 			return row.value[colName];	
