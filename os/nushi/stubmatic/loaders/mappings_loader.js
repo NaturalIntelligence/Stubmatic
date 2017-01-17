@@ -1,78 +1,127 @@
 var YAML = require('yamljs');
-var config = require("./../configbuilder").getConfig()
 var color = require('./../util/colors').color;
 var logger = require('./../log');
-var config_mapping = config.mappings;
+var configBuilder = require("./../configbuilder");
 
+var resp_prop1 = ['status','latency'];
+var resp_prop2 = ['headers','contentType'];
+var req_prop = ['headers','query'];
 var allMappings = [];
 
-var defaultConfig = config_mapping.default;
-
-for(var i in config_mapping.requests){
-    var req_mapping = config_mapping.requests[i];
-    var mappings;
-    try{
-        mappings = YAML.parseFile(req_mapping);
-    }catch(e){
-        logger.info(color("Problem in loading " + req_mapping, 'Red'))
+exports.load = function(){
+    allMappings = [];
+    var config = configBuilder.getConfig();
+    var defaultConfig = config.mappings.default;
+    if(!defaultConfig){
+        defaultConfig = {
+            request : {
+                method : 'GET'
+            },
+            response : {
+                status : 200,
+                latency : 0,
+                strategy: 'first-found'
+            }
+        }
     }
 
-    
-    if(!mappings || mappings.length == 0){
-        logger.info(req_mapping + " is an empty file.");
-        continue;
+    for(var fileName in config.mappings.files){
+        var req_mapping = config.mappings.files[fileName];
+        var mappings;
+        try{
+            mappings = YAML.parseFile(req_mapping);
+        }catch(e){
+            logger.info(color("Problem in loading " + req_mapping, 'Red'))
+            logger.info("Check for syntax error and indentation.")
+        }
+
+        
+        if(!mappings || mappings.length == 0){
+            logger.info(req_mapping + " is an empty file.");
+        }else{
+            logger.info("Loading "+ mappings.length +" mappings from " + req_mapping);
+
+            for(var i=0;i<mappings.length;i++){
+
+                mappings[i] = convertToFullNotationIfShort(mappings[i]);
+
+                //response
+                var resp = mappings[i].response;
+                for (var j = 0; j < resp_prop1.length; j++) {
+                    if(!resp[resp_prop1[j]]){
+                        resp[resp_prop1[j]] = defaultConfig.response[resp_prop1[j]] ;
+                    }
+                }
+
+                if(!resp['strategy'] && resp['files']){
+                    resp['strategy'] = defaultConfig.response['strategy'];
+                }
+
+                for (var j = 0; j < resp_prop2.length; j++) {
+                    if(!resp[resp_prop2[j]] && defaultConfig.response[resp_prop2]){
+                        resp[resp_prop2[j]] = defaultConfig.response[resp_prop2[j]] ;
+                    }
+                }
+                //request
+                var req = mappings[i].request;
+                if(!req['method']){
+                    req['method'] = defaultConfig.request['method'];
+                }
+
+                 for (var j = 0; j < req_prop.length; j++) {
+                    if(!req[req_prop[j]] && defaultConfig.request[req_prop]){
+                        req[req_prop[j]] = defaultConfig.request[req_prop[j]] ;
+                    }
+                }
+            }
+
+            allMappings = allMappings.concat(mappings);
+        }
     }
-    logger.info("Loading "+ mappings.length +" mappings from " + req_mapping);
-
-    for(var i=0;i<mappings.length;i++){
-
-        if(typeof mappings[i].response == 'string'){
-            mappings[i].response = {
-                body: mappings[i].response,
-                status: 200,
-                latency: 0
-            }
-        }
-
-        if(typeof mappings[i].request == 'string'){
-            mappings[i].request = {
-                url: mappings[i].request,
-                method: 'GET'
-            }
-        }
-
-
-        if(!mappings[i].response.status){
-            if(defaultConfig.response.status){
-                mappings[i].response['status'] = defaultConfig.response.status;
-            }else{
-                mappings[i].response['status'] = 200;
-            }
-        }
-
-        if(!mappings[i].response.latency){
-            if(defaultConfig.response.latency){
-                mappings[i].response['latency'] = defaultConfig.response.latency;
-            }else{
-                mappings[i].response['latency'] = 0;
-            }
-        }
-
-        if(!mappings[i].response.strategy){
-            if(defaultConfig.response.strategy){
-                mappings[i].response['strategy'] = defaultConfig.response.strategy;
-            }else if(mappings[i].response.files){
-                mappings[i].response['strategy'] = 'first-found';
-            }
-        }
-
-        if(!mappings[i].request.method){
-            mappings[i].request['method'] = 'GET';
-        }
-
-    }
-
-    allMappings = allMappings.concat(mappings);
 }
 
-exports.mappings = allMappings;
+
+exports.getMappings = function(){
+    return allMappings;
+}
+
+var httpMethods = ['GET','PUT','POST','HEAD','DELETE','OPTIONS','PATCH','TRACE']
+
+/**
+Converts short notation to full notation mapping
+**/
+function convertToFullNotationIfShort(mapping){
+
+    if(mapping.request){
+        return mapping;
+    }else{
+        var fullNotation ={};
+        fullNotation.request = {};
+        fullNotation.response = {};
+
+        httpMethods.forEach((method) => {
+            if(mapping[method]){
+                fullNotation.request.method = method;
+                fullNotation.request.url = mapping[method];
+            }
+        });
+
+        ['body','bodyText'].forEach( prop => {
+            if(mapping[prop]){
+                fullNotation.request[prop] = mapping[prop];
+            }    
+        });
+        
+        ['file','files','status','latency'].forEach( prop => {
+            if(mapping[prop]){
+                fullNotation.response[prop] = mapping[prop];
+            }    
+        });
+
+        if(mapping['response'] && typeof mapping['response'] === 'string'){
+            fullNotation.response['body'] = mapping['response'];
+        }
+        
+        return fullNotation;
+    }
+}

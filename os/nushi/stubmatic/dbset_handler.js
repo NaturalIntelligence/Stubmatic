@@ -1,4 +1,4 @@
-var dbsets = require('./loaders/dbset_loader').dbsets;
+var dbsets = require('./loaders/dbset_loader').getDBsets();
 var util = require('./util/util');
 var logger = require('./log');
 

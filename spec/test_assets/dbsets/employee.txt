@@ -1,0 +1,4 @@
+id 		| name				| age
+1234	| arti gupta 		| 30
+3456	| amit gupta		| 30
+* 		| unknown name		| 100

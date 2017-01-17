@@ -1,14 +1,12 @@
 var util = require('./util/util');
-var mappings = require('./loaders/mappings_loader').mappings;
+var mappings = require('./loaders/mappings_loader').getMappings();
 var logger = require('./log');
-var keyResolver = require('./dbset_key_resolver');
-
 
 exports.resolve = function (http_request){
 	for(var i=0;i<mappings.length;i++){
         var entry = util.clone(mappings[i]);
-        var matched = match(entry.request, http_request);
-        if(matched){
+        var matched = matchAndCapture(entry.request, http_request);
+        if(matched){//if nothing matches in current mapping, check for other matching
         	entry.request.matches = matched;
         	entry.index = i;
 
@@ -18,16 +16,11 @@ exports.resolve = function (http_request){
 				if(entry.dbset.key){
 					entry.dbset.key = exports.applyMatches(entry.dbset.key,matched);
 				}
-				//in case of err:err and key is not found. It sets key as ''. So It'll further error out
-				var result = keyResolver.resolveKey(entry.dbset);
-				if(result instanceof Error){
-					if(result.message == 'skip'){
-						continue;
-					}else{
-						entry.response.file = entry.dbset.err.file;
-					}
-				}else{
+				var result = resolveDBSetKey(entry.dbset);
+				if(result){
 					entry.dbset.key = result;
+				}else{
+					continue;
 				}
 			}
         	return entry;
@@ -36,7 +29,8 @@ exports.resolve = function (http_request){
     return null;
 }
 
-function match(mapped_request, http_request){
+
+function matchAndCapture(mapped_request, http_request){
 	var matched = {};
 
 	if(mapped_request.method != http_request.method){
@@ -67,47 +61,39 @@ function match(mapped_request, http_request){
 		}
 	}	
 
-	if(mapped_request.headers){
-		matched['headers'] = [];
-		matched['headers'][0] = "N/A";
-		for(var header in mapped_request.headers){
-			var matches = util.getAllMatches(http_request.headers[header],'^'+mapped_request.headers[header]+'$');
-			var match = [];
-			for(var i in matches){
-				match = match.concat(matches[i].slice(0,matches[i].length - 2));
-			}
-			if(match.length > 0){
-				var captured = match.slice(1);
-				if(captured)
-					matched['headers'] = matched['headers'].concat(captured);
-			}else{
+	var props = ["headers","query"];
+	for (var i = 0; i < props.length; i++) {
+		if(mapped_request[props[i]]){
+			var result = matchParamters(http_request,mapped_request,props[i]);
+			if(result)
+				matched[props[i]] = result;
+			else
 				return;
-			}
-		}
-	}
-
-	if(mapped_request.query){
-		matched['query'] = [];
-		matched['query'][0] = "N/A";
-		for(var key in mapped_request.query){
-			var matches = util.getAllMatches(http_request.query[key],'^'+mapped_request.query[key]+'$');
-			var match = [];
-			for(var i in matches){
-				match = match.concat(matches[i].slice(0,matches[i].length - 2));
-			}
-			if(match.length > 0){
-				var captured = match.slice(1);
-				if(captured)
-					matched['query'] = matched['query'].concat(captured);
-			}else{
-				return;
-			}
 		}
 	}
 	
 	return matched;
 }
 
+function matchParamters(http_request,mapped_request,param_name){
+	var clips = [];
+	clips[0] = "N/A";
+	for(var key in mapped_request[param_name]){
+		var matches = util.getAllMatches(http_request[param_name][key],'^'+mapped_request[param_name][key]+'$');
+		var match = [];
+		for(var i in matches){
+			match = match.concat(matches[i].slice(0,matches[i].length - 2));
+		}
+		if(match.length > 0){
+			var captured = match.slice(1);
+			if(captured)
+				clips = clips.concat(captured);
+		}else{
+			return;
+		}
+	}
+	return clips;
+}
 
 exports.applyMatches = function(data,matches){
 	data = "" + data;
@@ -119,4 +105,34 @@ exports.applyMatches = function(data,matches){
 		}
 	}
 	return data;
+}
+
+var dbsets = require('./loaders/dbset_loader').getDBsets();
+
+//var lastKeyIndex = [];
+
+var resolveDBSetKey = function (config){
+	if(config.key){
+		var row = dbsets[config.db].get(config.key);
+		if(row){
+			return config.key;
+		}else if(dbsets[config.db].get('*')){
+			return '*';
+		}
+	}else{//strategy
+		if(config.strategy == 'random'){
+			var len = dbsets[config.db].count();
+			var i = Math.floor((Math.random() * len) + 1) - 1;
+			return dbsets[config.db].getHashes()[i];
+		}/*else if(config.strategy == 'round-robin'){
+			var len = dbsets[config.db].size();
+			var lastIndex = lastKeyIndex[config.db];
+			if(lastIndex != undefined){
+				lastKeyIndex[config.db] = lastIndex == len - 1 ? 0 : lastIndex+1;
+			}else{
+				lastKeyIndex[config.db] = 0;
+			}
+			return dbsets[config.db].getHashes()[lastKeyIndex[config.db]];
+		}*/
+	}
 }

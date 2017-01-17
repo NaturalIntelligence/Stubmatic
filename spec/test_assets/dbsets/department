@@ -1,0 +1,3 @@
+dept_id 	| 	name 				| scenario
+d1 			| Science department	| for testing scientist profiles
+d2 			| Physics department	| for testing engineers profiles

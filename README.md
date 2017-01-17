@@ -1,7 +1,8 @@
 # Stubmatic
 A stub server to mock behaviour of HTTP(s) / REST / SOAP services 
 
-<img src="https://circleci.com/gh/NaturalIntelligence/Stubmatic.png?style=shield&circle-token=:circle-token" alt="circleci build status" /> [![Travis ci Build Status](https://travis-ci.org/NaturalIntelligence/Stubmatic.svg?branch=master)](https://travis-ci.org/NaturalIntelligence/Stubmatic)
+[![Travis ci Build Status](https://travis-ci.org/NaturalIntelligence/Stubmatic.svg?branch=master)](https://travis-ci.org/NaturalIntelligence/Stubmatic) [![Gitter](https://img.shields.io/gitter/room/Stubmatic/Stubmatic.svg)](https://gitter.im/Stubmatic/Lobby#) [![Known Vulnerabilities](https://snyk.io/test/github/naturalintelligence/stubmatic/badge.svg)](https://snyk.io/test/github/naturalintelligence/stubmatic) [![bitHound Overall Score](https://www.bithound.io/github/NaturalIntelligence/Stubmatic/badges/score.svg)](https://www.bithound.io/github/NaturalIntelligence/Stubmatic)
+
 > Stubmatic is the new name for my other project [Stubby DB](https://github.com/NaturalIntelligence/StubbyDB). All the changes to stubby db after version **4.2.0** will be happend here only. Previous github & npm repo will be kept for old references.
 
 <img align="right" src="https://naturalintelligence.github.io/Stubmatic/img/stubmatic_logo.png?raw=true" width="180px" alt="Stubmatic logo"/> 
@@ -76,3 +77,15 @@ To make the response dynamic, stubmatic comes with various features
 * Stubmatic consumes very less memory and CPU
 * It is performance ready and being used by many organizations
 * No bug reported yet (from Apr 2016 to till date)
+
+
+#### Breaking changes in 5.0.0
+* `{{TODAY+1}}` is dpreicated. Use `{{TODAY+1d}}` instead
+* `{{JODA_TODAY+1}}` is dpreicated. Use `{{JODA_TODAY+1d}}` instead
+* 'err' property for dbset mapping is invalid. If a key doesn't match it'll look for default key ('*') otherwise it'll skip matching.
+* Use of `##dbset_key##` is depricated. Use `{{#dbset_key}}` instead
+* Use of `[[dumpspath:file1,file2]]` is depricated. Use `{{dump(dumpspath,[file1,file2])}}` instead.
+* options `-m`, and `-s` or `--stub` have been removed from stubmatic command
+* Check syntax for short notations
+* 'post' property of request mapping is deprecated. Use 'bodyText' or 'body' attributes.
+* In config.json, `mappings.requests` is changed to `mappings.files`
