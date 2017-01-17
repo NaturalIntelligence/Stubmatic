@@ -17,12 +17,13 @@ exports.urlEncode = function(url){
 	return encodeURI(url);
 };
 
+var configBuilder = require("./configbuilder");
 exports.dump = function(dumpPath,dumps){
 
-    var dumpsdir = require("./configbuilder").getConfig().dumps;
+    var dumpsdir = configBuilder.getConfig().dumps;
     var contentToreplace = "";
-    for (var index in dumps) {
-        var filePath= path.join(dumpsdir , dumpPath , dumps[index]);
+    for(var i=0; i<dumps.length; i++){
+        var filePath= path.join(dumpsdir , dumpPath , dumps[i]);
         var readFileFlag = false;
         try{
             contentToreplace += fs.readFileSync(filePath, {encoding: 'utf-8'});

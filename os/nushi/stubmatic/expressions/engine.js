@@ -136,8 +136,8 @@ function isNumeric(n) {
 
 function isString(str){
 	return str.length > 2
-	&& (str.charAt(0) == '"' || str.charAt(0) == '\'')
-	&& (str.charAt(str.length-1) == '"' || str.charAt(str.length-1) == '\'');
+	&& (str.charAt(0) === '"' || str.charAt(0) === '\'')
+	&& (str.charAt(str.length-1) === '"' || str.charAt(str.length-1) === '\'');
 }
 module.exports.fetch = fetch;
 module.exports.process = process;

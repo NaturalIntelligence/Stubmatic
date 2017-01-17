@@ -8,12 +8,23 @@ var configbuilder = require("./../configbuilder");
 var dbsets = [];
 
 exports.load = function(){
+
+    /*console.log("start")
+    var filePath = '/home/user/spikes/stubmatic/spec/test_assets/dbsets/employee.txt';
+    var rd = readline.createInterface({
+        input: fs.createReadStream(filePath)
+    });
+
+    rd.on('line', function(line) {
+        console.log(line);
+    });
+    console.log("end")*/
+
     var dirPath = configbuilder.getConfig().dbsets;
     dbsets = [];
     if(dirPath){
         try{
             var files = fs.readdirSync(dirPath);
-
             files.forEach(function (name) {
                 logger.info("Loading DB from " + name);
                 var hashtable = new hashes.HashTable();

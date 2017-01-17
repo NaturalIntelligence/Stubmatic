@@ -1,13 +1,16 @@
 var YAML = require('yamljs');
 var color = require('./../util/colors').color;
 var logger = require('./../log');
+var configBuilder = require("./../configbuilder");
 
-
+var resp_prop1 = ['status','latency'];
+var resp_prop2 = ['headers','contentType'];
+var req_prop = ['headers','query'];
 var allMappings = [];
 
 exports.load = function(){
     allMappings = [];
-    var config = require("./../configbuilder").getConfig();
+    var config = configBuilder.getConfig();
     var defaultConfig = config.mappings.default;
     if(!defaultConfig){
         defaultConfig = {
@@ -43,34 +46,33 @@ exports.load = function(){
                 mappings[i] = convertToFullNotationIfShort(mappings[i]);
 
                 //response
-                ['status','latency'].forEach(prop => {
-                    if(!mappings[i].response[prop]){
-                        mappings[i].response[prop] = defaultConfig.response[prop] ;
+                var resp = mappings[i].response;
+                for (var j = 0; j < resp_prop1.length; j++) {
+                    if(!resp[resp_prop1[j]]){
+                        resp[resp_prop1[j]] = defaultConfig.response[resp_prop1[j]] ;
                     }
-                });
-
-                if(!mappings[i].response['strategy'] && mappings[i].response['files']){
-                    mappings[i].response['strategy'] = defaultConfig.response['strategy'];
                 }
 
-                ['headers','contentType'].forEach(prop => {
-                    if(!mappings[i].response[prop] && defaultConfig.response[prop]){
-                        mappings[i].response[prop] = defaultConfig.response[prop];
-                    }
-                });
+                if(!resp['strategy'] && resp['files']){
+                    resp['strategy'] = defaultConfig.response['strategy'];
+                }
 
+                for (var j = 0; j < resp_prop2.length; j++) {
+                    if(!resp[resp_prop2[j]] && defaultConfig.response[resp_prop2]){
+                        resp[resp_prop2[j]] = defaultConfig.response[resp_prop2[j]] ;
+                    }
+                }
                 //request
-                if(!mappings[i].request['method']){
-                    mappings[i].request['method'] = defaultConfig.request['method'];
+                var req = mappings[i].request;
+                if(!req['method']){
+                    req['method'] = defaultConfig.request['method'];
                 }
 
-                ['headers','query'].forEach(prop => {
-                    if(!mappings[i].request[prop] && defaultConfig.request[prop]){
-                        mappings[i].request[prop] = defaultConfig.request[prop];
+                 for (var j = 0; j < req_prop.length; j++) {
+                    if(!req[req_prop[j]] && defaultConfig.request[req_prop]){
+                        req[req_prop[j]] = defaultConfig.request[req_prop[j]] ;
                     }
-                });
-
-
+                }
             }
 
             allMappings = allMappings.concat(mappings);

@@ -61,20 +61,15 @@ function matchAndCapture(mapped_request, http_request){
 		}
 	}	
 
-	if(mapped_request.headers){
-		var result = matchParamters(http_request,mapped_request,"headers");
-		if(result)
-			matched['headers'] = result;
-		else
-			return;
-	}
-
-	if(mapped_request.query){
-		var result = matchParamters(http_request,mapped_request,"query");
-		if(result)
-			matched['query'] = result;
-		else
-			return;
+	var props = ["headers","query"];
+	for (var i = 0; i < props.length; i++) {
+		if(mapped_request[props[i]]){
+			var result = matchParamters(http_request,mapped_request,props[i]);
+			if(result)
+				matched[props[i]] = result;
+			else
+				return;
+		}
 	}
 	
 	return matched;

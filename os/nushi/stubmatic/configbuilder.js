@@ -41,18 +41,18 @@ exports.build = function(options){
 transforms all the path given in cofiguration file to absolute path
 **/
 function updateBasePath(basePath){
-
-	['dbsets','stubs','dumps'].forEach(prop => {
-		if(config[prop]){
-			config[prop] = path.join(basePath , config[prop]);
+	var props = ['dbsets','stubs','dumps'];
+	for(var i=0; i<props.length; i++){
+		if(config[props[i]]){
+			config[props[i]] = path.join(basePath , config[props[i]]);
 		}
-	});
+	}
 
 	var files = config['mappings']['files'];
 	var newMappings = [];
-	files.forEach(function(filename){
-		newMappings.push(path.join(basePath , filename));
-	});
+	for(var i=0; i<files.length; i++){
+		newMappings.push(path.join(basePath , files[i]));
+	}
 
 	config['mappings']['files'] = newMappings;
 
@@ -81,20 +81,21 @@ It'll ignore if there is any config file in specified directory.
 It update the path of : mappings, dbsets, and stubs, whichever is present
 */
 function buildFromDirectory(dirPath){
-	["dbsets","stubs","dumps"].forEach( dirName => {
-		var dbsetPath = path.join(dirPath,dirName);
-		if(fileutil.isExist(dbsetPath)){
-			config[dirName] = dbsetPath;
+	var dirs = ["dbsets","stubs","dumps"];
+	for(var i=0; i<dirs.length; i++){
+		var p = path.join(dirPath,dirs[i]);
+		if(fileutil.isExist(p)){
+			config[dirs[i]] = p;
 		}
-	});
+	}
 
 	var mappingsPath = path.join(dirPath,"mappings");
 	var files = fileutil.ls(mappingsPath);
 	if(files.length > 0){
 		config['mappings']['files'] = [];
-		files.forEach(function(filename){
-			config['mappings']['files'].push(path.join(mappingsPath , filename));
-		});
+		for(var i=0; i<files.length; i++){
+			config['mappings']['files'].push(path.join(mappingsPath , files[i]));
+		}
 	}
 
 	var trustStorePath = path.join(dirPath,"truststore");
@@ -107,9 +108,9 @@ function buildFromDirectory(dirPath){
 
 		if(cacerts.length > 0){
 			config.server.ca = [];
-			cacerts.forEach(function(filename){
-				config.server.ca.push(path.join(cacertPath , filename));
-			});
+			for(var i=0; i<cacerts.length; i++){
+				config.server.ca.push(path.join(cacertPath , cacerts[i]));
+			}
 		}
 	}
 
