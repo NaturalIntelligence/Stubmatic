@@ -12,7 +12,7 @@ Expectations:
 describe("Mapping Loader ", function() {
   	var onlyMappingConfig = {
   		"mappings": {
-		    "files": [ path.join(__dirname ,"/mappings/mapping1.yaml"), path.join(__dirname ,"/mappings/mapping2.yaml")]
+		    "files": [ path.join(__dirname ,"test_assets/mappings/mapping1.yaml"), path.join(__dirname ,"test_assets/mappings/mapping2.yaml")]
 		}
   	};
 
@@ -28,7 +28,7 @@ describe("Mapping Loader ", function() {
 		        "status": 500
 		      }
 		    },
-		    "files": [ path.join(__dirname ,"/mappings/mapping1.yaml"), path.join(__dirname ,"/mappings/mapping2.yaml")]
+		    "files": [ path.join(__dirname ,"test_assets/mappings/mapping1.yaml"), path.join(__dirname ,"test_assets/mappings/mapping2.yaml")]
 		}
   	}
 

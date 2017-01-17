@@ -36,10 +36,10 @@ describe("Function ", function() {
 
   it("dump should include files", function() {
     spyOn(config,'getConfig').and.callFake(() => { return {dumps : __dirname } });
-    var result = dump("",['dummy.txt','dummy.txt']);
+    var result = dump("test_assets",['dummy.txt','dummy.txt']);
     expect(result).toBe("This is dummy file to test dump {{randome(5)}}.This is dummy file to test dump {{randome(5)}}.");
 
-    result = dump("",['dummy.txt','notexist']);
+    result = dump("",['test_assets/dummy.txt','test_assets/notexist']);
     expect(result).toBe("This is dummy file to test dump {{randome(5)}}.");
 
     expect(dump("",[])).toBe("");

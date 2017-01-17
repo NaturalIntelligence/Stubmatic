@@ -3,17 +3,18 @@ var fileutil = require('./util/fileutil');
 var path = require('path');
 var logger = require('./log');
 
-var config = {
-	mappings: {},
-	server:{}
-};
+var config;
 
 /**
 use current directory if -d is not given
 use config.json if -c is not given
 use directory structure if config.json is missing and -c is not given
 **/
-exports.buildConfig = function(options){
+exports.build = function(options){
+	config = {
+		mappings: {},
+		server:{}
+	};
 	var repoPath = options['-d'] || ".";
 	var configFile = path.join(repoPath,options['-c'] || "config.json");
 
@@ -32,11 +33,6 @@ exports.buildConfig = function(options){
 	config.server.host = options['--host'] || config.server.host || '0.0.0.0';
 	if(options['-P']) config.server.securePort = options['-P'];
 	if(options['--mutualSSL'])config.server.mutualSSL = options['--mutualSSL'];
-
-
-	if(options['-s']){//TODO: check if it can also be deprecated
-		config.stubs=options['-s'];
-	}
 
 }
 
