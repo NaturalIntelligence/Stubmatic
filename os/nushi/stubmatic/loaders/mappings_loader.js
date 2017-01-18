@@ -82,7 +82,6 @@ var shortNotationRespProp = ['file','files','status','latency']
 Converts short notation to full notation mapping
 **/
 function convertToFullNotationIfShort(mapping){
-
     if(mapping.request){
         return mapping;
     }else{
@@ -111,7 +110,7 @@ function convertToFullNotationIfShort(mapping){
         });
 
         if(mapping.response && typeof mapping.response === 'string'){
-            fullNotatio.response.body = mapping.response;
+            fullNotation.response.body = mapping.response;
         }
         
         return fullNotation;
