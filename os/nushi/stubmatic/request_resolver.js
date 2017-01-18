@@ -29,46 +29,33 @@ exports.resolve = function (http_request){
     return null;
 }
 
-
+var props = ["headers","query"];
+/**
+return undefined if any property of mapping doesn't match with request
+**/
 function matchAndCapture(mapped_request, http_request){
 	var matched = {}, i=0;
 
-	if(mapped_request.method !== http_request.method){
-		return;
-	}
+	if(mapped_request.method !== http_request.method)	return;
 
 	if(mapped_request.url){
 		var urlmatch = util.getMatches(http_request.url,'^'+mapped_request.url+'$');
-		if(urlmatch){
-			matched['url'] = urlmatch;
-		}else{
-			return;
-		}
+		if(urlmatch)	matched['url'] = urlmatch;
+		else	return;
 	}
 
 	if(mapped_request.post){
 		var matches = util.getAllMatches(http_request.post,mapped_request.post);
-		
-		var postmatch = [];
-		for (i = 0; i < matches.length; i++) {
-			postmatch = postmatch.concat(matches[i].slice(0,matches[i].length - 2));
-		}
-
-		if(postmatch.length > 0){
-			matched['post'] = postmatch;
-		}else{
-			return;
-		}
-	}	
-
-	var props = ["headers","query"];
+		var match = sliceExtraProperties(matches);
+		if(match.length > 0)			matched['post'] = match;
+		else			return;
+	}
+	
 	for (i = 0; i < props.length; i++) {
 		if(mapped_request[props[i]]){
 			var result = matchParamters(http_request,mapped_request,props[i]);
-			if(result)
-				matched[props[i]] = result;
-			else
-				return;
+			if(result)			matched[props[i]] = result;
+			else			return;
 		}
 	}
 	
@@ -80,10 +67,7 @@ function matchParamters(http_request,mapped_request,param_name){
 	clips[0] = "N/A";
 	for(var key in mapped_request[param_name]){
 		var matches = util.getAllMatches(http_request[param_name][key],'^'+mapped_request[param_name][key]+'$');
-		var match = [];
-		for (var i = 0; i < matches.length; i++) {
-			match = match.concat(matches[i].slice(0,matches[i].length - 2));
-		}
+		var match = sliceExtraProperties(matches);
 		if(match.length > 0){
 			var captured = match.slice(1);
 			if(captured)
@@ -93,6 +77,17 @@ function matchParamters(http_request,mapped_request,param_name){
 		}
 	}
 	return clips;
+}
+
+/**
+Slice extra properties away
+**/
+function sliceExtraProperties(matches){
+	var match = [];
+	for (var i = 0; i < matches.length; i++) {
+		match = match.concat(matches[i].slice(0,matches[i].length - 2));
+	}
+	return match;
 }
 
 exports.applyMatches = function(data,matches){
