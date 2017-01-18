@@ -12,16 +12,14 @@ if(process.argv[2] === "--help" || process.argv[2] === "-h"){
 }else if(process.argv[2] === "init"){
 	require('./init').init(process.argv[3] || "stub-repo");
 }else if(process.argv[2] === "validate"){
-	var YAML = require('yamljs');
-
 	try{
 		if(process.argv[3].endsWith(".json")){
 			require('jsonlint').parse(fs.readFileSync(process.argv[3], {encoding: 'utf-8'}));
-			console.log("Validated successfully")
+			console.log("Validated successfully");
 		}
-		else if(process.argv[3].endsWith(".yaml")){
+		else if(process.argv[3].endsWith(".yaml") || process.argv[3].endsWith(".yml")){
 			require('yamljs').parseFile(process.argv[3]);
-			console.log("Validated successfully")
+			console.log("Validated successfully");
 		}
 		/*else if(process.argv[3].endsWith(".xml"))
 			require('xmlchecker').check(process.argv[3]);*/
