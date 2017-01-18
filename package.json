@@ -7,7 +7,7 @@
   "main": "./os/nushi/stubmatic/stubmatic.js",
   "scripts": {
     "test": "jasmine spec/*spec.js",
-    "coveralls":"istanbul cover jasmine --captureExceptions spec/*spec.js && cat ./coverage/lcov.info"
+    "coverage": "istanbul cover jasmine --captureExceptions spec/*spec.js"
   },
   "author": "Amit Gupta (https://github.com/amitguptagwl)",
   "dependencies": {
