@@ -77,3 +77,18 @@ exports.getRandomInt = function(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min;
 }
+
+/**
+Replace <% x.n %> placeholder with matches
+**/
+exports.applyMatches = function(data,matches){
+  data = "" + data;
+  for(var matching_key in matches){
+    var part = matches[matching_key];
+    for(var i=0;i<part.length;i++){
+      rgx = new RegExp("<% "+ matching_key +"\."+ i +" %>","g");
+      data = data.replace(rgx,part[i]); 
+    }
+  }
+  return data;
+}

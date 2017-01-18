@@ -1,4 +1,3 @@
-var config = require(".././os/nushi/stubmatic/configbuilder");
 var mappingLoader = require(".././os/nushi/stubmatic/loaders/mappings_loader");
 var path = require('path')
 
@@ -32,14 +31,8 @@ describe("Mapping Loader ", function() {
 		}
   	}
 
-  /*beforeEach(function(){
-    spyOn(config,'getConfig').and.callFake(() => { return fakeConfig});
-  });*/
-
   it("should load mappings from multipls files", function() {
-  	spyOn(config,'getConfig').and.callFake(() => { return onlyMappingConfig});
-  	mappingLoader.load();
-  	var mappings = mappingLoader.getMappings();
+  	var mappings = mappingLoader.buildMappings(onlyMappingConfig);
   	expect(mappings.length).toBe(9);
   });
 
@@ -49,9 +42,7 @@ describe("Mapping Loader ", function() {
   });
 
   it("should attach missing mappings for short notations", function() {
-  	spyOn(config,'getConfig').and.callFake(() => { return onlyMappingConfig});
-  	mappingLoader.load();
-  	var mappings = mappingLoader.getMappings();
+  	var mappings = mappingLoader.buildMappings(onlyMappingConfig);
   	
   	var expected = { 
   		request: { url: '/url1/1', method: 'GET' },
@@ -83,9 +74,7 @@ describe("Mapping Loader ", function() {
 
   //Preference: given mapping > default mapping > default values
   it("should attach default mappings otherwise missing mappings", function() {
-  	spyOn(config,'getConfig').and.callFake(() => { return defaultMappingConfig});
-  	mappingLoader.load();
-  	mappings = mappingLoader.getMappings();
+  	var mappings = mappingLoader.buildMappings(defaultMappingConfig);
   	
   	var expected = { 
   		request: { url: '/url1/1', method: 'GET' },

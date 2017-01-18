@@ -1,8 +1,7 @@
 var util = require('./util/util');
-var mappings = require('./loaders/mappings_loader').getMappings();
 var logger = require('./log');
 
-exports.resolve = function (http_request){
+exports.resolve = function (http_request,mappings){
 	for(var i=0;i<mappings.length;i++){
         var entry = util.clone(mappings[i]);
         var matched = matchAndCapture(entry.request, http_request);
@@ -12,9 +11,9 @@ exports.resolve = function (http_request){
 
         	//resolve dbset entries
         	if(entry.dbset){
-				entry.dbset.db = exports.applyMatches(entry.dbset.db,matched);
+				entry.dbset.db = util.applyMatches(entry.dbset.db,matched);
 				if(entry.dbset.key){
-					entry.dbset.key = exports.applyMatches(entry.dbset.key,matched);
+					entry.dbset.key = util.applyMatches(entry.dbset.key,matched);
 				}
 				var result = resolveDBSetKey(entry.dbset);
 				if(result){
@@ -90,17 +89,7 @@ function sliceExtraProperties(matches){
 	return match;
 }
 
-exports.applyMatches = function(data,matches){
-	data = "" + data;
-	for(var matching_key in matches){
-		var part = matches[matching_key];
-		for(var i=0;i<part.length;i++){
-			rgx = new RegExp("<% "+ matching_key +"\."+ i +" %>","g");
-			data = data.replace(rgx,part[i]);	
-		}
-	}
-	return data;
-}
+
 
 var dbsets = require('./loaders/dbset_loader').getDBsets();
 

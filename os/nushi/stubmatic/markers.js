@@ -1,5 +1,6 @@
 var util = require('./util/util');
 var LocalDateTime = require('js-joda').LocalDateTime;
+var dbsetLoader = require('./loaders/dbset_loader');
 
 //TODAY, TPDAY+N, TODAY-N
 //DEPRECATED
@@ -89,7 +90,7 @@ exports.jodaDateMarker2 = {
 //handle strategy: random (not *)
 //default key: *
 //skip
-var dbsetLoader = require('./loaders/dbset_loader');
+
 exports.dbkeys = {
 	exp : "#([a-zA-Z0-9_]+)",
 	evaluate : function(match,rc){

@@ -1,7 +1,8 @@
 var logger = require('./log');
 var fileutil = require('./util/fileutil');
-var reqResolver = require('./request_resolver');
+var util = require('./util/util');
 var path = require('path');
+var configBuilder = require("./configbuilder");
 
 var lastFileIndex = [];
 
@@ -43,15 +44,15 @@ exports.readResponse = function (matchedentry){
 	}
 }
 
-var configBuilder = require("./configbuilder");
+
 var stubsDir = configBuilder.getConfig().stubs || "";
 
 function resolveName(file,matches){
 	if(typeof file === 'object'){
-		file.name = path.join(stubsDir,reqResolver.applyMatches(file.name,matches));
+		file.name = path.join(stubsDir,util.applyMatches(file.name,matches));
 		responseCode = file.status;
 	}else{
-		file = path.join(stubsDir,reqResolver.applyMatches(file,matches));
+		file = path.join(stubsDir,util.applyMatches(file,matches));
 	}
 
 	return file;

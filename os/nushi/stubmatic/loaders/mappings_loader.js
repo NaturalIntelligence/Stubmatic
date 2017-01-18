@@ -6,11 +6,9 @@ var configBuilder = require("./../configbuilder");
 var resp_prop1 = ['status','latency'];
 var resp_prop2 = ['headers','contentType'];
 var req_prop = ['headers','query'];
-var allMappings = [];
 
-exports.load = function(){
-    allMappings = [];
-    var config = configBuilder.getConfig();
+exports.buildMappings = function(config){
+    var allMappings = [];
     var defaultConfig = config.mappings.default;
     if(!defaultConfig){
         defaultConfig = {
@@ -78,10 +76,6 @@ exports.load = function(){
             allMappings = allMappings.concat(mappings);
         }
     }
-}
-
-
-exports.getMappings = function(){
     return allMappings;
 }
 

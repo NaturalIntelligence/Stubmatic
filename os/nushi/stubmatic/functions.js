@@ -3,6 +3,7 @@ var fastLoremIpsum = require('fast-lorem-ipsum').fastLoremIpsum;
 var logger = require('./log');
 var path = require('path');
 var fs = require('fs');
+var configBuilder = require("./configbuilder");
 
 exports.formatDate = function(dt_str,format){
 	var dt = util.formatDate(new Date(dt_str), format);
@@ -17,7 +18,6 @@ exports.urlEncode = function(url){
 	return encodeURI(url);
 };
 
-var configBuilder = require("./configbuilder");
 exports.dump = function(dumpPath,dumps){
 
     var dumpsdir = configBuilder.getConfig().dumps;
