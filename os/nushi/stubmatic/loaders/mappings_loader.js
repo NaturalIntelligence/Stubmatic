@@ -36,7 +36,7 @@ exports.load = function(){
         }
 
         
-        if(!mappings || mappings.length == 0){
+        if(!mappings || mappings.length === 0){
             logger.info(req_mapping + " is an empty file.");
         }else{
             logger.info("Loading "+ mappings.length +" mappings from " + req_mapping);
@@ -57,7 +57,7 @@ exports.load = function(){
                     resp['strategy'] = defaultConfig.response['strategy'];
                 }
 
-                for (var j = 0; j < resp_prop2.length; j++) {
+                for (j = 0; j < resp_prop2.length; j++) {
                     if(!resp[resp_prop2[j]] && defaultConfig.response[resp_prop2]){
                         resp[resp_prop2[j]] = defaultConfig.response[resp_prop2[j]] ;
                     }
@@ -68,7 +68,7 @@ exports.load = function(){
                     req['method'] = defaultConfig.request['method'];
                 }
 
-                 for (var j = 0; j < req_prop.length; j++) {
+                 for (j = 0; j < req_prop.length; j++) {
                     if(!req[req_prop[j]] && defaultConfig.request[req_prop]){
                         req[req_prop[j]] = defaultConfig.request[req_prop[j]] ;
                     }

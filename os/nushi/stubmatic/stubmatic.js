@@ -36,26 +36,13 @@ var resFileResolver = require('./response_handler');
 var color = require('./util/colors').color;
 var url = require('url');
 
+
 function requestResponseHandler(request, response) {
 
 	var rc = new RequestContext(request);
 	var parsedURL = url.parse(request.url, true);
 	request.url = parsedURL.pathname;
 	request.query = parsedURL.query;
-
-	if(request.query.debug){
-
-		if(request.url == '/'){
-			rc.scriptLocation = __dirname;
-			rc.config = config;
-			rc.projectPath = global.basePath;
-			var os = require('os');
-			rc.memory = {};
-			rc.memory.total = os.totalmem();
-			rc.memory.free = os.freemem();
-			rc.hostname = os.hostname();
-		}
-	}
 
 	  var body = [];
 	  request.on('error', function(err) {
@@ -74,7 +61,7 @@ function requestResponseHandler(request, response) {
 
 			rc.resolved = matchedEntry;
 
-			if(matchedEntry == null){
+			if(matchedEntry === null){
 				response.statusCode = 404;
 				logger.debug(JSON.stringify(rc, null, "\t"));
 				response.end("");	
@@ -137,10 +124,11 @@ function requestResponseHandler(request, response) {
 				sendResponse(response,data,sendAsAttachment,request.headers['accept-encoding']);	
 				logger.debug(rc.getTransactionId() + " after sendResponse : " + rc.howLong() + " ms");
 			
-				if(response.statusCode == 200){
-					logger.info(rc.getTransactionId() + " Response served in " + rc.howLong() + " ms with Status Code " + response.statusCode,'green');
+				var msgStr = rc.getTransactionId() + " Response served in " + rc.howLong() + " ms with Status Code " + response.statusCode;
+				if(response.statusCode === 200){
+					logger.info(msgStr,'green');
 				}else{
-					logger.info(rc.getTransactionId() + " Response served in " + rc.howLong() + " ms with Status Code " + response.statusCode,'red');
+					logger.error(msgStr);
 				}
 			},calculateLatency(matchedEntry.response.latency));
 		}catch(e){
@@ -209,37 +197,32 @@ function calculateLatency(latency){
 }
 
 function sendResponse(response,data,sendAsAttachment,encodingType){
-	if(!sendAsAttachment){
-		if(encodingType){
-			if(encodingType.indexOf('gzip') > -1){
-				response.setHeader('content-encoding','gzip');
-				response.write(zlib.gzipSync(data));
-			}else if(encodingType.indexOf('deflate') > -1){
-				response.setHeader('content-encoding','deflate');
-				response.write(zlib.deflateSync(data));
-			}
-		}else{
-			response.write(data);
+	var gzip = false, deflate = false;
+	if(encodingType){
+		if(encodingType.indexOf('gzip') > -1){
+			response.setHeader('content-encoding','gzip');
+			gzip = true;
+		}else if(encodingType.indexOf('deflate') > -1){
+			response.setHeader('content-encoding','deflate');
+			deflate = true;
 		}
+	}
+
+	if(!sendAsAttachment){
+		if(gzip) data = zlib.gzipSync(data);
+		else if(deflate) data = zlib.deflateSync(data);
+		
+		response.write(data);
 		response.end("");	
 	}else{
 		response.setHeader("Content-Type",sendAsAttachment);
 		//response.setHeader("Content-Length",len);
 		var rstream = fs.createReadStream(data);//data is filename in this case
 
-		if(encodingType){
-			if(encodingType.indexOf('gzip') > -1){
-				response.setHeader('content-encoding','gzip');
-				rstream.pipe(zlib.createGzip()).pipe(response);
-				//response.write(zlib.gzipSync(data));
-			}else if(encodingType.indexOf('deflate') > -1){
-				response.setHeader('content-encoding','deflate');
-				rstream.pipe(zlib.createDeflate()).pipe(response);
-				//response.write(zlib.deflateSync(data));
-			}
-		}else{
-			rstream.pipe(response);
-		}
+		if(gzip) rstream.pipe(zlib.createGzip()).pipe(response);
+		else if(deflate) rstream.pipe(zlib.createDeflate()).pipe(response);
+		else rstream.pipe(response);
+
 	}
 }
 

@@ -2,16 +2,16 @@ var util = require('./util/util');
 var LocalDateTime = require('js-joda').LocalDateTime;
 
 //TODAY, TPDAY+N, TODAY-N
-//TODO: mark it deprecated
+//DEPRECATED
 exports.dateMarker = {
 	exp : "TODAY(?:([\\+\\-])([0-9]+))?",
 	evaluate : function(match){
 		var dt = exports.now();
-		var days = parseInt(match[2]);
+		var days = parseInt(match[2],10);
 
-		if(match[1] == '+'){
+		if(match[1] === '+'){
 			dt.setDate(dt.getDate() + days);
-		}else if(match[1] == '-'){
+		}else if(match[1] === '-'){
 			dt.setDate(dt.getDate() - days);
 		}
 		return dt;
@@ -30,11 +30,11 @@ exports.dateMarker2 = {
 			if(match){
 				var identifier = match[match.length-1];
 				var number = Number(match.substr(0,match.length-1));
-				if(identifier == 'y'){
+				if(identifier === 'y'){
 					today.setFullYear(today.getFullYear() + number);	
-				}else if(identifier == 'm'){
+				}else if(identifier === 'm'){
 					today.setMonth(today.getMonth() + number);	
-				}else if(identifier == 'd'){
+				}else if(identifier === 'd'){
 					today.setDate(today.getDate() + number);	
 				}
 			}
@@ -44,18 +44,17 @@ exports.dateMarker2 = {
 	}
 };
 
-//NOW, NOW+N, NOW-N
-//TODO: mark it deprecated
+//DEPRECATED
 exports.jodaDateMarker = {
 	exp : "JODA_TODAY(?:([\\+\\-])([0-9]+))?",
 	evaluate : function(match){
 		var today = exports.nowJoda();
 		var operation = match[1];
-		var days = parseInt(match[2]);
+		var days = parseInt(match[2],10);
 
-		if(match[1] == '+'){
+		if(match[1] === '+'){
 			today = today.plusDays(days);
-		}else if(match[1] == '-'){
+		}else if(match[1] === '-'){
 			today = today.minusDays(days);
 		}
 		return new Date(today.toLocalDate() + " " + today.toLocalTime());
@@ -74,11 +73,11 @@ exports.jodaDateMarker2 = {
 				var identifier = match[match.length-1];
 				var number = Number(match.substr(0,match.length-1));
 
-				if(identifier == 'y'){
+				if(identifier === 'y'){
 					today = today.plusYears(number);	
-				}else if(identifier == 'm'){					
+				}else if(identifier === 'm'){					
 					today = today.plusMonths(number);
-				}else if(identifier == 'd'){
+				}else if(identifier === 'd'){
 					today = today.plusDays(number);
 				}
 			}

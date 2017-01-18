@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
+var logger = require('./os/nushi/stubmatic/log');
 
 if(process.argv[2] === "--help" || process.argv[2] === "-h"){
 	console.log(fs.readFileSync(__dirname + "/man/stubmatic.1", 'utf-8'));
@@ -32,34 +33,30 @@ if(process.argv[2] === "--help" || process.argv[2] === "-h"){
 					global.basePath = path.join(process.cwd(),process.argv[i+1]);
 				}
 			}else if(key === '-v' || key === '--verbose'){
-				require('./os/nushi/stubmatic/log').setVerbose(true);
-				continue;
+				logger.setVerbose(true);
 			}else if(key === '-l' || key === '--logs'){
-				require('./os/nushi/stubmatic/log').writeLogs(true);
-				continue;
+				logger.writeLogs(true);
 			}else if(key === '--debug'){
-				require('./os/nushi/stubmatic/log').debugLogs(true);
-				continue;
-			}
-
-
-			if(key === '--port' || key === '-p'){
-				key = '-p';
-			}else if(key === '--config' || key === '-c'){
-				key = '-c';
-			}else if(key === '--mapping' || key === '-m'){
-				key = '-m';
-			}else if(key === '--stub' || key === '-s'){
-				key = '-s';
-			}else if(key === '-d' || key === '-v' || key === '--host'
-				|| key === '-l' || key === '-P' || key === '--mutualSSL'){
-				//valid keys
+				logger.debugLogs(true);
 			}else{
-				console.log("Invalid options");
-				console.log("Try 'stubmatic --help' for more information.")
-				return;
+				if(key === '--port' || key === '-p'){
+					key = '-p';
+				}else if(key === '--config' || key === '-c'){
+					key = '-c';
+				}else if(key === '--mapping' || key === '-m'){
+					key = '-m';
+				}else if(key === '--stub' || key === '-s'){
+					key = '-s';
+				}else if(key === '-d' || key === '-v' || key === '--host'
+					|| key === '-l' || key === '-P' || key === '--mutualSSL'){
+					//valid keys
+				}else{
+					console.log("Invalid options");
+					console.log("Try 'stubmatic --help' for more information.")
+					return;
+				}
+				options[key] = process.argv[++i];
 			}
-			options[key] = process.argv[++i];
 		}
 	}
 

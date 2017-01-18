@@ -33,14 +33,14 @@ exports.resolve = function (http_request){
 function matchAndCapture(mapped_request, http_request){
 	var matched = {};
 
-	if(mapped_request.method != http_request.method){
+	if(mapped_request.method !== http_request.method){
 		return;
 	}
 
 	if(mapped_request.url){
-		var match = util.getMatches(http_request.url,'^'+mapped_request.url+'$');
-		if(match){
-			matched['url'] = match;
+		var urlmatch = util.getMatches(http_request.url,'^'+mapped_request.url+'$');
+		if(urlmatch){
+			matched['url'] = urlmatch;
 		}else{
 			return;
 		}
@@ -49,13 +49,13 @@ function matchAndCapture(mapped_request, http_request){
 	if(mapped_request.post){
 		var matches = util.getAllMatches(http_request.post,mapped_request.post);
 		
-		var match = [];
+		var postmatch = [];
 		for(var i in matches){
-			match = match.concat(matches[i].slice(0,matches[i].length - 2));
+			postmatch = postmatch.concat(matches[i].slice(0,matches[i].length - 2));
 		}
 
-		if(match.length > 0){
-			matched['post'] = match;
+		if(postmatch.length > 0){
+			matched['post'] = postmatch;
 		}else{
 			return;
 		}
@@ -120,11 +120,11 @@ var resolveDBSetKey = function (config){
 			return '*';
 		}
 	}else{//strategy
-		if(config.strategy == 'random'){
+		if(config.strategy === 'random'){
 			var len = dbsets[config.db].count();
 			var i = Math.floor((Math.random() * len) + 1) - 1;
 			return dbsets[config.db].getHashes()[i];
-		}/*else if(config.strategy == 'round-robin'){
+		}/*else if(config.strategy === 'round-robin'){
 			var len = dbsets[config.db].size();
 			var lastIndex = lastKeyIndex[config.db];
 			if(lastIndex != undefined){

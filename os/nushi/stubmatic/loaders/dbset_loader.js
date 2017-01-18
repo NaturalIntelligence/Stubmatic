@@ -40,7 +40,7 @@ exports.load = function(){
                     });
                     rd.on('line', function(line) {
                         var columns = splitAndTrim(line);
-                        if(linecount == 0){
+                        if(linecount === 0){
                             headers= columns;
                         }else{
                             var row = {};

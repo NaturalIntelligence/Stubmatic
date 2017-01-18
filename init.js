@@ -29,8 +29,9 @@ exports.init = function(dest){
 	copyRecursiveSync(srcPath, destPath, function(err){
     if(err) {
       console.log("Error in creating quick repo.");
-      process.exit(1);
+    }else{
+      console.log('stubmatic repo is ready for use.');
     }
   });
-  console.log('stubmatic repo is ready for use.');
+  
 }

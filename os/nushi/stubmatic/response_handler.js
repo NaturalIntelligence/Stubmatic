@@ -14,11 +14,11 @@ exports.readResponse = function (matchedentry){
 	if(res.file){
 		return resolveName(res.file,matches);
 	}else if(res.files){
-		if(res.strategy == 'random'){
+		if(res.strategy === 'random'){
 			var len = res.files.length
 			var i = Math.floor((Math.random() * len) + 1) - 1;
 			return resolveName(res.files[i],matches);
-		}else if(res.strategy == 'round-robin'){
+		}else if(res.strategy === 'round-robin'){
 			var len = res.files.length;
 			var mappedReqestIndex = matchedentry.index;
 			if(lastFileIndex[mappedReqestIndex] != undefined){
@@ -28,7 +28,7 @@ exports.readResponse = function (matchedentry){
 			}
 			var index = lastFileIndex[mappedReqestIndex];
 			return resolveName(res.files[index],matches);
-		}else if(res.strategy == 'first-found'){
+		}else if(res.strategy === 'first-found'){
 			for(var i=0;i<res.files.length;i++){
 				var fileName = "";
 				res.files[i] = resolveName(res.files[i],matches);

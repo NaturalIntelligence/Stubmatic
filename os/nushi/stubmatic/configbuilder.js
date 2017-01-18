@@ -50,7 +50,7 @@ function updateBasePath(basePath){
 
 	var files = config['mappings']['files'];
 	var newMappings = [];
-	for(var i=0; i<files.length; i++){
+	for(i=0; i<files.length; i++){
 		newMappings.push(path.join(basePath , files[i]));
 	}
 
@@ -93,7 +93,7 @@ function buildFromDirectory(dirPath){
 	var files = fileutil.ls(mappingsPath);
 	if(files.length > 0){
 		config['mappings']['files'] = [];
-		for(var i=0; i<files.length; i++){
+		for(i=0; i<files.length; i++){
 			config['mappings']['files'].push(path.join(mappingsPath , files[i]));
 		}
 	}
@@ -108,7 +108,7 @@ function buildFromDirectory(dirPath){
 
 		if(cacerts.length > 0){
 			config.server.ca = [];
-			for(var i=0; i<cacerts.length; i++){
+			for(i=0; i<cacerts.length; i++){
 				config.server.ca.push(path.join(cacertPath , cacerts[i]));
 			}
 		}

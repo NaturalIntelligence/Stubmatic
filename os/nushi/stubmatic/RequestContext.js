@@ -1,4 +1,5 @@
 var random = require('./functions').random;
+var os = require('os');
 
 function RequestContext(request) {
 	this.url = request.url;
@@ -8,6 +9,12 @@ function RequestContext(request) {
 	this.transactionId = random(10,'alpha_num')
 	this.startTime = new Date();
 	this.response = {};
+	this.projectPath = global.basePath;
+	this.server = {};
+	this.server.memory = {};
+	this.server.memory.total = os.totalmem();
+	this.server.memory.free = os.freemem();
+	this.server.hostname = os.hostname();
 }
 var method = RequestContext.prototype;
 

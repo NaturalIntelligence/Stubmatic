@@ -6,10 +6,9 @@ var quietLog = true; //when --logs is not given
 var filelogger = {};
 var path = require('path');
 var fs = require('fs');
+var winston = require('winston');
 
 if(quietLog){
-	var winston = require('winston');
-	
 	var debuglogpath;
 	var errlogpath;
 	var dirPath= GLOBAL.basePath || process.cwd(); //root of repo
@@ -47,7 +46,7 @@ exports.detailInfo = function(msg){
 }
 
 exports.debug = function(msg){
-	debug || exports.warn(msg);
+	debug && exports.warn(msg);
 }
 
 exports.warn = function(msg){
