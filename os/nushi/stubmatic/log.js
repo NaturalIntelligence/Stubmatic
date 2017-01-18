@@ -26,11 +26,11 @@ if(quietLog){
 	filelogger = new (winston.Logger)({
 	  transports: [
 	    //new (winston.transports.Console)({ json: false, timestamp: true }),
-	    new winston.transports.File({ filename: debuglogpath , json: false })
+	    new winston.transports.File({ filename: debuglogpath , json: false });
 	  ],
 	  exceptionHandlers: [
 	    //new (winston.transports.Console)({ json: false, timestamp: true }),
-	    new winston.transports.File({ filename: errlogpath, json: false })
+	    new winston.transports.File({ filename: errlogpath, json: false });
 	  ],
 	  exitOnError: false
 	});

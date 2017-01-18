@@ -27,8 +27,8 @@ exports.buildMappings = function(config){
         try{
             mappings = YAML.parseFile(req_mapping);
         }catch(e){
-            logger.info(color("Problem in loading " + req_mapping, 'Red'))
-            logger.info("Check for syntax error and indentation.")
+            logger.info(color("Problem in loading " + req_mapping, 'Red'));
+            logger.info("Check for syntax error and indentation.");
         }
         
         if(!mappings || mappings.length === 0){
@@ -47,8 +47,8 @@ exports.buildMappings = function(config){
                     }
                 }
 
-                if(!resp['strategy'] && resp['files']){
-                    resp['strategy'] = defaultConfig.response['strategy'];
+                if(!resp.strategy && resp['files']){
+                    resp.strategy = defaultConfig.response.strategy;
                 }
 
                 for (j = 0; j < resp_prop2.length; j++) {
@@ -58,8 +58,8 @@ exports.buildMappings = function(config){
                 }
                 //request
                 var req = mappings[i].request;
-                if(!req['method']){
-                    req['method'] = defaultConfig.request['method'];
+                if(!req.method){
+                    req.method = defaultConfig.request.method;
                 }
 
                  for (j = 0; j < req_prop.length; j++) {
@@ -73,10 +73,11 @@ exports.buildMappings = function(config){
         }
     }
     return allMappings;
-}
+};
 
-var httpMethods = ['GET','PUT','POST','HEAD','DELETE','OPTIONS','PATCH','TRACE']
-
+var httpMethods = ['GET','PUT','POST','HEAD','DELETE','OPTIONS','PATCH','TRACE'];
+var shortNotationReqProp = ['body','bodyText']
+var shortNotationRespProp = ['file','files','status','latency']
 /**
 Converts short notation to full notation mapping
 **/
@@ -89,27 +90,28 @@ function convertToFullNotationIfShort(mapping){
         fullNotation.request = {};
         fullNotation.response = {};
 
-        httpMethods.forEach((method) => {
+        for (var i = 0; i < httpMethods.length; i++) {
+            var method = httpMethods[i];
             if(mapping[method]){
                 fullNotation.request.method = method;
                 fullNotation.request.url = mapping[method];
             }
-        });
+        }
 
-        ['body','bodyText'].forEach( prop => {
+        shortNotationReqProp.forEach( prop => {
             if(mapping[prop]){
                 fullNotation.request[prop] = mapping[prop];
             }    
         });
         
-        ['file','files','status','latency'].forEach( prop => {
+        shortNotationRespProp.forEach( prop => {
             if(mapping[prop]){
                 fullNotation.response[prop] = mapping[prop];
             }    
         });
 
-        if(mapping['response'] && typeof mapping['response'] === 'string'){
-            fullNotation.response['body'] = mapping['response'];
+        if(mapping.response && typeof mapping.response === 'string'){
+            fullNotatio.response.body = mapping.response;
         }
         
         return fullNotation;
