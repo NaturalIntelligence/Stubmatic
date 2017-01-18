@@ -11,3 +11,5 @@ notifications:
 addons:
     code_climate:
         repo_token: c2a04906c1a09a57ea78caf637acd555f2a90fdd8d6ca32b712963ffb99c77ad
+after_success:
+  - coveralls

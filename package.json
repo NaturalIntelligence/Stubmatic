@@ -6,7 +6,8 @@
   "man": "./man/stubmatic.1",
   "main": "./os/nushi/stubmatic/stubmatic.js",
   "scripts": {
-    "test": "jasmine spec/*spec.js"
+    "test": "jasmine spec/*spec.js",
+    "coveralls":"istanbul cover jasmine --captureExceptions spec/*spec.js && cat ./coverage/lcov.info"
   },
   "author": "Amit Gupta (https://github.com/amitguptagwl)",
   "dependencies": {
@@ -46,6 +47,8 @@
     "simulator"
   ],
   "devDependencies": {
+    "coveralls": "^2.11.15",
+    "istanbul": "^0.4.5",
     "jasmine": "^2.5.2",
     "jasmine-core": "^2.5.2"
   }
