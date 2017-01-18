@@ -31,7 +31,7 @@ exports.resolve = function (http_request){
 
 
 function matchAndCapture(mapped_request, http_request){
-	var matched = {};
+	var matched = {}, i=0;
 
 	if(mapped_request.method !== http_request.method){
 		return;
@@ -50,7 +50,7 @@ function matchAndCapture(mapped_request, http_request){
 		var matches = util.getAllMatches(http_request.post,mapped_request.post);
 		
 		var postmatch = [];
-		for(var i in matches){
+		for (i = 0; i < matches.length; i++) {
 			postmatch = postmatch.concat(matches[i].slice(0,matches[i].length - 2));
 		}
 
@@ -62,7 +62,7 @@ function matchAndCapture(mapped_request, http_request){
 	}	
 
 	var props = ["headers","query"];
-	for (var i = 0; i < props.length; i++) {
+	for (i = 0; i < props.length; i++) {
 		if(mapped_request[props[i]]){
 			var result = matchParamters(http_request,mapped_request,props[i]);
 			if(result)
@@ -81,7 +81,7 @@ function matchParamters(http_request,mapped_request,param_name){
 	for(var key in mapped_request[param_name]){
 		var matches = util.getAllMatches(http_request[param_name][key],'^'+mapped_request[param_name][key]+'$');
 		var match = [];
-		for(var i in matches){
+		for (var i = 0; i < matches.length; i++) {
 			match = match.concat(matches[i].slice(0,matches[i].length - 2));
 		}
 		if(match.length > 0){

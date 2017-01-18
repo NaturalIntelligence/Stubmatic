@@ -52,7 +52,7 @@ exports.random = function(len,type){
     return text;
 }
 
-//TODO: Need to be tested
+
 /*exports.anyNumerBetween = function(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);

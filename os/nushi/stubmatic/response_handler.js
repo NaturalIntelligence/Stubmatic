@@ -8,28 +8,25 @@ var lastFileIndex = [];
 exports.readResponse = function (matchedentry){
 	var responseCode;
 	var res = matchedentry.response;
-
-	var fileName ="";
 	var matches = matchedentry.request.matches;
 	if(res.file){
 		return resolveName(res.file,matches);
 	}else if(res.files){
+		var len = res.files.length, i=0;
 		if(res.strategy === 'random'){
-			var len = res.files.length
-			var i = Math.floor((Math.random() * len) + 1) - 1;
+			i = Math.floor((Math.random() * len) + 1) - 1;
 			return resolveName(res.files[i],matches);
 		}else if(res.strategy === 'round-robin'){
-			var len = res.files.length;
 			var mappedReqestIndex = matchedentry.index;
 			if(lastFileIndex[mappedReqestIndex] != undefined){
-				lastFileIndex[mappedReqestIndex] = lastFileIndex[mappedReqestIndex] == len - 1 ? 0 : lastFileIndex[mappedReqestIndex]+1;
+				lastFileIndex[mappedReqestIndex] = lastFileIndex[mappedReqestIndex] === len - 1 ? 0 : lastFileIndex[mappedReqestIndex]+1;
 			}else{
 				lastFileIndex[mappedReqestIndex] = 0;
 			}
-			var index = lastFileIndex[mappedReqestIndex];
-			return resolveName(res.files[index],matches);
+			i = lastFileIndex[mappedReqestIndex];
+			return resolveName(res.files[i],matches);
 		}else if(res.strategy === 'first-found'){
-			for(var i=0;i<res.files.length;i++){
+			for(i=0;i<len;i++){
 				var fileName = "";
 				res.files[i] = resolveName(res.files[i],matches);
 				if(typeof res.files[i] === 'object'){
@@ -46,10 +43,10 @@ exports.readResponse = function (matchedentry){
 	}
 }
 
-var stubsDir = require("./configbuilder").getConfig().stubs || "";
+var configBuilder = require("./configbuilder");
+var stubsDir = configBuilder.getConfig().stubs || "";
 
 function resolveName(file,matches){
-	var fileName = "";
 	if(typeof file === 'object'){
 		file.name = path.join(stubsDir,reqResolver.applyMatches(file.name,matches));
 		responseCode = file.status;
