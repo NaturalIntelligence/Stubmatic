@@ -7,32 +7,29 @@ var resp_prop1 = ['status','latency'];
 var resp_prop2 = ['headers','contentType'];
 var req_prop = ['headers','query'];
 
-exports.buildMappings = function(config){
-    var allMappings = [];
-    var defaultConfig = config.mappings.default;
-    if(!defaultConfig){
-        defaultConfig = {
-            request : {
-                method : 'GET'
-            },
-            response : {
-                status : 200,
-                latency : 0,
-                strategy: 'first-found'
-            }
+var defaultConfig = {
+        request : {
+            method : 'GET'
+        },
+        response : {
+            status : 200,
+            latency : 0,
+            strategy: 'first-found'
         }
-    }
+    };
+
+exports.buildMappings = function(config){
+    var allMappings = [], mappings;
+    defaultConfig = config.mappings.default || defaultConfig;
 
     for(var fileName in config.mappings.files){
         var req_mapping = config.mappings.files[fileName];
-        var mappings;
         try{
             mappings = YAML.parseFile(req_mapping);
         }catch(e){
             logger.info(color("Problem in loading " + req_mapping, 'Red'))
             logger.info("Check for syntax error and indentation.")
         }
-
         
         if(!mappings || mappings.length === 0){
             logger.info(req_mapping + " is an empty file.");
@@ -40,7 +37,6 @@ exports.buildMappings = function(config){
             logger.info("Loading "+ mappings.length +" mappings from " + req_mapping);
 
             for(var i=0;i<mappings.length;i++){
-
                 mappings[i] = convertToFullNotationIfShort(mappings[i]);
 
                 //response

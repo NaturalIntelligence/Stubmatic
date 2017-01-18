@@ -11,7 +11,7 @@ var winston = require('winston');
 if(quietLog){
 	var debuglogpath;
 	var errlogpath;
-	var dirPath= GLOBAL.basePath || process.cwd(); //root of repo
+	var dirPath= global.basePath || process.cwd(); //root of repo
 
 	var logDirPath = path.join(dirPath,"logs");
 	if(isExist(logDirPath)){
