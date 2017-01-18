@@ -67,7 +67,7 @@ function requestResponseHandler(request, response) {
 		request['post'] = body;
 		rc.requestBody = body;
 
-		logger.info(rc.getTransactionId() + " " + request.method+": "+request.url,'success');
+		logger.info(rc.getTransactionId() + " " + request.method+": "+request.url,'green');
 		try{
 			var matchedEntry = reqResolver.resolve(request);
 			logger.debug(rc.getTransactionId() + " after reqResolver : " + rc.howLong() + " ms");
@@ -138,9 +138,9 @@ function requestResponseHandler(request, response) {
 				logger.debug(rc.getTransactionId() + " after sendResponse : " + rc.howLong() + " ms");
 			
 				if(response.statusCode == 200){
-					logger.info(rc.getTransactionId() + " Response served in " + rc.howLong() + " ms with Status Code " + response.statusCode,'success');
+					logger.info(rc.getTransactionId() + " Response served in " + rc.howLong() + " ms with Status Code " + response.statusCode,'green');
 				}else{
-					logger.info(rc.getTransactionId() + " Response served in " + rc.howLong() + " ms with Status Code " + response.statusCode,'fail');
+					logger.info(rc.getTransactionId() + " Response served in " + rc.howLong() + " ms with Status Code " + response.statusCode,'red');
 				}
 			},calculateLatency(matchedEntry.response.latency));
 		}catch(e){
@@ -151,6 +151,8 @@ function requestResponseHandler(request, response) {
 	  });
 }
 
+var https = require('https');
+var http = require('http');
 function stubmatic(){
 
 	if(config.server.securePort){
@@ -169,20 +171,21 @@ function stubmatic(){
 			options.requestCert= true;
   			options.rejectUnauthorized= true;
 		}
-		require('https').createServer(options, requestResponseHandler).listen(config.server.securePort,config.server.host, function(){
-		    logger.info("Secure server listening on: https://" + config.server.host + ":" + config.server.securePort);
-
-		});
+		serverStart(https.createServer(options),config.server.securePort,'https');
 	}
 
 	if(config.server.port){
-		this.server = require('http').createServer();
-		this.server.on('error', networkErrHandler );
-		this.server.on('request', requestResponseHandler);
-		this.server.listen(config.server.port,config.server.host, function(){
-		    logger.info("Server listening on: http://" + config.server.host + ":" + config.server.port);
-		});
+		this.server = http.createServer();
+		serverStart(this.server,config.server.port,'http');
 	}
+}
+
+function serverStart(server,port,type){
+	server.on('error', networkErrHandler );
+	server.on('request', requestResponseHandler);
+	server.listen(port,config.server.host, function(){
+	    logger.info("Server listening on: "+type+"://" + config.server.host + ":" + port);
+	});
 }
 
 function handleDynamicResponseBody(data,rc){

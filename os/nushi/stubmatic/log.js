@@ -1,26 +1,26 @@
 var color = require('./util/colors').color;
 
-var quiet = true;
-var debug = false;
-var quietLog = true;
+var quiet = true; //when -v is not given
+var debug = false; 
+var quietLog = true; //when --logs is not given
 var filelogger = {};
+var path = require('path');
+var fs = require('fs');
 
 if(quietLog){
 	var winston = require('winston');
-	var path = require('path');
-	var fs = require('fs');
-
+	
 	var debuglogpath;
 	var errlogpath;
-	var dirPath= GLOBAL.basePath || process.cwd();
+	var dirPath= GLOBAL.basePath || process.cwd(); //root of repo
 
-	if(isExist(path.join(dirPath,"logs"))){
-		debuglogpath = path.join(dirPath,"logs","debug.log");
-		errlogpath = path.join(dirPath,"logs","exceptions.log");
-	}else{
-		debuglogpath = path.join(dirPath,"debug.log");
-		errlogpath = path.join(dirPath,"exceptions.log");
+	var logDirPath = path.join(dirPath,"logs");
+	if(isExist(logDirPath)){
+		dirPath = logDirPath;
 	}
+
+	debuglogpath = path.join(dirPath,"debug.log");
+	errlogpath = path.join(dirPath,"exceptions.log");
 
 	//console.log("writing logs to: " + debuglogpath +", "+ errlogpath);
 
@@ -37,16 +37,9 @@ if(quietLog){
 	});
 }
 
-exports.info = function(msg,status){
-	var coloredmsg;
-	if(status && status.toLowerCase() == 'success'){
-		coloredmsg = color(msg,'green');
-	}else if(status && status.toLowerCase() == 'fail'){
-		coloredmsg = color(msg,'red');
-	}
-
-	quiet || console.log(coloredmsg || msg);
-	quietLog || filelogger.info(msg);
+exports.info = function(msg,colorCode){
+	exports.detailInfo(msg);
+	logToConsole(msg,colorCode);
 }
 
 exports.detailInfo = function(msg){
@@ -54,18 +47,26 @@ exports.detailInfo = function(msg){
 }
 
 exports.debug = function(msg){
-	quiet || (debug && console.warn(color(msg,'yellow')));
-	quietLog || (debug && filelogger.info(msg));
+	debug || exports.warn(msg);
 }
 
 exports.warn = function(msg){
-	quiet || console.warn(color(msg,'yellow'));
+	logToConsole(msg,'yellow');
 	quietLog || filelogger.warn(msg);
 }
 
 exports.error = function(msg){
-	quiet || console.error(color(msg,'red'));
+	logToConsole(msg,'red');
 	quietLog || filelogger.error(msg);
+}
+
+function logToConsole(msg,colorCode){
+	if(!quiet){
+		if(colorCode){
+			msg = color(msg,colorCode.toLowerCase());
+		}
+		console.log(msg);
+	}
 }
 
 exports.setVerbose= function(flag){
