@@ -2,6 +2,8 @@
 
 var fs = require('fs');
 var logger = require('./os/nushi/stubmatic/log');
+var color = require('./os/nushi/stubmatic/util/colors').color;
+var path = require('path');
 
 if(process.argv[2] === "--help" || process.argv[2] === "-h"){
 	console.log(fs.readFileSync(__dirname + "/man/stubmatic.1", 'utf-8'));
@@ -9,9 +11,34 @@ if(process.argv[2] === "--help" || process.argv[2] === "-h"){
 	console.log(require(__dirname + "/package.json").version);
 }else if(process.argv[2] === "init"){
 	require('./init').init(process.argv[3] || "stub-repo");
+}else if(process.argv[2] === "validate"){
+	var YAML = require('yamljs');
+
+	try{
+		if(process.argv[3].endsWith(".json")){
+			require('jsonlint').parse(fs.readFileSync(process.argv[3], {encoding: 'utf-8'}));
+			console.log("Validated successfully")
+		}
+		else if(process.argv[3].endsWith(".yaml")){
+			require('yamljs').parseFile(process.argv[3]);
+			console.log("Validated successfully")
+		}
+		/*else if(process.argv[3].endsWith(".xml"))
+			require('xmlchecker').check(process.argv[3]);*/
+		else{
+			console.log("Unsupported file");
+
+		}
+
+		
+	}catch(e){
+		console.log("Validation failed")
+		console.log(color(e,'red'));
+		//if(e.line) console.log("line number: " + e.line + ":" + e.column);
+	}
 }else{
 
-	var path = require('path');
+	
 
 	var isExist = function(path){
 		try{
