@@ -1,5 +1,6 @@
 var util = require('./util/util');
 var logger = require('./log');
+var dbsetsLoader = require('./loaders/dbset_loader');
 
 exports.resolve = function (http_request,mappings){
 	for(var i=0;i<mappings.length;i++){
@@ -89,13 +90,11 @@ function sliceExtraProperties(matches){
 	return match;
 }
 
-
-
-var dbsets = require('./loaders/dbset_loader').getDBsets();
-
 //var lastKeyIndex = [];
 
 var resolveDBSetKey = function (config){
+	var dbsets = dbsetsLoader.getDBsets();
+
 	if(config.key){
 		var row = dbsets[config.db].get(config.key);
 		if(row){

@@ -5,19 +5,24 @@ var zlib = require('zlib');
 var url = require('url');
 
 var RequestContext = require('./RequestContext');
-var config = require("./configbuilder").getConfig();
+var configBuilder = require("./configbuilder");
 var logger = require('./log');
 var expEngine = require('./expressions/engine')
-require('./loaders/dbset_loader').load();
-var mappings = require('./loaders/mappings_loader').buildMappings(config);
+var dbSetLoader = require('./loaders/dbset_loader');
+var mappingsLoader = require('./loaders/mappings_loader');
 var reqResolver = require('./request_resolver');
 var resFileResolver = require('./response_handler');
 var color = require('./util/colors').color;
 
-
 var https = require('https');
 var http = require('http');
-function stubmatic(){
+var config, mappings;
+
+function stubmatic(opt,callback){
+	configBuilder.build(opt);
+	config = configBuilder.getConfig();
+	mappings = mappingsLoader.buildMappings(config);
+	dbSetLoader.load();
 
 	if(config.server.securePort){
 		
@@ -35,20 +40,23 @@ function stubmatic(){
 			options.requestCert= true;
   			options.rejectUnauthorized= true;
 		}
-		serverStart(https.createServer(options),config.server.securePort,'https');
+		this.secureServer = https.createServer(options);
+		serverStart(this.secureServer,config.server.securePort,'https',callback);
 	}
 
 	if(config.server.port){
 		this.server = http.createServer();
-		serverStart(this.server,config.server.port,'http');
+		serverStart(this.server,config.server.port,'http',callback);
 	}
+
 }
 
-function serverStart(server,port,type){
+function serverStart(server,port,type,callback){
 	server.on('error', networkErrHandler );
 	server.on('request', requestResponseHandler);
 	server.listen(port,config.server.host, function(){
 	    logger.info("Server listening on: "+type+"://" + config.server.host + ":" + port);
+	    if(callback) callback(this);
 	});
 }
 
@@ -122,8 +130,8 @@ function requestResponseHandler(request, response) {
 				data = handleDynamicResponseBody(data,rc);
 				logger.debug(rc.getTransactionId() + " after processing response body : " + rc.howLong() + " ms");
 			}else{
-				var dataFile = resFileResolver.readResponse(matchedEntry);
-				
+				var dataFile = resFileResolver.readResponse(matchedEntry,config.stubs);
+
 				if(typeof dataFile  === 'object'){
 					status =  dataFile.status;
 					dataFile = dataFile.name;

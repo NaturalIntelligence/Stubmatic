@@ -60,12 +60,6 @@ if(process.argv[2] === "--help" || process.argv[2] === "-h"){
 		}
 	}
 
-
-	var configBuilder = require("./os/nushi/stubmatic/configbuilder");
-	configBuilder.build(options);
-	console.log("Configuration: " + JSON.stringify(configBuilder.getConfig(),null, 4));
-
-
 	var stubmatic = require('./os/nushi/stubmatic/stubmatic');
-	var server = new stubmatic();
+	stubmatic(options);
 }

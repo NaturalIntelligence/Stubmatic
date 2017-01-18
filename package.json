@@ -4,6 +4,7 @@
   "version": "4.2.3",
   "description": "A stub server to mock behaviour of HTTP(s) / REST / SOAP services",
   "man": "./man/stubmatic.1",
+  "main" : "./os/nushi/stubmatic/stubmatic.js",
   "scripts": {
     "test": "jasmine spec/*spec.js"
   },
