@@ -1,7 +1,7 @@
 # Stubmatic
 A stub server to mock behaviour of HTTP(s) / REST / SOAP services 
 
-[![Travis ci Build Status](https://travis-ci.org/NaturalIntelligence/Stubmatic.svg?branch=master)](https://travis-ci.org/NaturalIntelligence/Stubmatic) [![Gitter](https://img.shields.io/gitter/room/Stubmatic/Stubmatic.svg)](https://gitter.im/Stubmatic/Lobby#) [![Known Vulnerabilities](https://snyk.io/test/github/naturalintelligence/stubmatic/badge.svg)](https://snyk.io/test/github/naturalintelligence/stubmatic) [![bitHound Overall Score](https://www.bithound.io/github/NaturalIntelligence/Stubmatic/badges/score.svg)](https://www.bithound.io/github/NaturalIntelligence/Stubmatic) [![Code Climate](https://codeclimate.com/github/NaturalIntelligence/Stubmatic/badges/gpa.svg)](https://codeclimate.com/github/NaturalIntelligence/Stubmatic)
+[![Travis ci Build Status](https://travis-ci.org/NaturalIntelligence/Stubmatic.svg?branch=master)](https://travis-ci.org/NaturalIntelligence/Stubmatic) [![Gitter](https://img.shields.io/gitter/room/Stubmatic/Stubmatic.svg)](https://gitter.im/Stubmatic/Lobby#) [![Known Vulnerabilities](https://snyk.io/test/github/naturalintelligence/stubmatic/badge.svg)](https://snyk.io/test/github/naturalintelligence/stubmatic) [![bitHound Overall Score](https://www.bithound.io/github/NaturalIntelligence/Stubmatic/badges/score.svg)](https://www.bithound.io/github/NaturalIntelligence/Stubmatic) [![Code Climate](https://codeclimate.com/github/NaturalIntelligence/Stubmatic/badges/gpa.svg)](https://codeclimate.com/github/NaturalIntelligence/Stubmatic) [![Coverage Status](https://coveralls.io/repos/github/NaturalIntelligence/Stubmatic/badge.svg?branch=dev)](https://coveralls.io/github/NaturalIntelligence/Stubmatic?branch=dev)
 
 > Stubmatic is the new name for my other project [Stubby DB](https://github.com/NaturalIntelligence/StubbyDB). All the changes to stubby db after version **4.2.0** will be happend here only. Previous github & npm repo will be kept for old references.
 
@@ -89,3 +89,4 @@ To make the response dynamic, stubmatic comes with various features
 * Check syntax for short notations
 * 'post' property of request mapping is deprecated. Use 'bodyText' or 'body' attributes.
 * In config.json, `mappings.requests` is changed to `mappings.files`
+* 'response.contentType' in mappings is invalid. Set appropriate response header instead.
