@@ -18,9 +18,10 @@ var https = require('https');
 var http = require('http');
 var config, mappings;
 
-function stubmatic(opt,callback){
+exports.stubmatic = function(opt,callback){
 	configBuilder.build(opt);
 	config = configBuilder.getConfig();
+	logger.debug(JSON.stringify(config,null,4));
 	mappings = mappingsLoader.buildMappings(config);
 	dbSetLoader.load();
 
@@ -104,11 +105,9 @@ function requestResponseHandler(request, response) {
 					response.setHeader(header.toLowerCase(),options.headers[header]);
 				}
 			}
-			var sendAsAttachment = false;
-			if(response.getHeader('content-type')) sendAsAttachment = true;
 
 			setTimeout(function(){
-				sendResponse(response,data,sendAsAttachment,request.headers['accept-encoding']);	
+				sendResponse(response,data,options.sendasfile,request.headers['accept-encoding']);	
 			},options.latency);
 
 		},(data,options) => {
@@ -157,17 +156,17 @@ function sendResponse(response,data,isFile,encodingType){
 2) Resolve response file/body
 3) Process response data (resolve expressions and request captured part)
 */
-function processRequest(request,onSuccess,onError){
+var processRequest = function(request,onSuccess,onError){
 	
 	var rc = new RequestContext(request);
 	logger.info(rc.getTransactionId() + " " + request.method+": "+request.url,'green');
-	rc.requestBody = request['post'];
+	rc.requestBody = request.post;
 	try{
 		var matchedEntry = reqResolver.resolve(request,mappings);
 		logger.debug(rc.getTransactionId() + " after resolving the request : " + rc.howLong() + " ms");
 		rc.resolved = matchedEntry;
 
-		if(matchedEntry === null){
+		if(!matchedEntry || matchedEntry === null){
 			logger.debug(JSON.stringify(rc, null, "\t"));
 			logger.error(rc.getTransactionId() + " Response served with Status Code 404 ");
 			return onError("",{ status : 404});
@@ -184,19 +183,20 @@ function processRequest(request,onSuccess,onError){
 			//Read and Build Response body
 			if(matchedEntry.response.body){
 				data = matchedEntry.response.body;
+				logger.debug(rc.getTransactionId() + " before processing data");
 				data = handleDynamicResponseBody(data,rc);
 				logger.debug(rc.getTransactionId() + " after processing response body : " + rc.howLong() + " ms");
 			}else{
-				var dataFile = resFileResolver.readResponse(matchedEntry,config.stubs);
-
+				var dataFile = resFileResolver.readResponse(matchedEntry);
 				if(typeof dataFile  === 'object'){
 					options.status =  dataFile.status;
 					dataFile = dataFile.name;
 				}
 				
 				logger.info('Reading from file: ' + dataFile);
-				if(hasContentType(matchedEntry.response.headers)){
+				if(matchedEntry.response.sendas && matchedEntry.response.sendas === "file"){
 					data = dataFile;
+					options.sendasfile = true;
 				}else{
 					data = fs.readFileSync(dataFile, {encoding: 'utf-8'});
 						logger.debug(rc.getTransactionId() + " after reading from file : " + rc.howLong() + " ms");
@@ -212,7 +212,7 @@ function processRequest(request,onSuccess,onError){
 		}
 	}catch(e){
 		logger.error(e);
-		onError("",{ status : 500});
+		onError("",{ status : 500},e);
 	}
 }
 
@@ -243,6 +243,4 @@ function calculateLatency(latency){
 	return latency;
 }
 
-
-
-module.exports = stubmatic;
+//module.exports = stubmatic;

@@ -35,9 +35,6 @@ if(process.argv[2] === "--help" || process.argv[2] === "-h"){
 		//if(e.line) console.log("line number: " + e.line + ":" + e.column);
 	}
 }else{
-
-	
-
 	var isExist = function(path){
 		try{
 			fs.accessSync(path, fs.F_OK);
@@ -47,7 +44,7 @@ if(process.argv[2] === "--help" || process.argv[2] === "-h"){
 		}
 	}
 
-	var options = {}
+	var options = {};
 	for(var i=2; i<process.argv.length;i++){
 		if(process.argv[i].indexOf("-") === 0){
 			var key = process.argv[i];
@@ -57,6 +54,7 @@ if(process.argv[2] === "--help" || process.argv[2] === "-h"){
 				}else{
 					global.basePath = path.join(process.cwd(),process.argv[i+1]);
 				}
+				options['-d'] = global.basePath; 
 			}else if(key === '-v' || key === '--verbose'){
 				logger.setVerbose(true);
 			}else if(key === '-l' || key === '--logs'){
@@ -85,6 +83,6 @@ if(process.argv[2] === "--help" || process.argv[2] === "-h"){
 		}
 	}
 
-	var stubmatic = require('./os/nushi/stubmatic/stubmatic');
+	var stubmatic = require('./os/nushi/stubmatic/stubmatic').stubmatic;
 	stubmatic(options);
 }

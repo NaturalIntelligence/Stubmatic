@@ -119,5 +119,3 @@ function buildFromDirectory(dirPath){
 exports.getConfig= function(){
 	return config;
 }
-
-

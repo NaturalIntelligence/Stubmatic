@@ -89,4 +89,4 @@ To make the response dynamic, stubmatic comes with various features
 * Check syntax for short notations
 * 'post' property of request mapping is deprecated. Use 'bodyText' or 'body' attributes.
 * In config.json, `mappings.requests` is changed to `mappings.files`
-* 'response.contentType' in mappings is invalid. Set appropriate response header instead.
+* 'response.contentType' in mappings is invalid. Use 'response.sendasfile: true' instead.

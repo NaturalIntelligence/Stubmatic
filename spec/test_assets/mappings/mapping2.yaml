@@ -9,9 +9,41 @@
 -  request:
       method: POST
       url: /url5
-      #post:
       bodyText: new property to match and capture request body
 
    response:
       body: this will overwrite old mapping
 
+-  request:
+      method: POST
+      url: /url6/([0-9]+)
+      post: ([0-9]+)
+      headers:
+         mandatory: "[a-z]+"
+         custom: "([a-zA-Z0-9]+)"
+      query:
+         q: "(\w+)"
+   response:
+      status: 202
+      latency: [10,100]
+      file: response.json
+      headers:
+         content-type: "application/json"
+
+
+-  request:
+      method: POST
+      url: /url7/([0-9]+)
+      post: ([0-9]+)
+      headers:
+         mandatory: "[a-z]+"
+         custom: "([a-zA-Z0-9]+)"
+      query:
+         q: "abc"
+   response:
+      status: 202
+      latency: [10,100]
+      file: response.json
+      headers:
+         content-type: "application/json"
+      sendas: file      

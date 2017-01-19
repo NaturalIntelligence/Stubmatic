@@ -49,7 +49,7 @@ describe("Config Builder ", function() {
 		        status: 200
 		      }
 		    },
-  			files: ["spec/test_assets/mappings/mapping2.yaml"]
+  			files: ["spec/test_assets/mappings/mapping2.yaml","spec/test_assets/mappings/mapping1.yaml"]
   		},
   		server: {
   			port: 9999,
