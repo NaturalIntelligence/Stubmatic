@@ -79,9 +79,11 @@ function networkErrHandler(err) {
 	process.exit();
 }
 
+/**
+Handle incoming request
+**/
 function requestResponseHandler(request, response) {
 
-	var rc = new RequestContext(request);
 	var parsedURL = url.parse(request.url, true);
 	request.url = parsedURL.pathname;
 	request.query = parsedURL.query;
@@ -93,37 +95,92 @@ function requestResponseHandler(request, response) {
 	    body.push(chunk);
 	  }).on('end', function() {
 	    body = Buffer.concat(body).toString();
-		request['post'] = body;
-		rc.requestBody = body;
+		request.post = body;
 
-		logger.info(rc.getTransactionId() + " " + request.method+": "+request.url,'green');
-		try{
-			var matchedEntry = reqResolver.resolve(request,mappings);
-			logger.debug(rc.getTransactionId() + " after resolving the request : " + rc.howLong() + " ms");
-			rc.resolved = matchedEntry;
-
-			if(matchedEntry === null){
-				response.statusCode = 404;
-				logger.debug(JSON.stringify(rc, null, "\t"));
-				response.end("");	
-				
-				logger.error(rc.getTransactionId() + " Response served with Status Code " + response.statusCode);
-				return;
-			}
-			
-			logger.detailInfo(rc.getTransactionId() + " Matching Config: " + JSON.stringify(mappings[matchedEntry.index],null,4));
-			
-			//Set Headers
-			if(matchedEntry.response.headers){
-				for(var header in matchedEntry.response.headers){
-					response.setHeader(header,matchedEntry.response.headers[header]);
+		processRequest(request,(data,options) => {
+			response.statusCode = options.status;
+			if(options.headers){
+				for(var header in options.headers){
+					response.setHeader(header.toLowerCase(),options.headers[header]);
 				}
-				response.headers = matchedEntry.response.headers;
 			}
+			var sendAsAttachment = false;
+			if(response.getHeader('content-type')) sendAsAttachment = true;
 
-			var sendAsAttachment = matchedEntry.response.contentType;
-			var status = matchedEntry.response.status;
+			setTimeout(function(){
+				sendResponse(response,data,sendAsAttachment,request.headers['accept-encoding']);	
+			},options.latency);
+
+		},(data,options) => {
+			response.statusCode = options.status;
+			response.write(data);
+			response.end("");
+		})
+	  });
+}
+
+/*
+response: HTTP response object
+data: response data or fileNamePath
+isFile: set to 'true' if 'data' is fileNamePath
+encodingType: value of request header parameter "content-encoding"
+*/
+function sendResponse(response,data,isFile,encodingType){
+	var gzip = false, deflate = false;
+	if(encodingType){
+		if(encodingType.indexOf('gzip') > -1){
+			response.setHeader('content-encoding','gzip');
+			gzip = true;
+		}else if(encodingType.indexOf('deflate') > -1){
+			response.setHeader('content-encoding','deflate');
+			deflate = true;
+		}
+	}
+
+	if(!isFile){
+		if(gzip) data = zlib.gzipSync(data);
+		else if(deflate) data = zlib.deflateSync(data);
+		
+		response.write(data);
+		response.end("");	
+	}else{
+		var rstream = fs.createReadStream(data);//data is filename in this case
+
+		if(gzip) rstream.pipe(zlib.createGzip()).pipe(response);
+		else if(deflate) rstream.pipe(zlib.createDeflate()).pipe(response);
+		else rstream.pipe(response);
+	}
+}
+
+/*
+1) Find matching mapping
+2) Resolve response file/body
+3) Process response data (resolve expressions and request captured part)
+*/
+function processRequest(request,onSuccess,onError){
+	
+	var rc = new RequestContext(request);
+	logger.info(rc.getTransactionId() + " " + request.method+": "+request.url,'green');
+	rc.requestBody = request['post'];
+	try{
+		var matchedEntry = reqResolver.resolve(request,mappings);
+		logger.debug(rc.getTransactionId() + " after resolving the request : " + rc.howLong() + " ms");
+		rc.resolved = matchedEntry;
+
+		if(matchedEntry === null){
+			logger.debug(JSON.stringify(rc, null, "\t"));
+			logger.error(rc.getTransactionId() + " Response served with Status Code 404 ");
+			return onError("",{ status : 404});
+		}else{
+			var options = {};
+			logger.detailInfo(rc.getTransactionId() + " Matching Config: " + JSON.stringify(mappings[matchedEntry.index],null,4));
+		
+			//Set Headers
+			options.headers = matchedEntry.response.headers;
+			options.status = matchedEntry.response.status;
+			options.latency = calculateLatency(matchedEntry.response.latency);
 			var data = "";
+
 			//Read and Build Response body
 			if(matchedEntry.response.body){
 				data = matchedEntry.response.body;
@@ -133,46 +190,38 @@ function requestResponseHandler(request, response) {
 				var dataFile = resFileResolver.readResponse(matchedEntry,config.stubs);
 
 				if(typeof dataFile  === 'object'){
-					status =  dataFile.status;
+					options.status =  dataFile.status;
 					dataFile = dataFile.name;
 				}
 				
 				logger.info('Reading from file: ' + dataFile);
-				
-				if(!sendAsAttachment){
+				if(hasContentType(matchedEntry.response.headers)){
+					data = dataFile;
+				}else{
 					data = fs.readFileSync(dataFile, {encoding: 'utf-8'});
 						logger.debug(rc.getTransactionId() + " after reading from file : " + rc.howLong() + " ms");
 					data = handleDynamicResponseBody(data,rc);
 						logger.debug(rc.getTransactionId() + " after processing response body File : " + rc.howLong() + " ms");
-				}else{
-					data = dataFile;
 				}
 			}
 
-			//Set Response Code
-			response.statusCode = status;
-
-			//Latency
 			logger.debug("RequestContext: " + JSON.stringify(rc, null, "\t"));
-			setTimeout(function(){
-				sendResponse(response,data,sendAsAttachment,request.headers['accept-encoding']);	
-				logger.debug(rc.getTransactionId() + " after sendResponse : " + rc.howLong() + " ms");
-			
-				var msgStr = rc.getTransactionId() + " Response served in " + rc.howLong() + " ms with Status Code " + response.statusCode;
-				if(response.statusCode === 200){
-					logger.info(msgStr,'green');
-				}else{
-					logger.error(msgStr);
-				}
-			},calculateLatency(matchedEntry.response.latency));
-		}catch(e){
-			logger.error(e);
-			response.statusCode = 500;
-			response.end("");
+			onSuccess(data,options);
+			var msgStr = rc.getTransactionId() + " Response served in " + rc.howLong() + " ms with Status Code " + options.status;
+			options.status === 200 ? logger.info(msgStr,'green') : logger.error(msgStr) ;
 		}
-	  });
+	}catch(e){
+		logger.error(e);
+		onError("",{ status : 500});
+	}
 }
 
+function hasContentType(headers){
+	for(var header in headers){
+		if(header.toLowerCase() === "content-type") return true;
+	}
+	return false;
+}
 
 function handleDynamicResponseBody(data,rc){
 	//1. replace DbSet Place Holders
@@ -194,33 +243,6 @@ function calculateLatency(latency){
 	return latency;
 }
 
-function sendResponse(response,data,sendAsAttachment,encodingType){
-	var gzip = false, deflate = false;
-	if(encodingType){
-		if(encodingType.indexOf('gzip') > -1){
-			response.setHeader('content-encoding','gzip');
-			gzip = true;
-		}else if(encodingType.indexOf('deflate') > -1){
-			response.setHeader('content-encoding','deflate');
-			deflate = true;
-		}
-	}
 
-	if(!sendAsAttachment){
-		if(gzip) data = zlib.gzipSync(data);
-		else if(deflate) data = zlib.deflateSync(data);
-		
-		response.write(data);
-		response.end("");	
-	}else{
-		response.setHeader("Content-Type",sendAsAttachment);
-		//response.setHeader("Content-Length",len);
-		var rstream = fs.createReadStream(data);//data is filename in this case
-
-		if(gzip) rstream.pipe(zlib.createGzip()).pipe(response);
-		else if(deflate) rstream.pipe(zlib.createDeflate()).pipe(response);
-		else rstream.pipe(response);
-	}
-}
 
 module.exports = stubmatic;
