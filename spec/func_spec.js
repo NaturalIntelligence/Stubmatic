@@ -1,8 +1,8 @@
-var formatDate =require('.././os/nushi/stubmatic/functions').formatDate;
-var random =require('.././os/nushi/stubmatic/functions').random;
-var dump =require('.././os/nushi/stubmatic/functions').dump;
-//var anyDateBetween =require('.././os/nushi/stubmatic/functions').anyDateBetween;
-var config = require(".././os/nushi/stubmatic/configbuilder");
+var formatDate =require('.././lib/functions').formatDate;
+var random =require('.././lib/functions').random;
+var dump =require('.././lib/functions').dump;
+//var anyDateBetween =require('.././lib/functions').anyDateBetween;
+var config = require(".././lib/configbuilder");
 
 describe("Function ", function() {
   var today = new Date();

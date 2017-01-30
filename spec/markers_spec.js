@@ -1,7 +1,7 @@
-var markers =require('.././os/nushi/stubmatic/markers')
-var jodaDateMarker =require('.././os/nushi/stubmatic/markers').jodaDateMarker.evaluate
-var jodaDateMarker2 =require('.././os/nushi/stubmatic/markers').jodaDateMarker2.evaluate
-var util =require('.././os/nushi/stubmatic/util/util');
+var markers =require('.././lib/markers')
+var jodaDateMarker =require('.././lib/markers').jodaDateMarker.evaluate
+var jodaDateMarker2 =require('.././lib/markers').jodaDateMarker2.evaluate
+var util =require('.././lib/util/util');
 var LocalDateTime = require('js-joda').LocalDateTime;
 
 describe("Marker", function() {
@@ -126,9 +126,9 @@ function assertDatePart(expected,actual){
   expect(expected.getYear()).toBe(actual.getYear());
 }
 
-var dbsetsLoader = require('.././os/nushi/stubmatic/loaders/dbset_loader');
+var dbsetsLoader = require('.././lib/loaders/dbset_loader');
 var hashes = require('hashes');
-var dbkeys =require('.././os/nushi/stubmatic/markers').dbkeys.evaluate;
+var dbkeys =require('.././lib/markers').dbkeys.evaluate;
 describe("Marker", function() {
 
   beforeEach(function(){

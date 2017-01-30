@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
-var logger = require('./os/nushi/stubmatic/log');
-var color = require('./os/nushi/stubmatic/util/colors').color;
+var logger = require('./lib/log');
+var color = require('./lib/util/colors').color;
 var path = require('path');
 
 if(process.argv[2] === "--help" || process.argv[2] === "-h"){
@@ -83,6 +83,6 @@ if(process.argv[2] === "--help" || process.argv[2] === "-h"){
 		}
 	}
 
-	var stubmatic = require('./os/nushi/stubmatic/stubmatic').stubmatic;
+	var stubmatic = require('./lib/stubmatic').stubmatic;
 	stubmatic(options);
 }

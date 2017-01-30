@@ -1,4 +1,4 @@
-var config = require(".././os/nushi/stubmatic/configbuilder");
+var config = require(".././lib/configbuilder");
 
 
 describe("Config Builder ", function() {

@@ -1,9 +1,9 @@
 var rewire = require('rewire');
-var stubmatic =rewire('.././os/nushi/stubmatic/stubmatic');
-var markers =require('.././os/nushi/stubmatic/markers')
+var stubmatic =rewire('.././lib/stubmatic');
+var markers =require('.././lib/markers')
 var processRequest = stubmatic.__get__('processRequest');
-var configBuilder = require(".././os/nushi/stubmatic/configbuilder");
-var mappingLoader = require(".././os/nushi/stubmatic/loaders/mappings_loader");
+var configBuilder = require(".././lib/configbuilder");
+var mappingLoader = require(".././lib/loaders/mappings_loader");
 //var http = require('http');
 
 describe("Stubmatic ", function() {

@@ -24,7 +24,7 @@ function copyFile(source, target) {
 }
 
 exports.init = function(dest){
-	var srcPath = path.join(__dirname, '/os/nushi/stubmatic/sample_repo/'); 
+	var srcPath = path.join(__dirname, '/lib/sample_repo/'); 
 	var destPath = path.join(process.cwd(), dest) ;
 	copyRecursiveSync(srcPath, destPath, function(err){
     if(err) {

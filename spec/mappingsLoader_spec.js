@@ -1,4 +1,4 @@
-var mappingLoader = require(".././os/nushi/stubmatic/loaders/mappings_loader");
+var mappingLoader = require(".././lib/loaders/mappings_loader");
 var path = require('path')
 
 
