@@ -33,7 +33,7 @@ describe("Mapping Loader ", function() {
 
   it("should load mappings from multipls files", function() {
   	var mappings = mappingLoader.buildMappings(onlyMappingConfig);
-  	expect(mappings.length).toBe(11);
+  	expect(mappings.length).toBe(16);
   });
 
   it("should not load invalid mappings", function() {
@@ -81,6 +81,7 @@ describe("Mapping Loader ", function() {
     	response: { file: 'someFile.txt', status: 500, latency: 100}
     };
 
+		//console.log(JSON.stringify(mappings[0],null,4));
   	expect(mappings[0]).toEqual(expected);
 
   	expected = { 

@@ -47,3 +47,36 @@
       headers:
          content-type: "application/json"
       sendas: file      
+
+-  request:
+      method: GET
+      url: /url8
+   response:
+      files: ["not_exist_file.json","simpleresponse.txt"]
+
+-  request:
+      method: GET
+      url: /url8/2
+   response:
+      files: ["not_exist_file.json","even_Im_not_present"]
+
+-  request:
+      method: GET
+      url: /url9
+   response:
+      strategy: random
+      files: ["simpleresponse.txt","simpleresponse2.txt"]
+
+-  request:
+      method: GET
+      url: /url10
+   response:
+      strategy: round-robin
+      files: ["simpleresponse.txt","simpleresponse2.txt"]
+
+-  request:
+      method: GET
+      url: /url11
+   response:
+      strategy: round-robin
+      files: ["not_exist_file.json","simpleresponse.txt"]

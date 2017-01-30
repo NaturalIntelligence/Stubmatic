@@ -83,6 +83,7 @@ if(process.argv[2] === "--help" || process.argv[2] === "-h"){
 		}
 	}
 
-	var stubmatic = require('./lib/stubmatic').stubmatic;
-	stubmatic(options);
+	var server = require('./lib/server');
+	server.setup(options);
+	server.start();
 }
