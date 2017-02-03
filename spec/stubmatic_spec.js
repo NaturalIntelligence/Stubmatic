@@ -4,7 +4,6 @@ var mappingLoader = require(".././lib/loaders/mappings_loader");
 var stubmatic = require('.././lib/stubmatic');
 var markers = require('.././lib/markers')
 var processRequest = stubmatic.processRequest;
-//var http = require('http');
 
 describe("Stubmatic ", function () {
 

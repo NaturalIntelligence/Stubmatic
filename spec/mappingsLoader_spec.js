@@ -33,7 +33,7 @@ describe("Mapping Loader ", function() {
 
   it("should load mappings from multipls files", function() {
   	var mappings = mappingLoader.buildMappings(onlyMappingConfig);
-  	expect(mappings.length).toBe(16);
+  	expect(mappings.length).toBe(17);
   });
 
   it("should not load invalid mappings", function() {

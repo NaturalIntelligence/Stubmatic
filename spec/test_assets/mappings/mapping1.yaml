@@ -38,3 +38,6 @@
 
    response:
       file: responseFilePath
+
+-  GET: /healthcheck
+   response: OK

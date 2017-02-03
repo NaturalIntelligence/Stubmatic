@@ -51,10 +51,13 @@
     "simulator"
   ],
   "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
     "coveralls": "^2.11.15",
     "istanbul": "^0.4.5",
     "jasmine": "^2.5.2",
     "jasmine-core": "^2.5.2",
+    "q": "^1.4.1",
     "rewire": "^2.5.2",
     "standard": "^8.6.0"
   }
