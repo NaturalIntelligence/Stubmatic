@@ -39,7 +39,7 @@ function validateSyntax(fileName) {
 			console.log("Unsupported file");
 		}
 	} catch (e) {
-		console.log("Validation failed")
+		console.log("Validation failed");
 		console.log(color(e, 'red'));
 		//if(e.line) console.log("line number: " + e.line + ":" + e.column);
 	}

@@ -1,0 +1,19 @@
+{
+  "dbsets": "dbsets/",
+  "mappings": {
+    "default": {
+      "request": {
+        "method": "GET"
+      },
+      "response": {
+        "strategy": "first-found",
+        "latency": 0,
+        "status": 200
+      }
+    }
+    "files": ["mappings/mapping2.yaml", "mappings/mapping1.yaml"]
+  },
+  "server": {
+    "port": 9999
+  }
+}
