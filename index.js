@@ -51,12 +51,13 @@ function buildServerOptions(args) {
 		if (args[i].indexOf("-") === 0) {
 			var key = args[i];
 			if (key === '-d') {
-				if (isExist(args[i + 1])) {
-					global.basePath = args[i + 1];
+				var dirpath =  args[++i];
+				if (isExist(dirpath)) {
+					global.basePath = dirpath;
 				} else {
-					global.basePath = path.join(process.cwd(), args[i + 1]);
+					global.basePath = path.join(process.cwd(), dirpath);
 				}
-				options['-d'] = global.basePath;
+				options[key] = global.basePath;
 			} else if (key === '-v' || key === '--verbose') {
 				logger.setVerbose(true);
 			} else if (key === '-l' || key === '--logs') {
@@ -68,17 +69,12 @@ function buildServerOptions(args) {
 					key = '-p';
 				} else if (key === '--config' || key === '-c') {
 					key = '-c';
-				} else if (key === '--mapping' || key === '-m') {
-					key = '-m';
-				} else if (key === '--stub' || key === '-s') {
-					key = '-s';
-				} else if (key === '-d' || key === '-v' || key === '--host' ||
-					key === '-l' || key === '-P' || key === '--mutualSSL') {
+				} else if (key === '--host' || key === '-P' || key === '--mutualSSL') {
 					//valid keys
 				} else {
 					console.log("Invalid options");
 					console.log("Try 'stubmatic --help' for more information.")
-					return;
+					throw new Error("Invalid options");
 				}
 				options[key] = args[++i];
 			}
