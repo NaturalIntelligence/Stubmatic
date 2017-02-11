@@ -73,7 +73,7 @@ function buildServerOptions(args) {
 					//valid keys
 				} else {
 					console.log("Invalid options");
-					console.log("Try 'stubmatic --help' for more information.")
+					console.log("Try 'stubmatic --help' for more information.");
 					throw new Error("Invalid options");
 				}
 				options[key] = args[++i];
@@ -90,7 +90,7 @@ var isExist = function (filepath) {
 	} catch (e) {
 		return false;
 	}
-}
+};
 
 
 cli(process.argv);
