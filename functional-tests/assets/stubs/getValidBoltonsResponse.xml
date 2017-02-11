@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Header xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cor="http://soa.o2.co.uk/coredata_1">
+      <cor:SOATransactionID>bf0e9570-d749-4a7a-b49a-1aa42e729088</cor:SOATransactionID>
+   </soap:Header>
+   <soapenv:Body>
+      <man:getValidBoltonsResponse xmlns:man="http://soa.o2.co.uk/manageprepayboltonsdata_1">
+        [[product:##boltons##]] 
+        <man:generateDateTime>2012-06-01T11:26:53.489+01:00</man:generateDateTime>
+      </man:getValidBoltonsResponse>
+   </soapenv:Body>
+</soapenv:Envelope>

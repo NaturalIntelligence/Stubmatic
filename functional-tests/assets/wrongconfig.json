@@ -1,0 +1,31 @@
+{
+  "dbsets": "dbsets/",
+  "mappings": {
+    "default": {
+      "request": {
+        "method": "GET"
+      },
+      "response": {
+        "strategy": "first-found",
+        "latency": 0,
+        "status": 200
+      }
+    },
+    "requests": ["mappings/response.yaml"
+      , "mappings/strategy.yaml"
+      , "mappings/post.yaml"
+      , "mappings/dbset.yaml"
+      , "mappings/dbset2.yaml"
+      , "mappings/queryparam.yaml"]
+  },
+  "server": {
+    "port": 1234
+    ,"securePort" : 1234
+    ,"mutualSSL" : "wrong"
+    ,"ca" : ["truststore/ca/ca.crt"]
+    ,"key" : "truststore/server.key"
+    ,"cert" : "truststore/server.crt"
+  },
+  "stubs": "stubs2/",
+  "dumps": "dumps/"
+}

@@ -1,0 +1,29 @@
+#DONE
+-  request:
+      url: /stubs/query
+      query:
+        id: ([0-9]+)
+        name: a([a-z]+)
+
+   response:
+      body: with 2 query params. <% query.1 %>, <% query.2 %>
+
+#DONE
+-  request:
+      url: /stubs/query
+      query:
+        id: ([0-9]+)
+
+   response:
+      body: with <% query.1 %> only
+
+#DONE
+-  request:
+      url: /stubs/query
+      query:
+        static: amit
+        reg: gupta([a-z]{4})[0-9]
+        multireg: a(([a-z]{4})([0-9]))
+
+   response:
+      body: <% query.0 %>|<% query.1 %>|<% query.2 %>|<% query.3 %>|<% query.4 %>|<% query.5 %>   

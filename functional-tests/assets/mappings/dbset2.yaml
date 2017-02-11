@@ -1,0 +1,49 @@
+#DONE
+-  request:
+      url: /stubs/header2
+      headers:
+        employee_num: ([0-9]+)
+
+   dbset:
+      db: Employee
+      key: <% headers.1 %>
+
+   response:
+      file: datasets.txt
+
+#DONE
+-  request:
+      url: /stubs/datasets/([0-9]+)
+   
+   dbset:
+      db: Employee
+      key: <% url.1 %>
+
+   response:
+      file: datasets.txt
+
+#DONE
+-  request:
+      url: /stubs/mix
+      post: Hello ([a-zA-Z]+)!!
+      method: POST
+      
+   dbset:
+      db: Sample
+      key: '001'
+
+   response:
+      file: mix.txt
+
+#DONE
+-  request:
+      url: /stubs/mix2
+      post: Hello ([a-zA-Z]+)!!
+      method: POST
+      
+   dbset:
+      db: Sample
+      key: 1
+
+   response:
+      file: mix.txt      

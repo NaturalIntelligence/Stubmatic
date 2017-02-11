@@ -1,0 +1,3 @@
+key	|value	|markerval
+001	|1,2	|{{formatDate(TODAY,"yyyy-dd-MM")}}
+1	|value	|{{formatDate(TODAY+1y-2m+3d,"yyyy-dd-MM")}}

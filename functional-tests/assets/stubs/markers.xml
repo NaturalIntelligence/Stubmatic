@@ -1,0 +1,20 @@
+Today is {{formatDate(TODAY,"yyyy-dd-MM")}}. And the url is {{URL:https://www.google.co.uk/?gws_rd=ssl#safe=strict&q=blah blah}}. Tomorrow would be {{formatDate(TODAY+1,"yyyy-dd-MM")}}. And yesterday it was {{formatDate(TODAY-1,"yyyy-dd-MM")}}. Other url {{URL:https://www.google.co.uk/?gws_rd=ssl#safe=strict&q=ola ola}}.
+
+{{formatDate(TODAY,"dd D, MMM YYYY HH:mm:ss")}}
+
+{{TODAY+1m+2d}}
+
+{{random(4)}}
+{{random(5,'alpha_num')}}
+
+{{JODA_TODAY+5m}}
+{{TODAY+5m}}
+
+1: {{JODA_TODAY}}
+2: {{JODA_TODAY+3}}
+3: {{JODA_TODAY-3}}
+4: {{JODA_TODAY-1m}}
+5: {{JODA_TODAY-3d+1m-2y}}
+6: {{formatDate(JODA_TODAY,"dd D, MMM YYYY HH:mm:ss")}}
+7: {{formatDate(JODA_TODAY+1d+2m-3y,"dd D, MMM YYYY HH:mm:ss")}}
+8: {{formatDate(JODA_TODAY,"yyyy-dd-MM")}}

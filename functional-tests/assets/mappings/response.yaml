@@ -1,0 +1,73 @@
+#Short notation
+-  GET: /stubs/healthcheck
+   response: OK
+
+#Short notation without response body
+-  HEAD: /stubs/healthcheck
+#   status: 200
+
+#without response body
+-  request:
+      url: /stubs/status
+
+   response:
+      status: 200
+
+#from body attribute
+-  request:
+      url: /stubs/body
+
+   response:
+      body: This is sample contents served from body
+
+#dynamic URL mapping used in response body
+-  request:
+      method: POST
+      url: /stubs/phone-([0-9]+)/body
+
+   response:
+      body: from old solution <% url.1 %> and from new solution {{ url.1 }}
+
+#dynamic URL mapping used in response body
+-  request:
+      url: /stubs/phone-([0-9]+)/file
+
+   response:
+      file: phone.xml 
+
+#markers
+-  request:
+      url: /stubs/markers
+
+   response:
+      file: markers.xml 
+
+#dynamic file name where somepart of request is used in response data
+-  request:
+      url: /stubs/id-([0-9])/name-([a-zA-Z]+)
+
+   response:
+      file: file<% url.1 %>.xml       
+
+#latency
+-  request:
+      url: /stubs/delay
+
+   response:
+      latency: 2000
+      file: delay.xml
+
+#random latency
+-  request:
+      url: /stubs/delay/random
+
+   response:
+      latency: [1000,2000]
+
+#no latency when an error should return with 500 status code
+-  request:
+      url: /stubs/delay/err
+
+   response:
+      latency: 2000
+      file: notexist.xml

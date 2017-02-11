@@ -1,0 +1,23 @@
+#DONE
+-  request:
+      url: /stubs/not-found
+
+   response:
+      strategy: first-found
+      files: [{'status' : 200, 'name': "notexist.xml"},{'status' : 200, 'name': "simple.xml"}]
+
+#DONE
+-  request:
+      url: /stubs/random
+
+   response:
+      strategy: random
+      files: [{'status' : 500, 'name': "file1.xml"},{'status' : 200, 'name': "file2.xml"},"file3.xml"]
+
+#DONE
+-  request:
+      url: /stubs/round-robin
+
+   response:
+      strategy: round-robin
+      files: [{'status' : 200, 'name': "file1.xml"},"file2.xml","file3.xml"]

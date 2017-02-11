@@ -1,0 +1,36 @@
+{
+  "dbsets": "dbsets/",
+  "mappings": {
+    "default": {
+      "request": {
+        "method": "GET"
+      },
+      "response": {
+        "strategy": "first-found",
+        "latency": 0,
+        "status": 200
+      }
+    },
+    "files": ["mappings/response.yaml"
+                ,"mappings/headers.yml"
+                , "mappings/strategy.yaml"
+                , "mappings/post.yaml"
+                , "mappings/dbset.yaml"
+                , "mappings/dbset2.yaml"
+                , "mappings/attachment.yaml"
+                , "mappings/queryparam.yaml"]
+  },
+  "server": {
+    "port": 9999
+    ,"securePort" : 8000
+    ,"mutualSSL" : true
+    ,"ca" : ["truststore/ca/ca.crt"]
+    ,"key" : "truststore/server.key"
+    ,"cert" : "truststore/server.crt"
+  },
+  "stubs": "stubs/",
+  "logs": {
+    "path": "logs/"
+  },
+  "dumps": "dumps/"
+}
