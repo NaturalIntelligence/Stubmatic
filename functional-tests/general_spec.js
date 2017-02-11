@@ -98,7 +98,7 @@ describe('FT', function () {
             .get('/stubs/delay')
             .then(res => {
                 expect(res.status).toBe(200);
-                expect((new Date()) - time).toBeGreaterThan(2000);
+                expect((new Date()) - time).toBeGreaterThan(1999);
                 done();
             }).catch( err => {
                 markFailed(err,fail,done);
@@ -112,8 +112,8 @@ describe('FT', function () {
             .then(res => {
                 expect(res.status).toBe(200);
                 var interval = (new Date()) - time;
-                expect(interval).toBeGreaterThan(1000);
-                expect(interval).toBeLessThan(2000);
+                expect(interval).toBeGreaterThan(999);
+                expect(interval).toBeLessThan(2001);
                 done();
             }).catch( err => {
                 markFailed(err,fail,done);

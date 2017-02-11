@@ -110,8 +110,8 @@ describe("Stubmatic ", function () {
 				url: "2"
 			});
 			expect(options.status).toBe(202);
-			expect(options.latency).toBeGreaterThan(10);
-			expect(options.latency).toBeLessThan(100);
+			expect(options.latency).toBeGreaterThan(9);
+			expect(options.latency).toBeLessThan(101);
 			expect(options.headers["content-type"]).toEqual("application/json");
 		}, onError);
 
