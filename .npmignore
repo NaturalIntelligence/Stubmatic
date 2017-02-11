@@ -1,6 +1,6 @@
 # Unrelevant files and folders
 benchmark
-coverage
+coverage*
 test
 spec
 .travis.yml
