@@ -14,6 +14,7 @@
     "files": ["mappings/response.yaml"
                 ,"mappings/headers.yml"
                 , "mappings/files.yaml"
+                , "mappings/dumps.yaml"
                 , "mappings/post.yaml"
                 , "mappings/dbset.yaml"
                 , "mappings/dbset2.yaml"

@@ -1,0 +1,12 @@
+#dumps in 
+-  request:
+      url: /stubs/dumps/body/old
+
+   response:
+      body: Some text. [[foo:1]] and [[:foo/2]]. both [[foo:1,2]]
+
+-  request:
+      url: /stubs/dumps/body/new
+
+   response:
+      body: Some text. {{dump("foo/1")}} and {{dump("foo","2")}}. both {{dump("foo","1","2")}}

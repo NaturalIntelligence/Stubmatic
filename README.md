@@ -84,7 +84,7 @@ To make the response dynamic, stubmatic comes with various features
 * `{{JODA_TODAY+1}}` is dpreicated. Use `{{JODA_TODAY+1d}}` instead
 * 'err' property for dbset mapping is invalid. If a key doesn't match it'll look for default key ('*') otherwise it'll skip matching.
 * Use of `##dbset_key##` is depricated. Use `{{#dbset_key}}` instead
-* Use of `[[dumpspath:file1,file2]]` is depricated. Use `{{dump(dumpspath,[file1,file2])}}` instead.
+* dumps `[[dumpspath:file1,file2]]` can be used as `{{dump("dumpspath","file1","file2")}}`.
 * options `-m`, and `-s` or `--stub` have been removed from stubmatic command
 * Check syntax for short notations
 * 'post' property of request mapping is deprecated. Use 'bodyText' or 'body' attributes.
