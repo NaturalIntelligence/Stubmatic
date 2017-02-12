@@ -52,3 +52,15 @@
    response:
       strategy: ["random","first-found"]
       files: ["file1.xml","notexist.xml","file3.xml"]
+
+#multiple status
+-  request:
+      url: /stubs/round-robin/multi
+
+   response:
+      strategy: round-robin
+      status: 203
+      files: 
+         - {'status' : 202, 'name': "file1.xml"}
+         - "notexist.xml"
+         - "file3.xml"

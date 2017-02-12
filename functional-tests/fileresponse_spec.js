@@ -138,6 +138,34 @@ describe('FT', function () {
             });
     });
 
+    it('should response when matching query param and URL is found', function (done) {
+        chai.request("http://localhost:9999")
+            .get('/stubs/round-robin/multi')
+            .then(res => {
+                expect(res.status).toBe(202);
+                expect(res.text).toBe("id: 1; name: <% url.2 %>");
+            }).catch( err => {
+                markFailed(err,fail,done);
+            });
+
+        chai.request("http://localhost:9999")
+            .get('/stubs/round-robin/multi')
+            .then(res => {
+                fail("not expected");
+            }).catch( err => {
+                //expect(err.status).toBe(404);
+            });
+
+        chai.request("http://localhost:9999")
+            .get('/stubs/round-robin/multi')
+            .then(res => {
+                expect(res.status).toBe(203);
+                expect(res.text).toBe("file 3");
+                done()
+            }).catch( err => {
+                markFailed(err,fail)
+            });
+    });
 });
 
 function markFailed(err,fail,done){
