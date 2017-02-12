@@ -13,7 +13,7 @@
     },
     "files": ["mappings/response.yaml"
                 ,"mappings/headers.yml"
-                , "mappings/strategy.yaml"
+                , "mappings/files.yaml"
                 , "mappings/post.yaml"
                 , "mappings/dbset.yaml"
                 , "mappings/dbset2.yaml"

@@ -1,7 +1,0 @@
--  request:
-      method: POST
-      url: /stubs/simple2
-      post: Hello ([a-zA-Z]+) ([a-zA-Z]+)!! Your number is ((\+[0-9]{2}) ([0-9]+))
-
-   response:
-      http: hostname/url
