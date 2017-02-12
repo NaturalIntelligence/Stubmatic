@@ -23,7 +23,6 @@ describe('FT', function () {
     it('should response to GET short notation with response body', function (done) {
         chai.request("http://localhost:9999")
             .get('/stubs/healthcheck')
-            //.send( "new property to match and capture request body")
             .then(res => {
                 expect(res.status).toBe(200);
                 expect(res.text).toBe("OK");
@@ -106,6 +105,37 @@ describe('FT', function () {
                 expect(err.status).toBe(500);
                 var interval = (new Date()) - time;
                 expect(interval).toBeLessThan(10);
+                done();
+            });
+    });
+
+
+    it('should send deflated response', function (done) {
+        var time = new Date();
+        chai.request("http://localhost:9999")
+            .get('/stubs/healthcheck')
+            .set('content-encoding','deflate')
+            .then(res => {
+                expect(res.status).toBe(200);
+                expect(res.text).toBe("OK");
+                done();
+            }).catch( err => {
+                fail("not expected");
+                done();
+            });
+    });
+
+    it('should send gzipped response', function (done) {
+        var time = new Date();
+        chai.request("http://localhost:9999")
+            .get('/stubs/healthcheck')
+            .set('content-encoding','gzip')
+            .then(res => {
+                expect(res.status).toBe(200);
+                expect(res.text).toBe("OK");
+                done();
+            }).catch( err => {
+                fail("not expected");
                 done();
             });
     });

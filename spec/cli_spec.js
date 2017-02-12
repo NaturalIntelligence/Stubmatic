@@ -54,6 +54,20 @@ describe('CLI', function () {
         expect(server.setup.calls.count()).toBe(0);
     });
 
+    it('should start server when valid arguments are passed', function () {
+        spyOn(logger,'setVerbose').and.callFake(() => {});
+        spyOn(console,'log');
+        var server = require('.././lib/server');
+        spyOn(server,'setup');
+        spyOn(server,'start');
+
+        cli(["node", "stubmatic"]);
+
+        expect(server.setup.calls.count()).toBe(1);
+        expect(server.start.calls.count()).toBe(1);
+    });
+
+
     var buildServerOptions = climodule.__get__("buildServerOptions");
     describe('serveroptions', function () {
 
