@@ -67,30 +67,6 @@ describe('FT', function () {
                 markFailed(err,fail,done);
             });
     });
-    
-    it('should response with dynamic file data', function (done) {
-        chai.request("http://localhost:9999")
-            .get('/stubs/id-1/name-amit')
-            .then(res => {
-                expect(res.status).toBe(200);
-                expect(res.text).toBe("id: 1; name: amit");
-                done();
-            }).catch( err => {
-                markFailed(err,fail,done);
-            });
-    });
-
-    it('should response with dynamic file data', function (done) {
-        chai.request("http://localhost:9999")
-            .get('/stubs/id-2/name-nushi')
-            .then(res => {
-                expect(res.status).toBe(200);
-                expect(res.text).toBe("This is from another file nushi");
-                done();
-            }).catch( err => {
-                markFailed(err,fail,done);
-            });
-    });
 
     it('should response with fix delay', function (done) {
         var time = new Date();

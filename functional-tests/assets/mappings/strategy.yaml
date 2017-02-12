@@ -1,10 +1,24 @@
+#dynamic URL mapping used in response body
+-  request:
+      url: /stubs/phone-([0-9]+)/file
+
+   response:
+      file: phone.xml 
+
+#dynamic file name where somepart of request is used in response data
+-  request:
+      url: /stubs/id-([0-9])/name-([a-zA-Z]+)
+
+   response:
+      file: file<% url.1 %>.xml       
+
 #DONE
 -  request:
       url: /stubs/not-found
 
    response:
       strategy: first-found
-      files: ["notexist.xml",{"name":"simple.xml","status":200}]
+      files: ["notexist.xml","simple.xml"]
 
 #DONE
 -  request:
@@ -12,7 +26,7 @@
 
    response:
       strategy: random
-      files: ["file1.xml",{"name":"file2.xml","status":200},"file3.xml"]
+      files: ["file1.xml","simple.xml","file3.xml"]
 
 #DONE
 -  request:
@@ -20,4 +34,21 @@
 
    response:
       strategy: round-robin
-      files: ["file1.xml",{"name":"file2.xml","status":200},"file3.xml"]
+      files: 
+         - "file1.xml"
+         - "notexist.xml"
+         - "file3.xml"
+
+-  request:
+      url: /stubs/round-robin-first-found
+
+   response:
+      strategy: ["round-robin","first-found"]
+      files: ["file1.xml","notexist.xml","file3.xml"]
+
+-  request:
+      url: /stubs/random-first-found
+
+   response:
+      strategy: ["random","first-found"]
+      files: ["file1.xml","notexist.xml","file3.xml"]

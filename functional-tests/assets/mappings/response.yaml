@@ -28,13 +28,6 @@
    response:
       body: from old solution <% url.1 %> and from new solution {{ url.1 }}
 
-#dynamic URL mapping used in response body
--  request:
-      url: /stubs/phone-([0-9]+)/file
-
-   response:
-      file: phone.xml 
-
 #markers
 -  request:
       url: /stubs/markers
@@ -42,20 +35,12 @@
    response:
       file: markers.xml 
 
-#dynamic file name where somepart of request is used in response data
--  request:
-      url: /stubs/id-([0-9])/name-([a-zA-Z]+)
-
-   response:
-      file: file<% url.1 %>.xml       
-
 #latency
 -  request:
       url: /stubs/delay
 
    response:
       latency: 2000
-      file: delay.xml
 
 #random latency
 -  request:
