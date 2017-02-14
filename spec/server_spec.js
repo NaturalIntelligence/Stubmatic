@@ -24,29 +24,37 @@ describe('server', function () {
         var server = require('.././lib/server');
         server.setup({ "-d" : path.join(__dirname, "spec/test_assets"), "--host" : "google.com"});
         server.on("start",function(){
-            fail("Not expected");
-            done();
+            done.fail("Not expected");
         });
         server.on("error",function(err){
             expect(err.code).toBe('EADDRNOTAVAIL');
             done();
         });
+
+        setTimeout(function() {
+            done();
+        }, 9000);
+
         server.start();
-    });
+    },10000);
 
     it('should not be started when invalid host is given', function (done) {
         var server = require('.././lib/server');
         server.setup({ "-d" : path.join(__dirname, "spec/test_assets"), "--host" : "invalidhost"});
         server.on("start",function(){
-            fail("Not expected");
-            done();
+            done.fail("Not expected");
         });
         server.on("error",function(err){
-            expect(err.code).toBe('ENOTFOUND');
+            expect(err.code).toMatch('ENOTFOUND|ENOTFOUNDEADDRNOTAVAILD');
             done();
         });
+
+        setTimeout(function() {
+            done();
+        }, 9000);
+
         server.start();
-    });
+    }, 10000);
 
     it('should not be started when port is not available', function (done) {
         require("http").createServer().listen(7777);;
@@ -54,8 +62,7 @@ describe('server', function () {
         var server = require('.././lib/server');
         server.setup({ "-d" : path.join(__dirname, "spec/test_assets"), "--host" : "localhost"});
         server.on("start",function(){
-            fail("Not expected");
-            done();
+            done.fail("Not expected");
         });
         server.on("error",function(err){
             expect(err.code).toBe('EADDRINUSE');
