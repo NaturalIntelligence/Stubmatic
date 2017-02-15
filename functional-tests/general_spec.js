@@ -114,10 +114,11 @@ describe('FT', function () {
         var time = new Date();
         chai.request("http://localhost:9999")
             .get('/stubs/healthcheck')
-            .set('content-encoding','deflate')
+            .set('Accept-Encoding','deflate')
             .then(res => {
                 expect(res.status).toBe(200);
                 expect(res.text).toBe("OK");
+                expect(res.headers["content-encoding"]).toBe("deflate");
                 done();
             }).catch( err => {
                 fail("not expected");
@@ -129,10 +130,11 @@ describe('FT', function () {
         var time = new Date();
         chai.request("http://localhost:9999")
             .get('/stubs/healthcheck')
-            .set('content-encoding','gzip')
+            .set('Accept-Encoding','gzip')
             .then(res => {
                 expect(res.status).toBe(200);
                 expect(res.text).toBe("OK");
+                expect(res.headers["content-encoding"]).toBe("gzip");
                 done();
             }).catch( err => {
                 fail("not expected");
