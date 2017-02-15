@@ -10,6 +10,7 @@
    status: 502
 
 -  POST: /url1/4
+   post: check this
    files: ['someFile.txt','default.txt']
 
 #DONE
