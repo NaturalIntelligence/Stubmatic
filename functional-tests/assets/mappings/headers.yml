@@ -17,6 +17,8 @@
 
    response:
       body: <% headers.0 %> <% headers.1 %>
+      headers:
+        rh : "somevalue"
 
 -  request:
       url: /stubs/header

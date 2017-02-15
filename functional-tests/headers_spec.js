@@ -38,6 +38,7 @@ describe('FT', function () {
             .then(res => {
                 expect(res.status).toBe(200);
                 expect(res.text).toBe("N/A cust");
+                expect(res.headers.rh).toBe("somevalue");
                 done();
             }).catch( err => {
                 markFailed(err,fail,done);
