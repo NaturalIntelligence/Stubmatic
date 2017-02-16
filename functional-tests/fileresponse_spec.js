@@ -55,7 +55,6 @@ describe('FT', function () {
     });
 
     it('should response from random file if exist otherwise 500 if file is not exist', function (done) {
-        //already covered in unit tests
         chai.request("http://localhost:9999")
             .get('/stubs/random')
             .then(res => {
@@ -140,7 +139,7 @@ describe('FT', function () {
 
     it('should response when matching query param and URL is found', function (done) {
         chai.request("http://localhost:9999")
-            .get('/stubs/round-robin/multi')
+            .get('/stubs/round-robin-first-found/multi')
             .then(res => {
                 expect(res.status).toBe(202);
                 expect(res.text).toBe("id: 1; name: <% url.2 %>");
@@ -149,15 +148,7 @@ describe('FT', function () {
             });
 
         chai.request("http://localhost:9999")
-            .get('/stubs/round-robin/multi')
-            .then(res => {
-                fail("not expected");
-            }).catch( err => {
-                //expect(err.status).toBe(404);
-            });
-
-        chai.request("http://localhost:9999")
-            .get('/stubs/round-robin/multi')
+            .get('/stubs/round-robin-first-found/multi')
             .then(res => {
                 expect(res.status).toBe(203);
                 expect(res.text).toBe("file 3");
@@ -165,13 +156,44 @@ describe('FT', function () {
             }).catch( err => {
                 markFailed(err,fail)
             });
+        
+        chai.request("http://localhost:9999")
+            .get('/stubs/round-robin-first-found/multi')
+            .then(res => {
+                expect(res.status).toBe(202);
+                expect(res.text).toBe("id: 1; name: <% url.2 %>");
+            }).catch( err => {
+                markFailed(err,fail,done);
+            });
+
+    });
+
+    it('should respond with 500 when unsupported strategy given', function (done) {
+        chai.request("http://localhost:9999")
+            .get('/stubs/unsupported-strategy')
+            .then(res => {
+                done.fail("not expected");
+            }).catch( err => {
+                expect(err.status).toBe(500);
+                done();
+            });
+    });
+
+    it('should respond with  500 when invalid strategy given', function (done) {
+        chai.request("http://localhost:9999")
+            .get('/stubs/invalid-strategy')
+            .then(res => {
+                done.fail("not expected");
+            }).catch( err => {
+                expect(err.status).toBe(500);
+                done()
+            });
     });
 });
 
 function markFailed(err,fail,done){
     if(err.status === 404)
-        fail("No matching mapping found");
+        done.fail("No matching mapping found");
     else
-        fail(err.message);
-    done();
+        done.fail(err.message);
 }

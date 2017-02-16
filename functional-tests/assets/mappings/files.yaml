@@ -55,12 +55,26 @@
 
 #multiple status
 -  request:
-      url: /stubs/round-robin/multi
+      url: /stubs/round-robin-first-found/multi
 
    response:
-      strategy: round-robin
+      strategy: ["round-robin","first-found"]
       status: 203
       files: 
          - {'status' : 202, 'name': "file1.xml"}
          - "notexist.xml"
          - "file3.xml"
+
+-  request:
+      url: /stubs/unsupported-strategy
+
+   response:
+      strategy: ["random","round-robin"]
+      files: ["file1.xml","notexist.xml","file3.xml"]
+
+-  request:
+      url: /stubs/invalid-strategy
+
+   response:
+      strategy: "alternate"
+      files: ["file1.xml","notexist.xml","file3.xml"]
