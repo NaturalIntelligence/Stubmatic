@@ -46,7 +46,7 @@
       file: response.json
       headers:
          content-type: "application/json"
-      sendas: file      
+      sendasfile: true
 
 -  request:
       method: GET
