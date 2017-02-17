@@ -1,30 +1,51 @@
 #DONE
 -  request:
-      url: /stubs/attachment
+      url: /stubs/attachment/xml
 
    response:
       file: "simple.xml"
       headers:
          content-type: application/xml
+      sendasfile: true
 
 #DONE
 -  request:
-      url: /stubs/not-found/attachment
+      url: /stubs/attachment/not-found
 
    response:
       strategy: first-found
       files: ["notexist.xml",{"name":"simple.xml","status":200}]
       headers:
          content-type: application/xml
+      sendasfile: true
 
 
 #DONE
 -  request:
-      url: /stubs/pdf
+      url: /stubs/attachment/pdf
 
    response:
       file: "StubbyDB_README.pdf"
       headers:
          content-type: application/pdf
+      sendasfile: true
 
-      
+#DONE
+-  request:
+      url: /stubs/attachment/invalid
+
+   response:
+      file: "invalid.pdf"
+      headers:
+         content-type: application/pdf
+      sendasfile: true
+
+#DONE
+-  request:
+      url: /stubs/attachment/invalidattr
+
+   response:
+      body: "invalid.pdf"
+      headers:
+         content-type: application/pdf
+      sendasfile: true
