@@ -20,6 +20,7 @@
                 , "mappings/post.yaml"
                 , "mappings/dbset.yaml"
                 , "mappings/dbset2.yaml"
+                , "mappings/proxy.yaml"
                 , "mappings/attachment.yaml"
                 , "mappings/queryparam.yaml"]
   },

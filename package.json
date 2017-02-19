@@ -19,6 +19,7 @@
   "dependencies": {
     "fast-lorem-ipsum": "^1.0.2",
     "hashes": "^0.1.3",
+    "http-proxy": "^1.16.2",
     "js-joda": "^1.1.11",
     "jsonlint": "^1.6.2",
     "winston": "^2.3.0",

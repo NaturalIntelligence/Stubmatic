@@ -145,4 +145,23 @@ describe("Stubmatic ", function () {
 
 	});
 
+	it("should response with proxy", function () {
+		var onError = () => {
+			//onError
+			throw Error("not expected");
+		};
+
+		var request = {
+			url: '/proxy/some/path',
+			method: 'GET'
+		};
+
+		processRequest(request, (data, options) => {
+			expect(data).toBe("http://localhost:8003");
+			expect(options.proxy).toBe(true);
+			expect(options.latency).toBe(100);
+		}, onError);
+
+	});
+
 });

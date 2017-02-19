@@ -80,3 +80,10 @@
    response:
       strategy: round-robin
       files: ["not_exist_file.json","simpleresponse.txt"]
+
+-  request:
+      url: /proxy/.*
+
+   response:
+      latency: 100
+      proxy: http://localhost:8003
