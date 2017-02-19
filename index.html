@@ -16,6 +16,7 @@
 
     <!-- Theme CSS -->
     <link href="css/freelancer.css" rel="stylesheet">
+    <link href="css/jquery-confirm.min.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -697,10 +698,21 @@ id   | name      |  dob                                  | scenario
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
     <script  src="js/highlight.pack.js" ></script>
     <!-- Theme JavaScript -->
+    <script src="js/jquery-confirm.min.js"></script>
     <script src="js/freelancer.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){
+            setTimeout(function(){
+                $.dialog({
+                    title: '',
+                    content: '<p>If you like my work, plz give me a '
+                    + '<a href="https://github.com/NaturalIntelligence/Stubmatic/stargazers"><i class="fa fa-star animated infinite tada"></i></a>'
+                    + '.</p>'
+
+                });
+            }, 10000)
+            
             $('.example_box').fitText(0.6, { minFontSize: '20px', maxFontSize: '40px' });
             hljs.configure({   // optionally configure hljs
               languages: ["diff", "javascript", "css", "apache", "ini",
