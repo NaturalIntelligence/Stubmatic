@@ -111,7 +111,6 @@ describe('FT', function () {
 
 
     it('should send deflated response', function (done) {
-        var time = new Date();
         chai.request("http://localhost:9999")
             .get('/stubs/healthcheck')
             .set('Accept-Encoding','deflate')
@@ -127,7 +126,6 @@ describe('FT', function () {
     });
 
     it('should send gzipped response', function (done) {
-        var time = new Date();
         chai.request("http://localhost:9999")
             .get('/stubs/healthcheck')
             .set('Accept-Encoding','gzip')
@@ -142,6 +140,62 @@ describe('FT', function () {
             });
     });
 
+    it('should support multiple methods', function (done) {
+        chai.request("http://localhost:9999")
+            .get('/stubs/methods/multiple')
+            .then(res => {
+                expect(res.status).toBe(200);
+                expect(res.text).toBe("multiple methods are supported");
+            }).catch( err => {
+                fail("not expected");
+                done();
+            });
+
+        chai.request("http://localhost:9999")
+            .post('/stubs/methods/multiple')
+            .then(res => {
+                expect(res.status).toBe(200);
+                expect(res.text).toBe("multiple methods are supported");
+                done();
+            }).catch( err => {
+                fail("not expected");
+                done();
+            });
+        
+        chai.request("http://localhost:9999")
+            .put('/stubs/methods/multiple')
+            .then(res => {
+                fail("not expected");
+                done();
+            }).catch( err => {
+                expect(err.status).toBe(404);
+                done();
+            });
+    });
+
+    it('should support single mapping for all methods', function (done) {
+        chai.request("http://localhost:9999")
+            .get('/stubs/methods/all')
+            .then(res => {
+                expect(res.status).toBe(200);
+                expect(res.text).toBe("You can bind all methods to single mapping.");
+            }).catch( err => {
+                fail("not expected");
+                done();
+            });
+
+        chai.request("http://localhost:9999")
+            .post('/stubs/methods/all')
+            .then(res => {
+                expect(res.status).toBe(200);
+                expect(res.text).toBe("You can bind all methods to single mapping.");
+                done();
+            }).catch( err => {
+                fail("not expected");
+                done();
+            });
+        
+    });
 
   });
 

@@ -56,3 +56,19 @@
    response:
       latency: 2000
       file: notexist.xml
+
+#multiple methods
+-  request:
+      method: ["GET", "HEAD","POST"]
+      url: /stubs/methods/multiple
+
+   response:
+      body: "multiple methods are supported"
+
+#all methods
+-  request:
+      method: "*"
+      url: /stubs/methods/all
+
+   response:
+      body: "You can bind all methods to single mapping."
