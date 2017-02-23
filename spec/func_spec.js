@@ -7,9 +7,12 @@ var config = require(".././lib/configbuilder");
 describe("Function ", function() {
   var today = new Date();
 
-  it("formatDate should format date", function() {
+  it("formatDate should format date correctly", function() {
   	var result = formatDate(new Date(2016,11,2,23,45,23), "D DD MMM YYYY, HH:mm:ss");
   	expect("Fri Friday Dec 2016, 23:45:23").toBe(result);
+
+    result = formatDate(new Date(2017,2,6,23,45,23), "D DD MMM MMMM MM M YYYY, HH:mm:ss");
+  	expect("Mon Monday Mar March 03 3 2017, 23:45:23").toBe(result);
   });	
 
   it("random should give random string of specified length ", function() {
