@@ -1,8 +1,7 @@
 var path = require('path');
 var fs = require('fs');
 
-
-var copyRecursiveSync = function(src, dest, cb) {
+var copyRecursiveSync = function(src, dest) {
   var exists = fs.existsSync(src);
   var stats = exists && fs.statSync(src);
   var isDirectory = exists && stats.isDirectory();
@@ -13,25 +12,21 @@ var copyRecursiveSync = function(src, dest, cb) {
                         path.join(dest, childItemName));
     });
   } else {
-  	copyFile(src,dest,function(err){
-  		cb(err);
-  	});
+    fs.writeFileSync(dest, fs.readFileSync(src));
   }
 };
 
-function copyFile(source, target) {
-  fs.writeFileSync(target, fs.readFileSync(source));
-}
-
 exports.init = function(dest){
-	var srcPath = path.join(__dirname, '/os/nushi/stubmatic/sample_repo/'); 
+	var srcPath = path.join(__dirname, '/lib/sample_repo/'); 
 	var destPath = path.join(process.cwd(), dest) ;
-	copyRecursiveSync(srcPath, destPath, function(err){
-    if(err) {
-      console.log("Error in creating quick repo.");
+  try{
+	  copyRecursiveSync(srcPath, destPath);
+    console.log("Created successfully.");
+  }catch(err){
+    if(err.code === "EEXIST"){
+      console.log(dest + " already exists");
     }else{
-      console.log('stubmatic repo is ready for use.');
+      console.log(err);
     }
-  });
-  
+  }
 }

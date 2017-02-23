@@ -1,0 +1,13 @@
+#Scenario: short natoation
+-  GET: /url1/1
+   file: someFile.txt
+
+-  HEAD: /url1/2
+   response: ok
+
+-  PUT: /url1/3
+   latency: 3000
+   status: 502
+
+-  POST: /url1/4
+files: ['someFile.txt','default.txt']

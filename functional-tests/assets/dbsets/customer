@@ -1,0 +1,3 @@
+emp_num | token
+001 	 | some token
+*        | defaulttoken

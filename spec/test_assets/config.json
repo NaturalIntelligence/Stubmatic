@@ -11,7 +11,7 @@
         "status": 200
       }
     },
-    "files": ["mappings/mapping2.yaml"]
+    "files": ["mappings/mapping2.yaml", "mappings/mapping1.yaml"]
   },
   "server": {
     "port": 9999

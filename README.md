@@ -1,7 +1,7 @@
 # Stubmatic
 A stub server to mock behaviour of HTTP(s) / REST / SOAP services 
 
-[![Travis ci Build Status](https://travis-ci.org/NaturalIntelligence/Stubmatic.svg?branch=master)](https://travis-ci.org/NaturalIntelligence/Stubmatic) [![Gitter](https://img.shields.io/gitter/room/Stubmatic/Stubmatic.svg)](https://gitter.im/Stubmatic/Lobby#) [![Known Vulnerabilities](https://snyk.io/test/github/naturalintelligence/stubmatic/badge.svg)](https://snyk.io/test/github/naturalintelligence/stubmatic) [![bitHound Overall Score](https://www.bithound.io/github/NaturalIntelligence/Stubmatic/badges/score.svg)](https://www.bithound.io/github/NaturalIntelligence/Stubmatic)
+[![Travis ci Build Status](https://travis-ci.org/NaturalIntelligence/Stubmatic.svg?branch=master)](https://travis-ci.org/NaturalIntelligence/Stubmatic) [![Gitter](https://img.shields.io/gitter/room/Stubmatic/Stubmatic.svg)](https://gitter.im/Stubmatic/Lobby#) [![Known Vulnerabilities](https://snyk.io/test/github/naturalintelligence/stubmatic/badge.svg)](https://snyk.io/test/github/naturalintelligence/stubmatic) [![bitHound Overall Score](https://www.bithound.io/github/NaturalIntelligence/Stubmatic/badges/score.svg)](https://www.bithound.io/github/NaturalIntelligence/Stubmatic) [![Code Climate](https://codeclimate.com/github/NaturalIntelligence/Stubmatic/badges/gpa.svg)](https://codeclimate.com/github/NaturalIntelligence/Stubmatic) [![Coverage Status](https://coveralls.io/repos/github/NaturalIntelligence/Stubmatic/badge.svg?branch=dev)](https://coveralls.io/github/NaturalIntelligence/Stubmatic?branch=dev)
 
 > Stubmatic is the new name for my other project [Stubby DB](https://github.com/NaturalIntelligence/StubbyDB). All the changes to stubby db after version **4.2.0** will be happend here only. Previous github & npm repo will be kept for old references.
 
@@ -83,8 +83,24 @@ To make the response dynamic, stubmatic comes with various features
 * `{{TODAY+1}}` is dpreicated. Use `{{TODAY+1d}}` instead
 * `{{JODA_TODAY+1}}` is dpreicated. Use `{{JODA_TODAY+1d}}` instead
 * 'err' property for dbset mapping is invalid. If a key doesn't match it'll look for default key ('*') otherwise it'll skip matching.
-* Use of `[[dumpspath:file1,file2]]` is depricated. Use `{{dump(dumpspath,[file1,file2])}}` instead.
-* options `-m`, and `-s` or `--stub` have been removed from stubmatic command
+* `##dbset_key##` can be used as `{{#dbset_key}}`
+* dumps `[[dumpspath:file1,file2]]` can be used as `{{dump("dumpspath","file1","file2")}}`.
+* options `-m`, and `-s` or `--stub` have been removed from stubmatic command as there is not much use of them. And many options always confuse.
 * Check syntax for short notations
-* 'post' property of request mapping is deprecated. Use 'bodyText' or 'body' attributes.
-* In config.json, `mappings.requests` is changed to `mappings.files`
+* In config.json, `mappings.requests` is changed to `mappings.files`. It seems more meaningful.
+* 'response.contentType' in mappings is invalid. Use 'response.sendasfile: true' instead. It seems more meaningful.
+
+#### Features in 5.0.0
+* **Robust**: 97%+ code coverage. Many bugs are fixed. Code quality and structure is improved.
+* Now you can map **multiple HTTP methods** to a single method (not in short notations)
+* **Short notations**
+* Now you can **proxy** selected requests to other servers/simulators. This feature open many possibilities. 
+* You can **validate** yaml, json from CLI for quick feedback. I'll add the support to validate XML soon.
+* 2 more file stratigies are added.
+* You can debug HTTP requests from CLI
+* Support of yarn for fast installation
+* Now stubmatic can be started from nodejs code as well
+
+I have dropped the plan to add support for redis because I couldn't find any good usecase for that. If you have any feature request add [here](https://github.com/NaturalIntelligence/Stubmatic/issues)
+
+Check my other project too: [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser) to transform XML to JS/JSON objects quickly.

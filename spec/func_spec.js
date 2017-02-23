@@ -1,15 +1,18 @@
-var formatDate =require('.././os/nushi/stubmatic/functions').formatDate;
-var random =require('.././os/nushi/stubmatic/functions').random;
-var dump =require('.././os/nushi/stubmatic/functions').dump;
-//var anyDateBetween =require('.././os/nushi/stubmatic/functions').anyDateBetween;
-var config = require(".././os/nushi/stubmatic/configbuilder");
+var formatDate =require('.././lib/functions').formatDate;
+var random =require('.././lib/functions').random;
+var dump =require('.././lib/functions').dump;
+//var anyDateBetween =require('.././lib/functions').anyDateBetween;
+var config = require(".././lib/configbuilder");
 
 describe("Function ", function() {
   var today = new Date();
 
-  it("formatDate should format date", function() {
+  it("formatDate should format date correctly", function() {
   	var result = formatDate(new Date(2016,11,2,23,45,23), "D DD MMM YYYY, HH:mm:ss");
   	expect("Fri Friday Dec 2016, 23:45:23").toBe(result);
+
+    result = formatDate(new Date(2017,2,6,23,45,23), "D DD MMM MMMM MM M YYYY, HH:mm:ss");
+  	expect("Mon Monday Mar March 03 3 2017, 23:45:23").toBe(result);
   });	
 
   it("random should give random string of specified length ", function() {
@@ -36,13 +39,13 @@ describe("Function ", function() {
 
   it("dump should include files", function() {
     spyOn(config,'getConfig').and.callFake(() => { return {dumps : __dirname } });
-    var result = dump("test_assets",['dummy.txt','dummy.txt']);
+    var result = dump("test_assets",'dummy.txt','dummy.txt');
     expect(result).toBe("This is dummy file to test dump {{randome(5)}}.This is dummy file to test dump {{randome(5)}}.");
 
-    result = dump("",['test_assets/dummy.txt','test_assets/notexist']);
+    result = dump("",'test_assets/dummy.txt','test_assets/notexist');
     expect(result).toBe("This is dummy file to test dump {{randome(5)}}.");
 
-    expect(dump("",[])).toBe("");
+    expect(dump("")).toBe("");
   }); 
 
 });

@@ -1,71 +1,96 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
-var logger = require('./os/nushi/stubmatic/log');
+var logger = require('./lib/log');
+var color = require('./lib/util/colors').color;
+var path = require('path');
 
-if(process.argv[2] === "--help" || process.argv[2] === "-h"){
-	console.log(fs.readFileSync(__dirname + "/man/stubmatic.1", 'utf-8'));
-}else if(process.argv[2] === "--version"){
-	console.log(require(__dirname + "/package.json").version);
-}else if(process.argv[2] === "init"){
-	require('./init').init(process.argv[3] || "stub-repo");
-}else{
-
-	var path = require('path');
-
-	var isExist = function(path){
-		try{
-			fs.accessSync(path, fs.F_OK);
-			return true;
-		}catch(e){
-			return false;
-		}
+function cli(args) {
+	if (args[2] === "--help" || args[2] === "-h") {
+		console.log(fs.readFileSync(__dirname + "/man/stubmatic.1", 'utf-8'));
+	} else if (args[2] === "--version") {
+		console.log(require(__dirname + "/package.json").version);
+	} else if (args[2] === "init") {
+		require('./init').init(args[3] || "stub-repo");
+	} else if (args[2] === "validate") {
+		validateSyntax(args[3]);
+	} else {
+		var options = buildServerOptions(args);
+		var server = require('./lib/server');
+		server.setup(options);
+		server.start();
 	}
+}
 
-	var options = {}
-	for(var i=2; i<process.argv.length;i++){
-		if(process.argv[i].indexOf("-") === 0){
-			var key = process.argv[i];
-			if(key === '-d' ){
-				if(isExist(process.argv[i+1])){
-					global.basePath = process.argv[i+1];
-				}else{
-					global.basePath = path.join(process.cwd(),process.argv[i+1]);
+function validateSyntax(fileName) {
+	try {
+		if (fileName.endsWith(".json")) {
+			require('jsonlint').parse(fs.readFileSync(fileName, {
+				encoding: 'utf-8'
+			}));
+			console.log("Validated successfully");
+		} else if (fileName.endsWith(".yaml") || fileName.endsWith(".yml")) {
+			require('yamljs').parseFile(fileName);
+			console.log("Validated successfully");
+		}
+		/*else if(fileName.endsWith(".xml"))
+			require('xmlchecker').check(fileName);*/
+		else {
+			console.log("Unsupported file");
+		}
+	} catch (e) {
+		console.log("Validation failed");
+		console.log(color(e, 'red'));
+		//if(e.line) console.log("line number: " + e.line + ":" + e.column);
+	}
+}
+
+function buildServerOptions(args) {
+	var options = {};
+	for (var i = 2; i < args.length; i++) {
+		if (args[i].indexOf("-") === 0) {
+			var key = args[i];
+			if (key === '-d') {
+				var dirpath =  args[++i];
+				if (isExist(dirpath)) {
+					global.basePath = dirpath;
+				} else {
+					global.basePath = path.join(process.cwd(), dirpath);
 				}
-			}else if(key === '-v' || key === '--verbose'){
+				options[key] = global.basePath;
+			} else if (key === '-v' || key === '--verbose') {
 				logger.setVerbose(true);
-			}else if(key === '-l' || key === '--logs'){
+			} else if (key === '-l' || key === '--logs') {
 				logger.writeLogs(true);
-			}else if(key === '--debug'){
+			} else if (key === '--debug') {
 				logger.debugLogs(true);
-			}else{
-				if(key === '--port' || key === '-p'){
+			} else {
+				if (key === '--port' || key === '-p') {
 					key = '-p';
-				}else if(key === '--config' || key === '-c'){
+				} else if (key === '--config' || key === '-c') {
 					key = '-c';
-				}else if(key === '--mapping' || key === '-m'){
-					key = '-m';
-				}else if(key === '--stub' || key === '-s'){
-					key = '-s';
-				}else if(key === '-d' || key === '-v' || key === '--host'
-					|| key === '-l' || key === '-P' || key === '--mutualSSL'){
+				} else if (key === '--host' || key === '-P' || key === '--mutualSSL') {
 					//valid keys
-				}else{
+				} else {
 					console.log("Invalid options");
-					console.log("Try 'stubmatic --help' for more information.")
-					return;
+					console.log("Try 'stubmatic --help' for more information.");
+					throw new Error("Invalid options");
 				}
-				options[key] = process.argv[++i];
+				options[key] = args[++i];
 			}
 		}
 	}
-
-
-	var configBuilder = require("./os/nushi/stubmatic/configbuilder");
-	configBuilder.build(options);
-	console.log("Configuration: " + JSON.stringify(configBuilder.getConfig(),null, 4));
-
-
-	var stubmatic = require('./os/nushi/stubmatic/stubmatic');
-	var server = new stubmatic();
+	return options;
 }
+
+var isExist = function (filepath) {
+	try {
+		fs.accessSync(filepath, fs.F_OK);
+		return true;
+	} catch (e) {
+		return false;
+	}
+};
+
+
+cli(process.argv);

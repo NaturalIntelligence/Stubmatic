@@ -1,10 +1,10 @@
-var expressionEngine = require('.././os/nushi/stubmatic/expressions/engine');
-var process = require('.././os/nushi/stubmatic/expressions/engine').process;
-var evalMarker = require('.././os/nushi/stubmatic/expressions/engine').evaluateMarker;
-var fetch = require('.././os/nushi/stubmatic/expressions/engine').fetch;
+var expressionEngine = require('.././lib/expressions/engine');
+var process = require('.././lib/expressions/engine').process;
+var evalMarker = require('.././lib/expressions/engine').evaluateMarker;
+var fetch = require('.././lib/expressions/engine').fetch;
 
-var markers = require('.././os/nushi/stubmatic/markers');
-var fns = require('.././os/nushi/stubmatic/functions');
+var markers = require('.././lib/markers');
+var fns = require('.././lib/functions');
 
 describe("Expression:: it ", function() {
   var today = new Date();

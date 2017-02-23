@@ -1,0 +1,35 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <soapenv:Header xmlns:util="http://soa.o2.co.uk/postpay/utilgetmsisdnstatedata_1">
+        <cor:SOATransactionID xmlns:cor="http://soa.o2.co.uk/coredata_1"> 3908dbe4-69b6-42b8-adde-755d3336694e </cor:SOATransactionID>
+    </soapenv:Header>
+    <soapenv:Body>
+        <util:utilGetMsisdnStateResponse xmlns:util="http://soa.o2.co.uk/postpay/utilgetmsisdnstatedata_1">
+            <util:msisdn><% post.1 %></util:msisdn>
+            <util:friendlyConnectionName></util:friendlyConnectionName>
+            <util:msisdnStateCommonRegistrationDetails>
+                <util:chooserCustomerNumber> 10825555 </util:chooserCustomerNumber>
+                <util:commonRegistryUserName> 009-001-20081007110011333 </util:commonRegistryUserName>
+                <util:commonRegistryUserDomain> stf.ref.o2.co.uk </util:commonRegistryUserDomain>
+            </util:msisdnStateCommonRegistrationDetails>
+            <util:msisdnStateBillingDetails>
+                <util:billingCustomerNumber> 2000062805 </util:billingCustomerNumber>
+                <util:billingAccountNumber>##ACCT_NUM##</util:billingAccountNumber>
+            </util:msisdnStateBillingDetails>
+            <util:msisdnStateMsisdnDetails>
+                <util:msisdnStatus>ACTIVE</util:msisdnStatus>
+                <util:ssn>8944110064168800781</util:ssn>
+                <util:isSecondary>N</util:isSecondary>
+                <util:absPackageId>699</util:absPackageId>
+                <util:accountNumber>2000062805</util:accountNumber>
+            </util:msisdnStateMsisdnDetails>
+            <util:msisdnStateProducts>
+                <util:mspMsisdnBaseTariff>
+                    [[dump:product:##tariffProductId:0##]]
+                </util:mspMsisdnBaseTariff>
+                <util:mspMsisdnServices>
+                    [[dump:product:8698]]
+                </util:mspMsisdnServices>
+            </util:msisdnStateProducts>
+        </util:utilGetMsisdnStateResponse>
+    </soapenv:Body>
+</soapenv:Envelope>

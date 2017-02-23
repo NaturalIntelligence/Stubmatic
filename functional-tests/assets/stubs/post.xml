@@ -1,0 +1,1 @@
+My name is <% post.1 %> <% post.2 %>. My mobile number is 0<% post.5 %>.
