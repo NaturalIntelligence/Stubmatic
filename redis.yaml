@@ -1,70 +1,70 @@
 - command: incr counter
-  reply:  500
+  response:  500
 
 - command: incr counter
-  reply:
+  response:
     - 500
     - 501
     - 502
     - 503
 
 - command: incrby counter ([0-9]+)
-  reply:  {{ 500 + command.1 }}
+  response:  {{ 500 + command.1 }}
 
 # DECR and DECRBY.
 
 - command: set mykey value
-  reply: OK
+  response: OK
 
 - command: set mykey value ex [0-9]
-  reply: OK
+  response: OK
 
 - command: get mykey
-  reply: value
+  response: value
 
 - command: get foo
   err: null
 
 - command: mset k1 v1 k2 v2 k3 v3
-  reply: OK
+  response: OK
 
 - command: mget k1 k2 k3
-  reply: ["v1","v2","v3"]
+  response: ["v1","v2","v3"]
 
 - command: exists mykey
-  reply: 1                #0
+  response: 1                #0
 
 - command: del mykey
-  reply: 1                #0
+  response: 1                #0
 
 - command: type mykey
-  reply: "string"         #list(LPUSH), set(SADD), string(SET), none, 
+  response: "string"         #list(LPUSH), set(SADD), string(SET), none, 
 
 - command: expire mykey 5 #in sec
-  reply: 1                #0
+  response: 1                #0
 
 - command: ttl mykey      #time remaining to expire in sec  
-  reply: 4
+  response: 4
 
 ## PEXPIRE and the PTTL for ms
 
 #------- lists
 
 - command: lpush mylist value  #rpush
-  reply: 1                #0
+  response: 1                #0
 
 - command: lrange mylist 0 -1
-  reply: ["1","2", "value"]
+  response: ["1","2", "value"]
 
 
 - command: rpush mylist a b c
-  reply: 3
+  response: 3
 
 - command: rpop mylist
-  reply: "c"              #null
+  response: "c"              #null
 
 - command: ltrim mylist 0 2
-  reply: OK
+  response: OK
 
 - command: auth wrongpassword
   err: 
@@ -74,7 +74,7 @@
 - command: ltrim mylist 0 2
   ref: original-list
   latency: [100,500]
-  status: OK              #use 'reply' when to return some value
+  status: OK              #use 'response' when to return some value
   err: message
 
 
