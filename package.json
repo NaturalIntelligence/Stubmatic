@@ -22,6 +22,7 @@
     "http-proxy": "^1.16.2",
     "js-joda": "^1.1.11",
     "jsonlint": "^1.6.2",
+    "redis-parser": "^2.4.0",
     "winston": "^2.3.0",
     "yamljs": "^0.2.8"
   },

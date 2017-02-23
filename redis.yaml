@@ -1,0 +1,107 @@
+- command: incr counter
+  reply:  500
+
+- command: incr counter
+  reply:
+    - 500
+    - 501
+    - 502
+    - 503
+
+- command: incrby counter ([0-9]+)
+  reply:  {{ 500 + command.1 }}
+
+# DECR and DECRBY.
+
+- command: set mykey value
+  reply: OK
+
+- command: set mykey value ex [0-9]
+  reply: OK
+
+- command: get mykey
+  reply: value
+
+- command: get foo
+  err: null
+
+- command: mset k1 v1 k2 v2 k3 v3
+  reply: OK
+
+- command: mget k1 k2 k3
+  reply: ["v1","v2","v3"]
+
+- command: exists mykey
+  reply: 1                #0
+
+- command: del mykey
+  reply: 1                #0
+
+- command: type mykey
+  reply: "string"         #list(LPUSH), set(SADD), string(SET), none, 
+
+- command: expire mykey 5 #in sec
+  reply: 1                #0
+
+- command: ttl mykey      #time remaining to expire in sec  
+  reply: 4
+
+## PEXPIRE and the PTTL for ms
+
+#------- lists
+
+- command: lpush mylist value  #rpush
+  reply: 1                #0
+
+- command: lrange mylist 0 -1
+  reply: ["1","2", "value"]
+
+
+- command: rpush mylist a b c
+  reply: 3
+
+- command: rpop mylist
+  reply: "c"              #null
+
+- command: ltrim mylist 0 2
+  reply: OK
+
+- command: auth wrongpassword
+  err: 
+
+
+#will apply operation on reference list and will return the response
+- command: ltrim mylist 0 2
+  ref: original-list
+  latency: [100,500]
+  status: OK              #use 'reply' when to return some value
+  err: message
+
+
+1) round robin | random   | first-found
+  - successful with delay
+  - error immediately   [multiple access err]
+  - error with delay [server err]
+  - successful immediately
+
+2) response can be constructed from 'body' attribute or from a file
+3) status: OK|ERR|
+
+
+- ref_ist:
+    list1: ["file:fileNamePath", 45, "value"]
+    list2: []
+
+- command: ltrim 
+  ref: list1
+  status: 200
+  body: value
+  file: fileNamePath
+  files: [file1,file2,file3]
+
+- command: ltrim 
+  ref: list1
+  status: ERR
+  body: error msg
+  file: fileNamePath
+  files: [file1,file2,file3]
