@@ -1,7 +1,7 @@
 {
   "name": "stubmatic",
   "preferGlobal": true,
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "A stub server to mock behaviour of HTTP(s) / REST / SOAP services",
   "man": "./man/stubmatic.1",
   "main": "./lib/stubmatic.js",
@@ -51,7 +51,12 @@
     "https",
     "ssl",
     "gzip",
-    "simulator"
+    "simulator",
+    "tcp",
+    "proxy",
+    "fake",
+    "validate",
+    "validator"
   ],
   "devDependencies": {
     "chai": "^3.5.0",
