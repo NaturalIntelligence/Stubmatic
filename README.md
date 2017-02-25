@@ -79,7 +79,7 @@ To make the response dynamic, stubmatic comes with various features
 * No bug reported yet (from Apr 2016 to till date)
 
 
-#### Breaking changes in 5.0.0
+#### Breaking changes from 5.x
 * `{{TODAY+1}}` is dpreicated. Use `{{TODAY+1d}}` instead
 * `{{JODA_TODAY+1}}` is dpreicated. Use `{{JODA_TODAY+1d}}` instead
 * 'err' property for dbset mapping is invalid. If a key doesn't match it'll look for default key ('*') otherwise it'll skip matching.
@@ -87,10 +87,10 @@ To make the response dynamic, stubmatic comes with various features
 * dumps `[[dumpspath:file1,file2]]` can be used as `{{dump("dumpspath","file1","file2")}}`.
 * options `-m`, and `-s` or `--stub` have been removed from stubmatic command as there is not much use of them. And many options always confuse.
 * Check syntax for short notations
-* In config.json, `mappings.requests` is changed to `mappings.files`. It seems more meaningful.
+* In config.json, `mappings.requests` is depricated. Use `mappings.files`. It seems more meaningful.
 * 'response.contentType' in mappings is invalid. Use 'response.sendasfile: true' instead. It seems more meaningful.
 
-#### Features in 5.0.0
+#### Features from 5.x
 * **Robust**: 97%+ code coverage. Many bugs are fixed. Code quality and structure is improved.
 * Now you can map **multiple HTTP methods** to a single method (not in short notations)
 * **Short notations**
