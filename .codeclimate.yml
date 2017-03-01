@@ -4,5 +4,8 @@ engines:
     checks:
       no-unused-expressions:
         enabled: false
+ratings:
+  paths:
+  - ".js"
 exclude_paths:
 - spec/**/*
