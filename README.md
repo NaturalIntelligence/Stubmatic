@@ -95,7 +95,7 @@ To make the response dynamic, stubmatic comes with various features
 * Now you can map **multiple HTTP methods** to a single method (not in short notations)
 * **Short notations**
 * Now you can **proxy** selected requests to other servers/simulators. This feature open many possibilities. 
-* You can **validate** yaml, json from CLI for quick feedback. I'll add the support to validate XML soon.
+* You can **validate** yaml (yml), xml and json from CLI for quick feedback. I'll add the support to validate XML soon.
 * 2 more file stratigies are added.
 * You can debug HTTP requests from CLI
 * Support of yarn for fast installation
