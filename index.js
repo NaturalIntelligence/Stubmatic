@@ -32,9 +32,11 @@ function validateSyntax(fileName) {
 		} else if (fileName.endsWith(".yaml") || fileName.endsWith(".yml")) {
 			require('yamljs').parseFile(fileName);
 			console.log("Validated successfully");
-		}
-		/*else if(fileName.endsWith(".xml"))
-			require('xmlchecker').check(fileName);*/
+		}else if(fileName.endsWith(".xml"))
+			var result = require('fast-xml-parser').validate(fs.readFileSync(fileName, {
+				encoding: 'utf-8'
+			}));
+			if(result === true) console.log("Validated successfully");
 		else {
 			console.log("Unsupported file");
 		}
