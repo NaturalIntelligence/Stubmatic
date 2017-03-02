@@ -6,6 +6,6 @@ engines:
         enabled: false
 ratings:
   paths:
-  - ".js"
+  - "**.js"
 exclude_paths:
 - spec/**/*
