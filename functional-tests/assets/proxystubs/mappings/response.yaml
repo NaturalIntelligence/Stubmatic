@@ -1,0 +1,16 @@
+
+-  GET: /proxy/normal
+   response: simple response
+
+-  POST: /proxy/err
+   post: post body
+   status: 500
+# - request:
+#     method: POST
+#     url: /proxy/err
+
+#   response:
+#     status: 500
+
+-  GET: /proxy/not-found
+   status: 404
