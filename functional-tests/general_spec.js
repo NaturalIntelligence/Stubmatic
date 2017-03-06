@@ -88,7 +88,7 @@ describe('FT', function () {
                 expect(res.status).toBe(200);
                 var interval = (new Date()) - time;
                 expect(interval).toBeGreaterThan(999);
-                expect(interval).toBeLessThan(2001);
+                expect(interval).toBeLessThan(2010);
                 done();
             }).catch( err => {
                 markFailed(err,fail,done);
