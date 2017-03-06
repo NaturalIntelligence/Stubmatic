@@ -22,6 +22,7 @@
                 , "mappings/dbset2.yaml"
                 , "mappings/proxy.yaml"
                 , "mappings/attachment.yaml"
+                , "mappings/cookie.yaml"
                 , "mappings/queryparam.yaml"]
   },
   "server": {

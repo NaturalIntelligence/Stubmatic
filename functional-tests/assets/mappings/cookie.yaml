@@ -1,0 +1,20 @@
+#DONE
+-  request:
+      url: /stubs/cookies/request
+      headers:
+          cookie: .*alpha=gamma[,;]*.*
+
+   response:
+      body: This request requires cookies
+
+#DONE
+-  request:
+      url: /stubs/cookies/response
+
+   response:
+      body: This response will be served with cookies
+      headers:
+         Set-Cookie: 
+            - "foo=bar; Expires=Tue, 15 Mar 2016 21:47:38 GMT;"
+            - "alpha=gamma"
+         #Set-Cookie: "lu=Rg3vHJZnehYLjVg7qi3bZjzg; Expires=Tue, 15 Mar 2016 21:47:38 GMT; Path=/; Domain=localhost; HttpOnly"
