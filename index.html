@@ -156,6 +156,19 @@
                     </a>
                 </div>
             </div>
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="col-sm-4 portfolio-item">
+                    <a href="#requestmodal" class="portfolio-link" data-toggle="modal">
+                        <div class="example_box v-align" style=" background-color: brown;"> <span>Match and Capture various parts of request</span></div>
+                    </a>
+                </div>
+                <div class="col-sm-4 portfolio-item">
+                    <a href="#proxymodal" class="portfolio-link" data-toggle="modal">
+                        <div class="example_box v-align" style=" background-color: darkmagenta;"> <span>Route/Proxy a request to other servers</span></div>
+                    </a>
+                </div>
+            </div>
             <p>Don't forget to check <a href="https://github.com/NaturalIntelligence/Stubmatic/wiki">wiki</a> for detailed and updated documentations.</p>
         </div>
 
@@ -493,7 +506,9 @@ Sometimes we want to serve the response with delay to simulate the network delay
      url: /services/Userdetails/([0-9]+)/resume
    response:
      file: <% post.1 %>-resume.pdf
-     contentType: application/pdf
+     headers:
+        content-type: application/pdf
+     sendasfile:true
 </pre>
 * don't forget to place pdf file in "stubs" folder
 <br/>
@@ -526,8 +541,19 @@ Sometimes we want to serve the response with delay to simulate the network delay
    response:
      status: 200
      files: ["<% post.1 %>-response.json", {"name":"fault.json","status":500}]
+
+-  request:
+     url: /services/notfound
+   response:
+     status: 404
+
+-  request:
+     url: /services/timeout
+   response:
+     latency: 20000
+
 </pre>
-* You can also use <code>random</code> file strategy to send error response randomly.
+* You can use <code>random</code> file strategy to send error response randomly.
 <br/>
                             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                         </div>
@@ -594,13 +620,18 @@ Sometimes we want to serve the response with delay to simulate the network delay
     </pre>
 <p>To do this, let's create a db set(a text file which looks like a table) <kbd>$vi dbsets/userdetails</kbd></p>
 <pre class="code">
-id   | name      |  dob                                  | scenario
-12345| Amit Gupta| {{formatDate(TODAY-30y,'dd-MM-YYYY')}}| > 30 years
-23451| Deepika   | {{formatDate(TODAY-26y,'dd-MM-YYYY')}}| < 30 years 
+id   | name      |  dob                                   | scenario
+12345| Amit Gupta| {{formatDate(TODAY-30y,'dd-MM-YYYY')}} | > 30 years
+23451| Deepika   | {{formatDate(TODAY-26y,'dd-MM-YYYY')}} | < 30 years 
+*    | Anamika   | {{formatDate(TODAY-300y,'dd-MM-YYYY')}}| dead
 </pre> 
-* Scenario is optional last column, just to remember why I did the entry<br/>
-* values in dob can be simple values. But I'm using <a href="https://github.com/NaturalIntelligence/Stubmatic/wiki/06.0-Expressions"> expressions</a> to make it dynamic.<br/>
 
+Note
+<ul>
+<li> Scenario column is optional, I spcified just to remember why I did this entry</li>
+<li> values in dob can be simple values. But I'm using <a href="https://github.com/NaturalIntelligence/Stubmatic/wiki/06.0-Expressions"> expressions</a> to make it dynamic.</li>
+<li> You can define default mapping with key '*'. </li>
+</ul>
 <p><strong>Final step</strong>: Link request mapping with dbset</p>
 <pre class="code yaml">
 -  request:
@@ -661,6 +692,84 @@ id   | name      |  dob                                  | scenario
                             <p>Check the first example to setup the project. Here I'm explaining how to use Dumps to break large response file into chunks called dumps.</p>
                             <p>Dumps can be resued in multiple response file to maintain the consistency. And they can also be included conditionally using db sets.</p>
                             <p>For example: Including project 1,2,3 for one user while project 2,3,4,5 for other user. Check this <a href="https://github.com/NaturalIntelligence/Stubmatic/wiki/08.0-DB-Sets">good example</a> to understand in detail.</p>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="portfolio-modal modal fade" id="requestmodal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 col-lg-offset-1">
+                        <div class="modal-body">
+                            <h2>Instructions</h2>
+                            <div class="empty"></div>
+                            <p>Check the first example to setup the project. Refer this sample maping to know what you can capture from request to match a mapping or to capture data from them.</p>
+                            <p>You can capture or verify data from headers, <a href="https://github.com/NaturalIntelligence/Stubmatic/blob/master/functional-tests/assets/mappings/queryparam.yaml">query parameters</a>, URL, <a href="https://github.com/NaturalIntelligence/Stubmatic/blob/master/functional-tests/assets/mappings/cookie.yaml">cookies</a>, and request body.</p>
+<pre class="code yaml">
+-  request:
+      method: ["POST", "HEAD"]
+      url: /stubs/userDetail
+      post: password=([a-zA-Z0-9]+)
+      headers:
+            custom: (\w)
+            cookie: .*cookie-name=cookie-value[,;]*.*
+      query:
+            custom: (\w)
+   response:
+      strategy: ["round-robin", "first-found"]
+      files:
+        - file1.xml
+        - {'status' : 202, 'name': "file2.xml"}
+        - "notexist.xml"
+      headers:
+         Set-Cookie: 
+            - "foo=bar; Expires=Tue, 15 Mar 2016 21:47:38 GMT;"
+            - "alpha=gamma"
+         #Set-Cookie: "lu=Rg3vHJZnehYLjVg7qi3bZjzg; Expires=Tue, 15 Mar 2016 21:47:38 GMT; Path=/; Domain=localhost; HttpOnly"
+</pre>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="portfolio-modal modal fade" id="proxymodal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 col-lg-offset-1">
+                        <div class="modal-body">
+                            <h2>Instructions</h2>
+                            <div class="empty"></div>
+                            <p>Check the first example to setup the project. Here I'm explaining how to <a href="https://github.com/NaturalIntelligence/Stubmatic/blob/master/functional-tests/assets/mappings/proxy.yaml">proxy</a> a request to other servers.</p>
+                            <p>This feature can be used with various purpose. For example you want to stub few requests only, or to transfer the traffic to various other servers based on the URL, or using Stubmatic just to record or debug the HTTP requests, or to simulate 2G, 3G, 4G network conditions etc.</p>
+<pre class="code yaml">
+-  request:
+      url: /proxy/.*
+
+   response:
+      latency: 1000
+      proxy: http://localhost:8003
+</pre>
                             <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                         </div>
                     </div>
