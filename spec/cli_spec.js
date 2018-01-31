@@ -1,5 +1,4 @@
 var rewire = require('rewire'),
-    buildServerOptions = rewire(".././index").__get__("buildServerOptions");
     logger = require(".././lib/log");
 var path = require("path");
 
@@ -7,13 +6,14 @@ describe('CLI', function () {
     
     var climodule = rewire(".././index");
     var cli = climodule.__get__("cli");
+    var buildServerOptions = climodule.__get__("buildServerOptions");
 
     it('should log version number', function () {
         spyOn(console,"log");
         cli(["node", "stubmatic", "--version" ,"tobeignored"]);
 
         expect(console.log.calls.count()).toEqual(1);
-        expect(console.log.calls.argsFor(0)[0]).toEqual( "5.0.4");
+        expect(console.log.calls.argsFor(0)[0]).toEqual( "5.0.6");
     });
 
     it('should log help', function () {
@@ -67,7 +67,6 @@ describe('CLI', function () {
         expect(server.start.calls.count()).toBe(1);
     });
 
-    var buildServerOptions = climodule.__get__("buildServerOptions");
     describe('serveroptions', function () {
 
         it('should set directory path', function () {

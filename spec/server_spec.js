@@ -1,8 +1,16 @@
 var path = require("path");
+const portfinder = require('portfinder');
 
 describe('server', function () {
+
+    var port = "7777";
+    beforeEach(function(){
+        portfinder.getPort(function (err, p) {
+            port = p;
+        });
+    });
     
-    it('should not be started when the port is not accessible', function (done) {
+    it('would not be started when the port is not accessible', function (done) {
         var server = require('.././lib/server');
         server.setup({ "-d" : path.join(__dirname, "spec/test_assets"), "-p" : "8"});
         server.on("start",function(){
@@ -27,7 +35,7 @@ describe('server', function () {
             done.fail("Not expected");
         });
         server.on("error",function(err){
-            expect(err.code).toBe('EADDRNOTAVAIL');
+            expect(err.code).toMatch('ENOTFOUND|EADDRNOTAVAIL');
             done();
         });
 
@@ -57,10 +65,10 @@ describe('server', function () {
     }, 10000);
 
     it('should not be started when port is not available', function (done) {
-        require("http").createServer().listen(7777);;
+        require("http").createServer().listen(port);;
         
         var server = require('.././lib/server');
-        server.setup({ "-d" : path.join(__dirname, "spec/test_assets"), "--host" : "localhost"});
+        server.setup({ "-d" : path.join(__dirname, "spec/test_assets"), "--host" : "localhost", "-p" : port});
         server.on("start",function(){
             done.fail("Not expected");
         });
