@@ -8,6 +8,9 @@ A stub server to mock behaviour of HTTP(s) / REST / SOAP services
 [![bitHound Overall Score](https://www.bithound.io/github/NaturalIntelligence/Stubmatic/badges/score.svg)](https://www.bithound.io/github/NaturalIntelligence/Stubmatic) 
 [![Code Climate](https://codeclimate.com/github/NaturalIntelligence/Stubmatic/badges/gpa.svg)](https://codeclimate.com/github/NaturalIntelligence/Stubmatic) 
 [![Coverage Status](https://coveralls.io/repos/github/NaturalIntelligence/Stubmatic/badge.svg?branch=dev)](https://coveralls.io/github/NaturalIntelligence/Stubmatic?branch=dev)
+
+<a href="https://www.patreon.com/bePatron?u=9531404" data-patreon-widget-type="become-patron-button"><img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patron!" width="200" /></a>
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KQJAX48SPUKNC"> <img src="https://www.paypalobjects.com/webstatic/en_US/btn/btn_donate_92x26.png" alt="Stubmatic donate button"/></a>
 <a href="https://liberapay.com/amitgupta/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a>
 
 [quality-image]: http://npm.packagequality.com/shield/stubmatic.svg?style=flat-square
@@ -23,7 +26,7 @@ A stub server to mock behaviour of HTTP(s) / REST / SOAP services
 4. Help         : `$stubmatic --help`
 
 Important links : [Video Tutorial](https://youtu.be/7mA4-MXxwgk), [Wiki](https://github.com/NaturalIntelligence/Stubmatic/wiki), [NPM](https://www.npmjs.com/package/stubmatic), [Demo](https://github.com/NaturalIntelligence/Stubmatic/tree/master/functional-tests) application, [issues](https://github.com/NaturalIntelligence/Stubmatic/issues), [changelogs](https://github.com/NaturalIntelligence/Stubmatic/wikiChangelog)
-[<img width="180px" src="https://naturalintelligence.github.io/Stubmatic/img/showcase_btn.png" alt="Stubmatic donate button"/>](https://naturalintelligence.github.io/Stubmatic/#showcase)   [<img src="https://www.paypalobjects.com/webstatic/en_US/btn/btn_donate_92x26.png" alt="Stubmatic donate button"/>](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KQJAX48SPUKNC) 
+[<img width="180px" src="https://naturalintelligence.github.io/Stubmatic/img/showcase_btn.png" alt="Stubmatic donate button"/>](https://naturalintelligence.github.io/Stubmatic/#showcase)
 
 **Fund collected (since the project is started)**: $0
 
@@ -102,17 +105,12 @@ To make the response dynamic, stubmatic comes with various features
 * In config.json, `mappings.requests` is depricated. Use `mappings.files`. It seems more meaningful.
 * 'response.contentType' in mappings is invalid. Use 'response.sendasfile: true' instead. It seems more meaningful.
 
-#### Features from 5.x
-* **Robust**: 97%+ code coverage. Many bugs are fixed. Code quality and structure is improved.
-* Now you can map **multiple HTTP methods** to a single method (not in short notations)
-* **Short notations**
-* Now you can **proxy** selected requests to other servers/simulators. This feature open many possibilities. 
-* You can **validate** yaml (yml), xml and json from CLI for quick feedback. I'll add the support to validate XML soon.
-* 2 more file stratigies are added.
-* You can debug HTTP requests from CLI
-* Support of yarn for fast installation
-* Now stubmatic can be started from nodejs code as well
+### Worth to mention
 
-I have dropped the plan to add support for redis because I couldn't find any good usecase for that. If you have any feature request add [here](https://github.com/NaturalIntelligence/Stubmatic/issues)
-
-Check my other project too: [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser) to transform XML to JS/JSON objects quickly.
+- **[NIMN निम्न](https://github.com/nimndata/spec)** : Schema aware object compression
+- **[imglab](https://github.com/NaturalIntelligence/imglab)** : Web based tool to label images for object. So that they can be used to train dlib or other object detectors. You can integrate 3rd party libraries for fast labeling.
+- [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser): Transform XML to JS/JSON objects, or Nimn rapidly. Transform back JSON to XML. Work in browser, node package, or CLI. Many options to customize parsing.
+- [fast-lorem-ipsum](https://github.com/amitguptagwl/fast-lorem-ipsum) : Generate lorem ipsum words, sentences, paragraph very quickly.
+- [stubmatic](https://github.com/NaturalIntelligence/Stubmatic) : A stub server to mock behaviour of HTTP(s) / REST / SOAP services.
+- [fastify-xml-body-parser](https://github.com/NaturalIntelligence/fastify-xml-body-parser/) : Fastify plugin / module to parse XML payload / body into JS object using fast-xml-parser.
+- [Grapes](https://github.com/amitguptagwl/grapes) : Flexible Regular expression engine (for java) which can be applied on char stream. (under development)
