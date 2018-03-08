@@ -1,0 +1,28 @@
+
+-  request:
+      url: /nimn
+
+   response:
+      parser:
+        type: jsonToNimn
+        options:
+          schema: schema/sample.json
+      file: tobeparsed.json   
+
+-  request:
+      url: /nimn/withdate
+
+   response:
+      parser:
+        type: jsonToNimn
+        options:
+          schema: schema/sample.json
+          parseDate: true
+      file: tobeparsed.json
+
+-  request:
+      url: /msgpack
+
+   response:
+      parser: jsonToMsgpack
+      file: tobeparsed.json       

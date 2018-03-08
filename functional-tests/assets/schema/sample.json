@@ -1,0 +1,6 @@
+{
+    "name" : "string",
+    "age" : "number",
+    "isHuman" : "boolean",
+    "date" : "date"
+}

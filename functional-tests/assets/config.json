@@ -23,7 +23,8 @@
                 , "mappings/proxy.yaml"
                 , "mappings/attachment.yaml"
                 , "mappings/cookie.yaml"
-                , "mappings/queryparam.yaml"]
+                , "mappings/queryparam.yaml"
+                , "mappings/parser.yaml"]
   },
   "server": {
     "port": 9999
