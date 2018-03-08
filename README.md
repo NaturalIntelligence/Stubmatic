@@ -1,5 +1,5 @@
 # Stubmatic
-A stub server to mock behaviour of HTTP(s) / REST / SOAP services 
+Mock HTTP calls without coding. Designed specially for testing and testers.
 
 [![NPM quality][quality-image]][quality-url]
 [![Travis ci Build Status](https://travis-ci.org/NaturalIntelligence/Stubmatic.svg?branch=master)](https://travis-ci.org/NaturalIntelligence/Stubmatic) 
