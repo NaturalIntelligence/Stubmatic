@@ -9,7 +9,8 @@ describe("Config Builder ", function() {
   		server: {
   			port: 7777,
   			host: '0.0.0.0'
-  		}
+  		},
+		  repoPath: "."
   	}
   	config.build([]);
   	var actual = config.getConfig();
@@ -25,7 +26,8 @@ describe("Config Builder ", function() {
   			port: 7777,
   			host: '0.0.0.0'
   		},
-  		dbsets: "spec/test_assets/dbsets"
+  		dbsets: "spec/test_assets/dbsets",
+		  repoPath: "spec/test_assets"
   	}
   	var options = [];
   	options['-d'] = "spec/test_assets";
@@ -54,7 +56,8 @@ describe("Config Builder ", function() {
   		server: {
   			port: 9999,
   			host: "0.0.0.0"
-  		}
+  		},
+		  repoPath: "spec/test_assets"
   	};
   	
   	var options = [];
@@ -78,7 +81,8 @@ describe("Config Builder ", function() {
   			securePort: 9000,
   			mutualSSL: true
   		},
-  		dbsets: "spec/test_assets/dbsets"
+  		dbsets: "spec/test_assets/dbsets",
+		  repoPath: "spec/test_assets"
   	}
 
   	var options = [];
@@ -121,7 +125,8 @@ describe("Config Builder ", function() {
   		dbsets: "spec/test_assets/dbsets/",
 	    stubs: "spec/test_assets/stubs/",
 	    logs: { path: "logs/" },
-	    dumps: "spec/test_assets/"
+	    dumps: "spec/test_assets/",
+		repoPath: "spec/test_assets"
 
   	}
   	
@@ -162,7 +167,8 @@ describe("Config Builder ", function() {
   		dbsets: "spec/test_assets/dbsets/",
 	    stubs: "spec/test_assets/stubs/",
 	    logs: { path: "logs/" },
-	    dumps: "spec/test_assets/"
+		dumps: "spec/test_assets/",
+		repoPath: "spec/test_assets"
 
   	}
   	
