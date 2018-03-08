@@ -2,8 +2,10 @@
 benchmark
 coverage*
 test
+functional-tests
 spec
 .travis.yml
 .codeclimate.yml
 *.log
 opbeat.sh
+.vscode

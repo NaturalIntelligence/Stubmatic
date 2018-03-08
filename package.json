@@ -1,8 +1,8 @@
 {
   "name": "stubmatic",
   "preferGlobal": true,
-  "version": "5.0.6",
-  "description": "A stub server to mock behaviour of HTTP(s) / REST / SOAP services",
+  "version": "5.1.0",
+  "description": "Mock HTTP calls without coding. Designed specially for testing.",
   "man": "./man/stubmatic.1",
   "main": "./lib/stubmatic.js",
   "scripts": {
@@ -61,7 +61,10 @@
     "proxy",
     "fake",
     "validate",
-    "validator"
+    "validator",
+    "msgpack",
+    "nimn",
+    "nimnjs"
   ],
   "devDependencies": {
     "chai": "^3.5.0",

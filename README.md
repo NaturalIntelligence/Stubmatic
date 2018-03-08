@@ -16,7 +16,6 @@ A stub server to mock behaviour of HTTP(s) / REST / SOAP services
 [quality-image]: http://npm.packagequality.com/shield/stubmatic.svg?style=flat-square
 [quality-url]: http://packagequality.com/#?package=stubmatic
 
-> Stubmatic is the new name for my other project [Stubby DB](https://github.com/NaturalIntelligence/StubbyDB). All the changes to stubby db after version **4.2.0** will be happend here only. Previous github & npm repo will be kept for old references.
 
 <img align="right" src="https://naturalintelligence.github.io/Stubmatic/img/stubmatic_logo.png?raw=true" width="180px" alt="Stubmatic logo"/> 
 
@@ -28,7 +27,26 @@ A stub server to mock behaviour of HTTP(s) / REST / SOAP services
 Important links : [Video Tutorial](https://youtu.be/7mA4-MXxwgk), [Wiki](https://github.com/NaturalIntelligence/Stubmatic/wiki), [NPM](https://www.npmjs.com/package/stubmatic), [Demo](https://github.com/NaturalIntelligence/Stubmatic/tree/master/functional-tests) application, [issues](https://github.com/NaturalIntelligence/Stubmatic/issues), [changelogs](https://github.com/NaturalIntelligence/Stubmatic/wikiChangelog)
 [<img width="180px" src="https://naturalintelligence.github.io/Stubmatic/img/showcase_btn.png" alt="Stubmatic donate button"/>](https://naturalintelligence.github.io/Stubmatic/#showcase)
 
-**Fund collected (since the project is started)**: $0
+## Main features
+
+* Mock HTTP(s) calls. (Hense can mock REST/SOAP web services)
+* Inspect HTTP calls from CLI or log them for more detail.
+* No code. Designed specially for testing and testers.
+* Mock messagepack or Nimn (निम्न) response easily. Write in JSON parse in desirable format. 
+* Support SSL certificates.
+* Optional configuration
+* Dynamic response
+      * Use Regular Expressions to match a request, capture some part of the request, to decide response file at runtime, to change contents of response at runtime etc. 
+      * Use **Expressions** (functions and markers) to display dynamic dates, random number etc.
+      * Devide your response into multiple files (called **dumps**) for readability, reusability, and consistency.
+      * Create a response skeleton with **DB sets** and fill data as per matched request.
+      * Delay response for fixed or random time.
+* Send response as a file
+* Compress response automatically.
+* Route requests to other server using **proxy**.
+* Memory and CPU efficient
+* Ready to be used in performance environment
+* And much more like short notations, multiple mapping files, file strategy etc.
 
 ## Configuration
 To install stubmatic, you need to install [nodejs](https://nodejs.org/en/download/) and npm first. It is recommanded to be on latest version of both. npm is bundeled with nodejs. Now follow above commands to install stubmatic and to set up a repo.
@@ -72,45 +90,12 @@ Using regular expression, single mapping can be used to match multiple requests 
      strategy: "first-found"
      files: ["stubs/<% url.1 %>/response.xml","stubs/ServiceName/actionName/default.xml"]
 ```
-To make the response dynamic, stubmatic comes with various features
-
-* **Strategy**: it helps to pick specific or random file to serve the response.
-* **Default mapping and short notations**: Helps to keep mapping file as small as possible whitout verbosing same information
-* **Multiple mapping files**: Helps to keep the project organized.
-* **Regular Expressions**: You can use RE to match a request, capture some part of the request, to decide response file at runtime, to change contents of response at runtime etc. You can capture request part from URL, request body, headers, and query parameters.
-* **Expressions**: Stubmatic has support for inbuilt functions and markers to display date, random number etc.
-* **Dumps**: You can devide the response from multiple files to keep it simplified. And join them at runtime using dumps.
-* **DB sets**: Instead of creating multiple response files for each request, you can create *response skeleton*. Later you can fill data in this skeleton from dumps and data tables (DB sets).
-* **Latency**: You can set fix or random delay to serve the response
-* **HTTPS**: It supports HTTP and HTTPS both. You can set up 1 way and 2 way SSL hanshaking.
-* **Attachments**: You can write mapping to response a file.
-* **Compression**: If accept-encoding header is set to deflate or gzip then Stubmatic serves compressed response.
-* **Configuration**: If configuration file is missing, Stubmatic can build the response on the basis of directory structure.
-* **Other**: There are also many other small features, like set response code, response headers, logging, debugging etc.
-
-#### Other highlitghs
-* Stubmatic consumes very less memory and CPU
-* It is performance ready and being used by many organizations
-* No bug reported yet (from Apr 2016 to till date)
-
-
-#### Breaking changes from 5.x
-* `{{TODAY+1}}` is dpreicated. Use `{{TODAY+1d}}` instead
-* `{{JODA_TODAY+1}}` is dpreicated. Use `{{JODA_TODAY+1d}}` instead
-* 'err' property for dbset mapping is invalid. If a key doesn't match it'll look for default key ('*') otherwise it'll skip matching.
-* `##dbset_key##` can be used as `{{#dbset_key}}`
-* dumps `[[dumpspath:file1,file2]]` can be used as `{{dump("dumpspath","file1","file2")}}`.
-* options `-m`, and `-s` or `--stub` have been removed from stubmatic command as there is not much use of them. And many options always confuse.
-* Check syntax for short notations
-* In config.json, `mappings.requests` is depricated. Use `mappings.files`. It seems more meaningful.
-* 'response.contentType' in mappings is invalid. Use 'response.sendasfile: true' instead. It seems more meaningful.
 
 ### Worth to mention
 
-- **[NIMN निम्न](https://github.com/nimndata/spec)** : Schema aware object compression
+- **[NIMN निम्न](https://github.com/nimndata/spec)** : Schema aware object compression. 60% and more compressed than JSON. 40% and more compressed than msgpack.
 - **[imglab](https://github.com/NaturalIntelligence/imglab)** : Web based tool to label images for object. So that they can be used to train dlib or other object detectors. You can integrate 3rd party libraries for fast labeling.
 - [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser): Transform XML to JS/JSON objects, or Nimn rapidly. Transform back JSON to XML. Work in browser, node package, or CLI. Many options to customize parsing.
 - [fast-lorem-ipsum](https://github.com/amitguptagwl/fast-lorem-ipsum) : Generate lorem ipsum words, sentences, paragraph very quickly.
-- [stubmatic](https://github.com/NaturalIntelligence/Stubmatic) : A stub server to mock behaviour of HTTP(s) / REST / SOAP services.
 - [fastify-xml-body-parser](https://github.com/NaturalIntelligence/fastify-xml-body-parser/) : Fastify plugin / module to parse XML payload / body into JS object using fast-xml-parser.
 - [Grapes](https://github.com/amitguptagwl/grapes) : Flexible Regular expression engine (for java) which can be applied on char stream. (under development)
