@@ -36,11 +36,11 @@ Important links : [Video Tutorial](https://youtu.be/7mA4-MXxwgk), [Wiki](https:/
 * Support SSL certificates.
 * Optional configuration
 * Dynamic response
-      * Use Regular Expressions to match a request, capture some part of the request, to decide response file at runtime, to change contents of response at runtime etc. 
-      * Use **Expressions** (functions and markers) to display dynamic dates, random number etc.
-      * Devide your response into multiple files (called **dumps**) for readability, reusability, and consistency.
-      * Create a response skeleton with **DB sets** and fill data as per matched request.
-      * Delay response for fixed or random time.
+  * Use Regular Expressions to match a request, capture some part of the request, to decide response file at runtime, to change contents of response at runtime etc. 
+  * Use **Expressions** (functions and markers) to display dynamic dates, random number etc.
+  * Devide your response into multiple files (called **dumps**) for readability, reusability, and consistency.
+  * Create a response skeleton with **DB sets** and fill data as per matched request.
+  * Delay response for fixed or random time.
 * Send response as a file
 * Compress response automatically.
 * Route requests to other server using **proxy**.
