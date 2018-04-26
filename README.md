@@ -29,7 +29,7 @@ Important links : [Video Tutorial](https://youtu.be/7mA4-MXxwgk), [Wiki](https:/
 
 ## Main features
 
-* Mock HTTP(s) calls. (Hense can mock REST/SOAP web services)
+* Mock HTTP(s) calls. (Hence can mock REST/SOAP web services)
 * Inspect HTTP calls from CLI or log them for more detail.
 * No code. Designed specially for testing and testers.
 * Mock messagepack or Nimn (निम्न) response easily. Write in JSON parse in desirable format. 
@@ -41,7 +41,7 @@ Important links : [Video Tutorial](https://youtu.be/7mA4-MXxwgk), [Wiki](https:/
   * Devide your response into multiple files (called **dumps**) for readability, reusability, and consistency.
   * Create a response skeleton with **DB sets** and fill data as per matched request.
   * Delay response for fixed or random time.
-* Send response as a file
+* Send response as a stream (downloadable file)
 * Compress response automatically.
 * Route requests to other server using **proxy**.
 * Memory and CPU efficient
@@ -94,8 +94,20 @@ Using regular expression, single mapping can be used to match multiple requests 
 ### Worth to mention
 
 - **[NIMN निम्न](https://github.com/nimndata/spec)** : Schema aware object compression. 60% and more compressed than JSON. 40% and more compressed than msgpack.
+- **[अनुमार्गक (anumargak)](https://github.com/NaturalIntelligence/anumargak)** : The fastest router for node web servers.
 - **[imglab](https://github.com/NaturalIntelligence/imglab)** : Web based tool to label images for object. So that they can be used to train dlib or other object detectors. You can integrate 3rd party libraries for fast labeling.
 - [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser): Transform XML to JS/JSON objects, or Nimn rapidly. Transform back JSON to XML. Work in browser, node package, or CLI. Many options to customize parsing.
 - [fast-lorem-ipsum](https://github.com/amitguptagwl/fast-lorem-ipsum) : Generate lorem ipsum words, sentences, paragraph very quickly.
-- [fastify-xml-body-parser](https://github.com/NaturalIntelligence/fastify-xml-body-parser/) : Fastify plugin / module to parse XML payload / body into JS object using fast-xml-parser.
-- [Grapes](https://github.com/amitguptagwl/grapes) : Flexible Regular expression engine (for java) which can be applied on char stream. (under development)
+- [Grapes](https://github.com/amitguptagwl/grapes) : Flexible Regular expression engine (for java) which can be applied on char stream. (maintainers are needed)
+
+### Helpful articles and tutorials
+
+- [Clean & quick way to create simulators](https://dzone.com/articles/stubby-db-clean-amp-quick-way-to-create-simulators)
+- [Stubby4j to Stubmatic](https://medium.com/@amitgupta.gwl/stubby4j-to-stubmatic-a1c8b54d4758)
+- [How to setup stubmatic project and stub SOAP webservices](https://naturalintelligence.github.io/Stubmatic/#exampleModal1)
+- [How to delay response and stub RESTful webservices](https://naturalintelligence.github.io/Stubmatic/#exampleModal2)
+- [How to route response to other servers](https://naturalintelligence.github.io/Stubmatic/#proxymodal)
+- [How to make dynamic response with data sets, and expressions](https://naturalintelligence.github.io/Stubmatic/#exampleModal5)
+- [How to break a response file into multiple files using dumps](https://naturalintelligence.github.io/Stubmatic/#exampleModal6)
+
+
