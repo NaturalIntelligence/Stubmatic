@@ -23,18 +23,7 @@ describe("parser ", function() {
         });
 
         const nimnData = parser.parse(jsonStr);
-        expect(nimnData.length).toEqual(40);
-    });
-
-    it("should parse json into nimn with date but without boolean", function() {
-        const parser = parserFactory.getParser("jsonToNimn", {
-            schema : "/schema/sample.json",
-            parseDate : true,
-            parseBoolean : false
-        });
-
-        const nimnData = parser.parse(jsonStr);
-        expect(nimnData.length).toEqual(23);
+        expect(nimnData.length).toEqual(41);
     });
 
     it("should parse json into msgcode", function() {

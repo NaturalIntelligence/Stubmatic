@@ -13,7 +13,7 @@ describe('CLI', function () {
         cli(["node", "stubmatic", "--version" ,"tobeignored"]);
 
         expect(console.log.calls.count()).toEqual(1);
-        expect(console.log.calls.argsFor(0)[0]).toEqual( "5.1.0");
+        expect(console.log.calls.argsFor(0)[0]).toEqual( "5.2.0");
     });
 
     it('should log help', function () {

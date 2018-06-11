@@ -1,5 +1,13 @@
 {
-    "string" : "string",
-    "boolean" : "boolean" ,
-    "date" : "date"
+    "type" : "map",
+    "detail" : [{
+        "name" : "string",
+        "type" : "string"
+    },{
+        "name" : "boolean",
+        "type" : "boolean" 
+    },{
+        "name" : "date",
+        "type" : "string"
+    }]
 }

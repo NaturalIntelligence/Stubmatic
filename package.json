@@ -1,7 +1,7 @@
 {
   "name": "stubmatic",
   "preferGlobal": true,
-  "version": "5.1.1",
+  "version": "5.2.0",
   "description": "Mock HTTP calls without coding. Designed specially for testing and testers.",
   "man": "./man/stubmatic.1",
   "main": "./lib/stubmatic.js",
@@ -26,7 +26,7 @@
     "js-joda": "^1.1.11",
     "jsonlint": "^1.6.2",
     "nimn-date-parser": "^1.0.0",
-    "nimnjs": "^1.3.0",
+    "nimnjs": "^2.0.1",
     "notepack.io": "^2.1.2",
     "winston": "^2.3.0",
     "yamljs": "^0.2.8"
