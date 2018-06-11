@@ -18,24 +18,12 @@ try{
 
 describe('FT', function () {
 
-    it('should return nimn data without date compression', function (done) {
+    it('should return nimn data date compression', function (done) {
         chai.request("http://localhost:9999")
             .get('/nimn')
             .then(res => {
                 expect(res.status).toBe(200);
-                expect(res.text.length).toBe(33);
-                done();
-            }).catch( err => {
-                markFailed(err,fail,done);
-            });
-    });
-
-    it('should return nimn data with date compression', function (done) {
-        chai.request("http://localhost:9999")
-            .get('/nimn/withdate')
-            .then(res => {
-                expect(res.status).toBe(200);
-                expect(res.text.length).toBe(25);
+                expect(res.text.length).toBe(34);
                 done();
             }).catch( err => {
                 markFailed(err,fail,done);

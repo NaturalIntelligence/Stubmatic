@@ -1,6 +1,16 @@
 {
-    "name" : "string",
-    "age" : "number",
-    "isHuman" : "boolean",
-    "date" : "date"
+    "type" : "map",
+    "detail" : [{
+        "name" : "name",
+        "type" : "string"
+    },{
+        "name" : "age",
+        "type" : "number"
+    },{
+        "name" : "isHuman",
+        "type" : "boolean" 
+    },{
+        "name" : "date",
+        "type" : "string"
+    }]
 }
