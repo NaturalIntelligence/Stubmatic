@@ -18,16 +18,13 @@ console.log('             Please consider donating to help us maintain this pack
 console.log('');
 console.log( light_blue + '                   https://www.patreon.com/bePatron?u=9531404' + NC);
 console.log('                                      or');
-console.log( light_blue + '   https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KQJAX48SPUKNC' + NC);
+console.log( light_blue + '   https://www.paypal.me/amitkumarguptagwl' + NC);
 console.log('');
 console.log('                                     ' + stars);
 
 console.log('');
 console.log('');
 
-console.log('You can now stub APIs sending data in' + light_green +' Nimn (निम्न)' + NC + ' format.');
-console.log('It can save bandwidth and reduce response size.');
-console.log('');
 console.log('Give us a \x1B[1m*\x1B[0m on '+ light_blue + 'https://github.com/NaturalIntelligence/Stubmatic'+ NC +' and help us to grow');
 console.log('');
 process.exit(0);
