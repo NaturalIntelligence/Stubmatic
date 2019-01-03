@@ -50,10 +50,10 @@ describe('FT', function () {
             .get('/stubs/header')
             .set("custom","cust123")
             .then(res => {
-                fail("Successful is not expected");
-            }).catch( err => {
-                expect(err.status).toBe(404);
+                expect(res.status).toBe(404);
                 done();
+            }).catch( err => {
+                done.fail("Successful is not expected");
             });
     });
 
@@ -66,6 +66,32 @@ describe('FT', function () {
             .then(res => {
                 expect(res.status).toBe(200);
                 expect(res.text).toBe("N/A|cust|amit1|amit|1|<% headers.5 %>");
+                done();
+            }).catch( err => {
+                markFailed(err,fail,done);
+            });
+    });
+
+    it('should response when specified headers are not present in the request', function (done) {
+        chai.request("http://localhost:9999")
+            .get('/stubs/neagative/header')
+            .set("multireg","aamit1")
+            .then(res => {
+                expect(res.status).toBe(200);
+                expect(res.text).toBe("success");
+                done();
+            }).catch( err => {
+                markFailed(err,fail,done);
+            });
+    });
+
+    it('should response 404 when specified headers is present in the request', function (done) {
+        chai.request("http://localhost:9999")
+            .get('/stubs/neagative/header')
+            .set("static","amit")
+            .set("multireg","aamit1")
+            .then(res => {
+                expect(res.status).toBe(404);
                 done();
             }).catch( err => {
                 markFailed(err,fail,done);

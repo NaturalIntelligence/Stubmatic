@@ -30,3 +30,12 @@
    response:
       body: <% headers.0 %>|<% headers.1 %>|<% headers.2 %>|<% headers.3 %>|<% headers.4 %>|<% headers.5 %>
 
+-  request:
+      url: /stubs/neagative/header
+      headers:
+        static: ^
+        reg: ^
+
+   response:
+      body: success
+
