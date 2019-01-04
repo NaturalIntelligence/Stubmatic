@@ -38,8 +38,7 @@ function validateSyntax(fileName) {
 			}));
 			if(result === true) {
 				console.log("Validated successfully");
-			}
-			else{
+			}else{
 				console.log("Validation failed");
 			}
 		}else {
@@ -65,6 +64,8 @@ function buildServerOptions(args) {
 					global.basePath = path.join(process.cwd(), dirpath);
 				}
 				options[key] = global.basePath;
+			} else if (key === '--to') {
+				options[key] = args[++i];
 			} else if (key === '-v' || key === '--verbose') {
 				logger.setVerbose(true);
 			} else if (key === '-l' || key === '--logs') {

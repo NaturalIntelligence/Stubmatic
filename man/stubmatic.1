@@ -1,11 +1,11 @@
 
-Usage: stubmatic [OPTION]... 
-Runs stubmatic server
+Usage: stubmatic [OPTIONS]
 
-Example:
+Command:
 
-stubmatic [--version] [-v|--verbose [--debug]] [-l|--logs] [-d <repo location>] [-p|--port <port number>] [-P <port number>] [-c|--config <config file>]
-
+$ stubmatic [--version] [-v|--verbose [--debug]] [-l|--logs] [-d <repo location>] [-p|--port <port number>] [-P <port number>] [-c|--config <config file>] [--to <remote URL>]
+$ stubmatic init [<repo name>]
+$ stubmatic validate <json|yaml|xml file name>
 
 Arguments
   -p, --port                 http port number (default is 7777)
@@ -18,23 +18,28 @@ Arguments
   -l, --logs                 To enable file based logging
   --version                  Show currently installed version
   --debug                    To debug request calls (use with -v option)
+  --to                       To redirect all the requests to a remote server. Work as proxy.
 
 
 Considerations:
-if -p, -m, -s options are given then relevant properties from config file would be ignored;
-Precedence of loding config is -p,-m,-s > -c > -d > default
+if -p,  -s options are given then relevant properties from config file would be ignored;
+Precedence of loding config is -p, -s > -c > -d > default
 
 No option:
 if "stubmatic" runs without any option then it builds configuration from config.json in current directory otherwise from current directory structure on default port 7777.
 
 
-Read the wiki   : https://github.com/NaturalIntelligence/stubmatic
+wiki   : https://github.com/NaturalIntelligence/stubmatic
 Report a bug    : https://github.com/NaturalIntelligence/stubmatic/issues
 
 Example:
 ------------------------
-$stubmatic -p 9999
-$stubmatic -d project-directory-path -c config.json
-$stubmatic -d project-directory-path
-$stubmatic -c config.json
+$ stubmatic init
+$ stubmatic validate config.json
+$ stubmatic -p 9999
+$ stubmatic -d project-directory-path -c config.json
+$ stubmatic -d project-directory-path
+$ stubmatic -c config.json
+$ stubmatic -v --debug --to http://remoteurl:880
+
 
