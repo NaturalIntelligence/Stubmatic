@@ -15,55 +15,55 @@ describe("Marker", function() {
   it("TODAY should return current date", function() {
   	var result = markers.dateMarker.evaluate(['TODAY', null, null ]);
     result = new Date(result.valueOf() + result.getTimezoneOffset() * 60000);
-    expect(result.toString()).toMatch(/Thu Dec 29 2016 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Thu Dec 29 2016 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
   });
 
   it("TODAY-1 should return yesterday date", function() {
   	var result = markers.dateMarker.evaluate([ 'TODAY-1', '-', '1' ]);
     result = new Date(result.valueOf() + result.getTimezoneOffset() * 60000);
-    expect(result.toString()).toMatch(/Wed Dec 28 2016 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Wed Dec 28 2016 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
   });
 
   it("TODAY-1d should return yesterday date", function() {
   	var result = markers.dateMarker2.evaluate([ 'TODAY-1d', '-1d' ]);
     result = new Date(result.valueOf() + result.getTimezoneOffset() * 60000);
-    expect(result.toString()).toMatch(/Wed Dec 28 2016 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Wed Dec 28 2016 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
   });
 
   it("TODAY+1 should return tomorrow date", function() {
   	var result = markers.dateMarker.evaluate([ 'TODAY+1', '+', '1' ]);
     result = new Date(result.valueOf() + result.getTimezoneOffset() * 60000);
-    expect(result.toString()).toMatch(/Fri Dec 30 2016 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Fri Dec 30 2016 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
   });
 
   it("TODAY+1d should return tomorrow date", function() {
   	var result = markers.dateMarker2.evaluate([ 'TODAY+1d', '+1d' ]);
     result = new Date(result.valueOf() + result.getTimezoneOffset() * 60000);
-    expect(result.toString()).toMatch(/Fri Dec 30 2016 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Fri Dec 30 2016 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
   });
 
   it("TODAY+1y should return a date after an year", function() {
   	var result = markers.dateMarker2.evaluate([ 'TODAY+1y', '+1y']);
     result = new Date(result.valueOf() + result.getTimezoneOffset() * 60000);
-    expect(result.toString()).toMatch(/Fri Dec 29 2017 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Fri Dec 29 2017 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
 	});
 
   it("TODAY+1y-2m should return a date after 10 months", function() {
 	  var result = markers.dateMarker2.evaluate([ 'TODAY+1y-2m', '+1y','-2m']);
     result = new Date(result.valueOf() + result.getTimezoneOffset() * 60000);
-    expect(result.toString()).toMatch(/Sun Oct 29 2017 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Sun Oct 29 2017 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
   });
 
   it("TODAY+1y-2m+15d should return a date after 10 months and 3 days", function() {
 	  var result = markers.dateMarker2.evaluate([ 'TODAY+1y-2m+15d', '+1y','-2m', '+15d']);
     result = new Date(result.valueOf() + result.getTimezoneOffset() * 60000);
-    expect(result.toString()).toMatch(/Mon Nov 13 2017 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Mon Nov 13 2017 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
   });
 
   it("TODAY+2m should return next month date when date spills in next month", function() {
     var result = markers.dateMarker2.evaluate([ 'TODAY+2m', '+2m']);
     result = new Date(result.valueOf() + result.getTimezoneOffset() * 60000);
-    expect(result.toString()).toMatch(/Wed Mar 01 2017 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Wed Mar 01 2017 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
   });
 
 });
@@ -79,50 +79,50 @@ describe("Marker", function() {
 
   it("JODA_TODAY should return current date", function() {
   	var result = jodaDateMarker(['JODA_TODAY', null, null ]);
-    expect(result.toString()).toMatch(/Thu Dec 29 2016 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Thu Dec 29 2016 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
   });
 
   it("JODA_TODAY-1 should return yesterday date", function() {
   	var result = jodaDateMarker([ 'JODA_TODAY-1', '-', '1' ]);
-    expect(result.toString()).toMatch(/Wed Dec 28 2016 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Wed Dec 28 2016 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
 
   });
 
   it("JODA_TODAY-1d should return yesterday date", function() {
   	result = jodaDateMarker2([ 'JODA_TODAY-1d', '-1d' ]);
-    expect(result.toString()).toMatch(/Wed Dec 28 2016 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Wed Dec 28 2016 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
   });
 
   it("JODA_TODAY+1 should return tomorrow date", function() {
   	var result = jodaDateMarker([ 'JODA_TODAY+1', '+', '1' ]);
-    expect(result.toString()).toMatch(/Fri Dec 30 2016 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Fri Dec 30 2016 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
   });
 
   it("JODA_TODAY+1d should return tomorrow date", function() {
   	result = jodaDateMarker2([ 'JODA_TODAY+1d', '+1d' ]);
-    expect(result.toString()).toMatch(/Fri Dec 30 2016 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Fri Dec 30 2016 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
   });
 
   it("JODA_TODAY+1y should return appropriate date", function() {
   	var result = jodaDateMarker2([ 'JODA_TODAY+1y', '+1y']);
-    expect(result.toString()).toMatch(/Fri Dec 29 2017 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Fri Dec 29 2017 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
 
   });
 
   it("JODA_TODAY+1y-2m should return appropriate date", function() {
 	  result = jodaDateMarker2([ 'JODA_TODAY+1y-2m', '+1y','-2m']);
-    expect(result.toString()).toMatch(/Sun Oct 29 2017 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Sun Oct 29 2017 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
 	});
 
   it("JODA_TODAY+1y-2m+15d should return appropriate date", function() {
     result = jodaDateMarker2([ 'JODA_TODAY+1y-2m+15d', '+1y','-2m', '+15d']);
-    expect(result.toString()).toMatch(/Mon Nov 13 2017 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Mon Nov 13 2017 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
 
   });
   
   it("TODAY+2m should return last date of previous month when date spills in next month", function() {
     var result = markers.jodaDateMarker2.evaluate([ 'TODAY+2m', '+2m']);
-    expect(result.toString()).toMatch(/Tue Feb 28 2017 16:43:57 GMT\+[0-9]{4} \([A-Z]{3}\)/);
+    expect(result.toString()).toMatch(/Tue Feb 28 2017 16:43:57 GMT\+[0-9]{4} \([\w ]+\)/);
 
   });
 
