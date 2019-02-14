@@ -1,7 +1,7 @@
 {
   "name": "stubmatic",
   "preferGlobal": true,
-  "version": "5.4.0",
+  "version": "5.4.1",
   "description": "Mock HTTP calls without coding. Designed specially for testing and QAs.",
   "man": "./man/stubmatic.1",
   "main": "./lib/stubmatic.js",
