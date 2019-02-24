@@ -5,8 +5,6 @@ Mock HTTP calls without coding. Designed specially for testing and testers.
 [![Travis ci Build Status](https://travis-ci.org/NaturalIntelligence/Stubmatic.svg?branch=master)](https://travis-ci.org/NaturalIntelligence/Stubmatic) 
 [![Gitter](https://img.shields.io/gitter/room/Stubmatic/Stubmatic.svg)](https://gitter.im/Stubmatic/Lobby#) 
 [![Known Vulnerabilities](https://snyk.io/test/github/naturalintelligence/stubmatic/badge.svg)](https://snyk.io/test/github/naturalintelligence/stubmatic) 
-[![bitHound Overall Score](https://www.bithound.io/github/NaturalIntelligence/Stubmatic/badges/score.svg)](https://www.bithound.io/github/NaturalIntelligence/Stubmatic) 
-[![Code Climate](https://codeclimate.com/github/NaturalIntelligence/Stubmatic/badges/gpa.svg)](https://codeclimate.com/github/NaturalIntelligence/Stubmatic) 
 [![Coverage Status](https://coveralls.io/repos/github/NaturalIntelligence/Stubmatic/badge.svg?branch=dev)](https://coveralls.io/github/NaturalIntelligence/Stubmatic?branch=dev)
 
 <a href="https://www.patreon.com/bePatron?u=9531404" data-patreon-widget-type="become-patron-button"><img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patron!" width="200" /></a>
@@ -93,8 +91,8 @@ Using regular expression, single mapping can be used to match multiple requests 
 
 ### Worth to mention
 
-- **[NIMN निम्न](https://github.com/nimndata/spec)** : Schema aware object compression. 60% and more compressed than JSON. 40% and more compressed than msgpack.
-- **[अनुमार्गक (anumargak)](https://github.com/NaturalIntelligence/anumargak)** : The fastest router for node web servers.
+- **[BigBit standard](https://bigbit.github.io/bigbitjs/?text=%F0%9F%92%A9%F0%9F%98%83%F0%9F%98%AD)** : A standard to reprent any number in the universe in comparitively less space and without precision loss. A standard to save space to represent any text string in comparision of UTF encoding.
+- [अनुमार्गक (anumargak)](https://github.com/NaturalIntelligence/anumargak) : The fastest router for node web servers.
 - **[imglab](https://github.com/NaturalIntelligence/imglab)** : Web based tool to label images for object. So that they can be used to train dlib or other object detectors. You can integrate 3rd party libraries for fast labeling.
 - [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser): Transform XML to JS/JSON objects, or Nimn rapidly. Transform back JSON to XML. Work in browser, node package, or CLI. Many options to customize parsing.
 - [fast-lorem-ipsum](https://github.com/amitguptagwl/fast-lorem-ipsum) : Generate lorem ipsum words, sentences, paragraph very quickly.
