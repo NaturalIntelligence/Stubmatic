@@ -25,6 +25,9 @@ Mock HTTP calls without coding. Designed specially for testing and testers.
 Important links : [Video Tutorial](https://youtu.be/7mA4-MXxwgk), [Wiki](https://github.com/NaturalIntelligence/Stubmatic/wiki), [NPM](https://www.npmjs.com/package/stubmatic), [Demo](https://github.com/NaturalIntelligence/Stubmatic/tree/master/functional-tests) application, [issues](https://github.com/NaturalIntelligence/Stubmatic/issues), [changelogs](https://github.com/NaturalIntelligence/Stubmatic/wikiChangelog)
 [<img width="180px" src="https://naturalintelligence.github.io/Stubmatic/img/showcase_btn.png" alt="Stubmatic donate button"/>](https://naturalintelligence.github.io/Stubmatic/#showcase)
 
+## Users
+<a href="https://o2.co.uk/" title="Telefonica O2 UK" > <img src="https://avatars0.githubusercontent.com/u/2110471" width="80px" ></a>
+
 ## Main features
 
 * Mock HTTP(s) calls. (Hence can mock REST/SOAP web services)
