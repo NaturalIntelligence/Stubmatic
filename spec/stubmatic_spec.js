@@ -105,7 +105,7 @@ describe("Stubmatic ", function () {
 			var jsonData = JSON.parse(data);
 			expect(jsonData).toEqual({
 				body: "sample content with request body 987654321. and expressions 2016-12-30",
-				headers: "Custom<% headers.2 %>",
+				headers: "Custom headers.2 ",
 				query: "abc",
 				url: "2"
 			});

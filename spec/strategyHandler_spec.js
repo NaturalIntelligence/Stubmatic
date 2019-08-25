@@ -16,7 +16,7 @@ describe("Strategy Handler", function () {
       }
     },
     response: {
-      files: ["file<% url.1 %>.txt", "file<% query.1 %>.txt", "file<% post.1 %>.txt"]
+      files: ["file{{ url.1 }}.txt", "file{{ query.1 }}.txt", "file{{ post.1 }}.txt"]
     }
   };
 

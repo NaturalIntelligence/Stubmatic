@@ -9,4 +9,4 @@
       url: /stubs/dumps/body/new
 
    response:
-      body: Some text. {{dump("foo/1")}} and {{dump("foo","2")}}. both {{dump("foo","1","2")}}
+      body: Some text. {{include("foo/1")}} and {{include("foo/2")}}. both {{include(["foo/1","foo/2"])}}

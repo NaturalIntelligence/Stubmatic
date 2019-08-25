@@ -23,7 +23,7 @@ describe('FT', function () {
             .get('/stubs/dumps/body/old')
             .then(res => {
                 expect(res.status).toBe(200);
-                expect(res.text).toBe("Some text. dumps 1 and dumps 2. both dumps 1dumps 2");
+                expect(res.text).toBe("Some text. [[foo:1]] and [[:foo/2]]. both [[foo:1,2]]");
                 done();
             }).catch( err => {
                 fail(err.message);

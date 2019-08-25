@@ -1,6 +1,6 @@
 {
-	"body" : "sample content with request body <% post.1 %>. and expressions {{formatDate(TODAY+1d,'yyyy-MM-dd')}}",
-	"headers" : "<% headers.1 %><% headers.2 %>",
-	"query" : "<% query.1 %>",
-	"url" : "<% url.1 %>"
+	"body" : "sample content with request body {{ post.1 }}. and expressions {{formatDate(TODAY+1d,'yyyy-MM-dd')}}",
+	"headers" : "{{ headers.1 }}{{ headers.2 }}",
+	"query" : "{{ query.1 }}",
+	"url" : "{{ url.1 }}"
 }
