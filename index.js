@@ -89,10 +89,10 @@ function buildServerOptions(args) {
 		}
 	}
 
-	if( ( !options["--target"] && options["--record"])){
-		console.log("Invalid options");
-		throw new Error("'--record' option is valid only with '--target' option");
-	}
+	// if( ( !options["--target"] && options["--record"])){
+	// 	console.log("Invalid options");
+	// 	throw new Error("'--record' option is valid only with '--target' option");
+	// }
 	return options;
 }
 
