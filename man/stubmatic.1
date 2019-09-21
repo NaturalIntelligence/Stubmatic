@@ -3,7 +3,7 @@ Usage: stubmatic [OPTIONS]
 
 Command:
 
-$ stubmatic [--version] [-v|--verbose [--debug]] [-l|--logs] [-d <repo location>] [-p|--port <port number>] [-P <port number>] [-c|--config <config file>] [--to <remote URL>]
+$ stubmatic [--version] [-v|--verbose [--debug]] [-l|--logs] [-d <repo location>] [-p|--port <port number>] [-P <port number>] [-c|--config <config file>] [--target <remote URL> [--record <directory/path>] ]
 $ stubmatic init [<repo name>]
 $ stubmatic validate <json|yaml|xml file name>
 
@@ -18,7 +18,8 @@ Arguments
   -l, --logs                 To enable file based logging
   --version                  Show currently installed version
   --debug                    To debug request calls (use with -v option)
-  --to                       To redirect all the requests to a remote server. Work as proxy.
+  --target                  To make stubmatic as proxy server. Helpful with 'record' or 'debug' option
+  --record                    To record proxy requests to a file.
 
 
 Considerations:
@@ -40,6 +41,6 @@ $ stubmatic -p 9999
 $ stubmatic -d project-directory-path -c config.json
 $ stubmatic -d project-directory-path
 $ stubmatic -c config.json
-$ stubmatic -v --debug --to http://remoteurl:880
-
+$ stubmatic -v --debug --target http://remoteurl:8080
+$ stubmatic --record directory/path --target https://some.url 
 

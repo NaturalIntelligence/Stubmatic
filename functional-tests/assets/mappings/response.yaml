@@ -26,7 +26,7 @@
       url: /stubs/phone-([0-9]+)/body
 
    response:
-      body: from old solution <% url.1 %> and from new solution {{ url.1 }}
+      body: "spacing is optional. {{url[1] }} and {{ url[1] }} are valid"
 
 #markers
 -  request:

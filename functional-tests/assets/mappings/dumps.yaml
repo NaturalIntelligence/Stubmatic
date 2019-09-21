@@ -9,4 +9,11 @@
       url: /stubs/dumps/body/new
 
    response:
-      body: Some text. {{include("foo/1")}} and {{include("foo/2")}}. both {{include(["foo/1","foo/2"])}}
+      body: 'Some text. {{include("foo/1")}} and {{include("foo/2")}}. both {{include("foo/1","foo/2")}}'
+
+#TODO: write ft for this step
+-  request:
+      url: /stubs/dumps/body/new/(.*)
+
+   response:
+      body: 'Some text. {{include("foo/1")}} and {{include(url[1])}}. both {{include("foo/1",url[1])}}'

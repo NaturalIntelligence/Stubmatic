@@ -58,10 +58,10 @@ describe('FT', function () {
         chai.request("http://localhost:9999")
             .get('/stubs/attachment/invalid')
             .then(res => {
-                done.fail("not expected");
-            }).catch( err => {
-                expect(err.status).toBe(500);
+                expect(res.status).toBe(500);
                 done();
+            }).catch( err => {
+                done.fail("not expected");
             });
     });
 

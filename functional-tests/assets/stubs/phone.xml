@@ -1,1 +1,1 @@
-phoine number = <% url.1 %>
+phoine number = {{ url[1] }}

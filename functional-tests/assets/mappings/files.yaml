@@ -10,7 +10,7 @@
       url: /stubs/id-([0-9])/name-([a-zA-Z]+)
 
    response:
-      file: file<% url.1 %>.xml       
+      file: "file{{ url[1] }}.xml"       
 
 #DONE
 -  request:

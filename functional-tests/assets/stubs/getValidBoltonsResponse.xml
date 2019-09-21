@@ -5,7 +5,7 @@
    </soap:Header>
    <soapenv:Body>
       <man:getValidBoltonsResponse xmlns:man="http://soa.o2.co.uk/manageprepayboltonsdata_1">
-        [[product:##boltons##]] 
+        {{include("product/#boltons"}}
         <man:generateDateTime>2012-06-01T11:26:53.489+01:00</man:generateDateTime>
       </man:getValidBoltonsResponse>
    </soapenv:Body>

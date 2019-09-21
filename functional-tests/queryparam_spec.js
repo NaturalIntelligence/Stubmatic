@@ -27,7 +27,7 @@ describe('FT', function () {
                 expect(res.text).toBe("with 2 query params. 123, mit");
                 done();
             }).catch( err => {
-                markFailed(err,fail,done);
+                done.fail(err.message);
             });
     });
 
@@ -36,10 +36,10 @@ describe('FT', function () {
             .get('/stubs/query')
             .query({id: "123a", name: "amit"})
             .then(res => {
-                fail("Successful response is expected");
-            }).catch( err => {
-                expect(err.status).toBe(404);
+                expect(res.status).toBe(404);
                 done();
+            }).catch( err => {
+                done.fail(err.message);
             });
     });
 
@@ -49,14 +49,10 @@ describe('FT', function () {
             .query({static: "amit", reg: "guptacust1", multireg : "aamit1"})
             .then(res => {
                 expect(res.status).toBe(200);
-                expect(res.text).toBe("N/A|cust|amit1|amit|1|<% query.5 %>");
+                expect(res.text).toBe("N/A|cust|amit1|amit|1|{{query[5] }}");
                 done();
             }).catch( err => {
-                markFailed(err,fail,done);
+                done.fail(err.message);
             });
     });
 });
-
-function markFailed(err,fail,done){
-    fail(err.message);
-}

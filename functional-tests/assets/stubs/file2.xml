@@ -1,1 +1,1 @@
-This is from another file <% url.2 %>
+This is from another file {{ url[2] }}

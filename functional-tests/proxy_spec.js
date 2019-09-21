@@ -65,10 +65,10 @@ describe('FT', function () {
         chai.request("http://localhost:9999")
             .get('/index.html')
             .then(res => {
-                done.fail("Not expected");
-            }).catch( err => {
-                expect(err.status).toBe(404);
+                expect(res.status).toBe(404);
                 done();
+            }).catch( err => {
+                done.fail("Not expected");
             });
     });
     

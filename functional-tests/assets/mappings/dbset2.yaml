@@ -4,9 +4,9 @@
       headers:
         employee_num: ([0-9]+)
 
-   dbset:
-      db: Employee
-      key: <% headers.1 %>
+   data-table:
+      name: Employee
+      key: "{{ headers[1] }}"
 
    response:
       file: datasets.txt
@@ -15,9 +15,9 @@
 -  request:
       url: /stubs/datasets/([0-9]+)
    
-   dbset:
-      db: Employee
-      key: <% url.1 %>
+   data-table:
+      name: Employee
+      key: "{{ url[1] }}"
 
    response:
       file: datasets.txt
@@ -28,8 +28,8 @@
       post: Hello ([a-zA-Z]+)!!
       method: POST
       
-   dbset:
-      db: Sample
+   data-table:
+      name: Sample
       key: '001'
 
    response:
@@ -41,8 +41,8 @@
       post: Hello ([a-zA-Z]+)!!
       method: POST
       
-   dbset:
-      db: Sample
+   data-table:
+      name: Sample
       key: 1
 
    response:

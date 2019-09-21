@@ -28,7 +28,7 @@ describe('FT', function () {
                 expect(res.text).toBe("OK");
                 done();
             }).catch( err => {
-                markFailed(err,fail,done);
+                done.fail(err.message);
             });
     });
 
@@ -39,7 +39,7 @@ describe('FT', function () {
                 expect(res.status).toBe(200);
                 done();
             }).catch( err => {
-                markFailed(err,fail,done);
+                done.fail(err.message);
             });
     });
 
@@ -50,7 +50,7 @@ describe('FT', function () {
                 expect(res.status).toBe(200);
                 done();
             }).catch( err => {
-                markFailed(err,fail,done);
+                done.fail(err.message);
             });
     });
 
@@ -60,10 +60,10 @@ describe('FT', function () {
             .post('/stubs/phone-123456789/body')
             .then(res => {
                 expect(res.status).toBe(200);
-                expect(res.text).toBe("from old solution 123456789 and from new solution  url.1 ");
+                expect(res.text).toBe("spacing is optional. 123456789 and 123456789 are valid");
                 done();
             }).catch( err => {
-                markFailed(err,fail,done);
+                done.fail(err.message);
             });
     });
 
@@ -76,7 +76,7 @@ describe('FT', function () {
                 expect((new Date()) - time).toBeGreaterThan(1999);
                 done();
             }).catch( err => {
-                markFailed(err,fail,done);
+                done.fail(err.message);
             });
     });
 
@@ -91,7 +91,7 @@ describe('FT', function () {
                 expect(interval).toBeLessThan(2010);
                 done();
             }).catch( err => {
-                markFailed(err,fail,done);
+                done.fail(err.message);
             });
     });
 
@@ -100,12 +100,12 @@ describe('FT', function () {
         chai.request("http://localhost:9999")
             .get('/stubs/delay/err')
             .then(res => {
-                fail("not expected");
-            }).catch( err => {
-                expect(err.status).toBe(500);
+                expect(res.status).toBe(500);
                 var interval = (new Date()) - time;
                 expect(interval).toBeLessThan(10);
                 done();
+            }).catch( err => {
+                done.fail(err.message);
             });
     });
 
@@ -165,11 +165,10 @@ describe('FT', function () {
         chai.request("http://localhost:9999")
             .put('/stubs/methods/multiple')
             .then(res => {
-                fail("not expected");
+                expect(res.status).toBe(404);
                 done();
             }).catch( err => {
-                expect(err.status).toBe(404);
-                done();
+                done.fail(err.message);
             });
     });
 

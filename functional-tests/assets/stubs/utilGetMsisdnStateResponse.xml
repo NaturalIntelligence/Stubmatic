@@ -4,7 +4,7 @@
     </soapenv:Header>
     <soapenv:Body>
         <util:utilGetMsisdnStateResponse xmlns:util="http://soa.o2.co.uk/postpay/utilgetmsisdnstatedata_1">
-            <util:msisdn><% post.1 %></util:msisdn>
+            <util:msisdn>{{post[1] }}</util:msisdn>
             <util:friendlyConnectionName></util:friendlyConnectionName>
             <util:msisdnStateCommonRegistrationDetails>
                 <util:chooserCustomerNumber> 10825555 </util:chooserCustomerNumber>
@@ -13,7 +13,7 @@
             </util:msisdnStateCommonRegistrationDetails>
             <util:msisdnStateBillingDetails>
                 <util:billingCustomerNumber> 2000062805 </util:billingCustomerNumber>
-                <util:billingAccountNumber>##ACCT_NUM##</util:billingAccountNumber>
+                <util:billingAccountNumber>{{#ACCT_NUM}}</util:billingAccountNumber>
             </util:msisdnStateBillingDetails>
             <util:msisdnStateMsisdnDetails>
                 <util:msisdnStatus>ACTIVE</util:msisdnStatus>
@@ -24,10 +24,10 @@
             </util:msisdnStateMsisdnDetails>
             <util:msisdnStateProducts>
                 <util:mspMsisdnBaseTariff>
-                    [[dump:product:##tariffProductId:0##]]
+                    {{include("dump/product/#tariffProductId")}}
                 </util:mspMsisdnBaseTariff>
                 <util:mspMsisdnServices>
-                    [[dump:product:8698]]
+                    {{include("dump/product/8698")}}
                 </util:mspMsisdnServices>
             </util:msisdnStateProducts>
         </util:utilGetMsisdnStateResponse>

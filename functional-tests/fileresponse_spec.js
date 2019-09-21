@@ -59,7 +59,7 @@ describe('FT', function () {
             .get('/stubs/random')
             .then(res => {
                 expect(res.status).toBe(200);
-                expect(res.text).toMatch("(id: 1; name: <% url.2 %>)|(Sample File contents)|(file 3)");
+                expect(res.text).toMatch("(id: 1; name: \\{\\{ url[2] \\}\\})|(Sample File contents)|(file 3)");
                 done();
             }).catch( err => {
                 markFailed(err,fail,done);
@@ -71,7 +71,7 @@ describe('FT', function () {
             .get('/stubs/round-robin')
             .then(res => {
                 expect(res.status).toBe(200);
-                expect(res.text).toBe("id: 1; name: <% url.2 %>");
+                expect(res.text).toBe("id: 1; name: {{ url[2] }}");
             }).catch( err => {
                 markFailed(err,fail,done);
             });
@@ -79,9 +79,9 @@ describe('FT', function () {
         chai.request("http://localhost:9999")
             .get('/stubs/round-robin')
             .then(res => {
-                fail("successful response is not expected");
+                expect(res.status).toBe(500);
             }).catch( err => {
-                //expect(res.status).toBe(500);
+                fail("successful response is not expected");
             });
         
         chai.request("http://localhost:9999")
@@ -100,7 +100,7 @@ describe('FT', function () {
             .get('/stubs/round-robin-first-found')
             .then(res => {
                 expect(res.status).toBe(200);
-                expect(res.text).toBe("id: 1; name: <% url.2 %>");
+                expect(res.text).toBe("id: 1; name: {{ url[2] }}");
             }).catch( err => {
                 markFailed(err,fail,done);
             });
@@ -118,7 +118,7 @@ describe('FT', function () {
             .get('/stubs/round-robin-first-found')
             .then(res => {
                 expect(res.status).toBe(200);
-                expect(res.text).toBe("id: 1; name: <% url.2 %>");
+                expect(res.text).toBe("id: 1; name: {{ url[2] }}");
                 done();
             }).catch( err => {
                 markFailed(err,fail,done);
@@ -130,7 +130,7 @@ describe('FT', function () {
             .get('/stubs/random-first-found')
             .then(res => {
                 expect(res.status).toBe(200);
-                expect(res.text).toMatch("(id: 1; name: <% url.2 %>)|(file 3)");
+                expect(res.text).toMatch("(id: 1; name: \\{\\{ url[2] \\}\\})|(file 3)");
                 done();
             }).catch( err => {
                 markFailed(err,fail,done);
@@ -142,7 +142,7 @@ describe('FT', function () {
             .get('/stubs/round-robin-first-found/multi')
             .then(res => {
                 expect(res.status).toBe(202);
-                expect(res.text).toBe("id: 1; name: <% url.2 %>");
+                expect(res.text).toBe("id: 1; name: {{ url[2] }}");
             }).catch( err => {
                 markFailed(err,fail,done);
             });
@@ -161,7 +161,7 @@ describe('FT', function () {
             .get('/stubs/round-robin-first-found/multi')
             .then(res => {
                 expect(res.status).toBe(202);
-                expect(res.text).toBe("id: 1; name: <% url.2 %>");
+                expect(res.text).toBe("id: 1; name: {{ url[2] }}");
             }).catch( err => {
                 markFailed(err,fail,done);
             });
@@ -172,10 +172,10 @@ describe('FT', function () {
         chai.request("http://localhost:9999")
             .get('/stubs/unsupported-strategy')
             .then(res => {
-                done.fail("not expected");
-            }).catch( err => {
-                expect(err.status).toBe(500);
+                expect(res.status).toBe(500);
                 done();
+            }).catch( err => {
+                done.fail("not expected");
             });
     });
 
@@ -183,10 +183,10 @@ describe('FT', function () {
         chai.request("http://localhost:9999")
             .get('/stubs/invalid-strategy')
             .then(res => {
-                done.fail("not expected");
-            }).catch( err => {
-                expect(err.status).toBe(500);
+                expect(res.status).toBe(500);
                 done()
+            }).catch( err => {
+                done.fail("not expected");
             });
     });
 });

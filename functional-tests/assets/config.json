@@ -1,5 +1,5 @@
 {
-  "dbsets": "dbsets/",
+  "data-tables": "datatables/",
   "mappings": {
     "default": {
       "request": {

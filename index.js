@@ -1,10 +1,8 @@
 #!/usr/bin/env node
-
 var fs = require('fs');
 var logger = require('./lib/log');
 var color = require('./lib/util/colors').color;
 var path = require('path');
-
 function cli(args) {
 	if (args[2] === "--help" || args[2] === "-h") {
 		console.log(fs.readFileSync(__dirname + "/man/stubmatic.1", 'utf-8'));
@@ -16,8 +14,8 @@ function cli(args) {
 		validateSyntax(args[3]);
 	} else {
 		var options = buildServerOptions(args);
-		var server = require('./lib/server');
-		server.setup(options);
+		var StubmaticServer = require('./lib/server');
+		const server = new StubmaticServer(options);
 		server.start();
 	}
 }
@@ -64,7 +62,9 @@ function buildServerOptions(args) {
 					global.basePath = path.join(process.cwd(), dirpath);
 				}
 				options[key] = global.basePath;
-			} else if (key === '--to') {
+			} else if (key === '--target') { // target URL
+				options[key] = args[++i];
+			} else if (key === '--record') { //only valid in case of target URL
 				options[key] = args[++i];
 			} else if (key === '-v' || key === '--verbose') {
 				logger.setVerbose(true);
@@ -87,6 +87,11 @@ function buildServerOptions(args) {
 				options[key] = args[++i];
 			}
 		}
+	}
+
+	if( ( !options["--target"] && options["--record"])){
+		console.log("Invalid options");
+		throw new Error("'--record' option is valid only with '--target' option");
 	}
 	return options;
 }

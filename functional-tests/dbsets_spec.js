@@ -23,7 +23,7 @@ describe('dbsets', function () {
             .get('/stubs/admin/001')
             .then(res => {
                 expect(res.status).toBe(200);
-                expect(res.text).toBe("<auth_id>safknf-34809n-skfnjk</auth_id><auth_id>safknf-34809n-skfnjk</auth_id>");
+                expect(res.text).toBe("<auth_id>safknf-34809n-skfnjk</auth_id><auth_id>##token##</auth_id>");
                 done();
             }).catch( err => {
                 fail(err.message);
@@ -62,7 +62,7 @@ describe('dbsets', function () {
             .get('/stubs/customer/004')
             .then(res => {
                 expect(res.status).toBe(200);
-                expect(res.text).toBe("<auth_id>defaulttoken</auth_id><auth_id>defaulttoken</auth_id>");
+                expect(res.text).toBe("<auth_id>defaulttoken</auth_id><auth_id>##token##</auth_id>");
                 done();
             }).catch( err => {
                 fail(err.message);
@@ -75,7 +75,7 @@ describe('dbsets', function () {
             .get('/stubs/customer')
             .then(res => {
                 expect(res.status).toBe(200);
-                expect(res.text).toMatch("(ab6998bkn ab6998bkn)|(9790jmioh7083 9790jmioh7083)|(avv avv)|(kjnj234 kjnj234)");
+                expect(res.text).toMatch("##token## (ab6998bkn|9790jmioh7083|avv|kjnj234)");
                 done();
             }).catch( err => {
                 fail(err.message);

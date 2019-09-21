@@ -24,7 +24,7 @@ describe('FT', function () {
             .set("custom","Custom")
             .then(res => {
                 expect(res.status).toBe(200);
-                expect(res.text).toBe("N/A<% headers.1 %>");
+                expect(res.text).toBe("N/A{{headers[1] }}");
                 done();
             }).catch( err => {
                 markFailed(err,fail,done);
@@ -65,7 +65,7 @@ describe('FT', function () {
             .set("multireg","aamit1")
             .then(res => {
                 expect(res.status).toBe(200);
-                expect(res.text).toBe("N/A|cust|amit1|amit|1|<% headers.5 %>");
+                expect(res.text).toBe("N/A|cust|amit1|amit|1|{{headers[5] }}");
                 done();
             }).catch( err => {
                 markFailed(err,fail,done);

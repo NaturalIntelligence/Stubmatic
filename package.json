@@ -1,7 +1,7 @@
 {
   "name": "stubmatic",
   "preferGlobal": true,
-  "version": "5.4.1",
+  "version": "6.0.0",
   "description": "Mock HTTP calls without coding. Designed specially for testing and QAs.",
   "man": "./man/stubmatic.1",
   "main": "./lib/stubmatic.js",
@@ -28,6 +28,7 @@
     "nimn-date-parser": "^1.0.0",
     "nimnjs": "^2.2.0",
     "notepack.io": "^2.2.0",
+    "request": "^2.88.0",
     "winston": "^2.4.4",
     "yamljs": "^0.2.8"
   },

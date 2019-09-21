@@ -1,1 +1,1 @@
-<auth_id>##token##</auth_id>
+<auth_id>{{#token}}</auth_id>

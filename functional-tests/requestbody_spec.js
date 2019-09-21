@@ -24,7 +24,7 @@ describe('FT', function () {
             .send( "name=Amit&Mobile=781011111&Sal=100000.00&DOJ=25-APR-2012")
             .then(res => {
                 expect(res.status).toBe(200);
-                expect(res.text).toBe("Mobile=781011111,781011111,<% post.2 %>");
+                expect(res.text).toBe("Mobile=781011111,781011111,{{post[2] }}");
                 done();
             }).catch( err => {
                 markFailed(err,fail,done);
@@ -50,7 +50,7 @@ describe('FT', function () {
             .send( "name=Amit&Mobile=781011111&Sal=100000.00&DOJ=25-APR-2012")
             .then(res => {
                 expect(res.status).toBe(200);
-                expect(res.text).toBe("name=Amit&Mobile=781011111&Sal=100000.00&DOJ=25-APR-2012,781011111,<% post.2 %>");
+                expect(res.text).toBe("name=Amit&Mobile=781011111&Sal=100000.00&DOJ=25-APR-2012,781011111,{{post[2] }}");
                 done();
             }).catch( err => {
                 markFailed(err,fail,done);

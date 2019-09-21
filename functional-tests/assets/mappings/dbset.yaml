@@ -3,20 +3,20 @@
 -  request:
       url: /stubs/(admin|staff|customer|security)/([0-9]+)
       
-   dbset:
-      db: <% url.1 %>
-      key: <% url.2 %>
+   data-table:
+      name: "{{ url[1] }}"
+      key: "{{ url[2] }}"
 
    response:
-      body: <auth_id>##token##</auth_id><auth_id>{{#token}}</auth_id>
+      body: <auth_id>{{#token}}</auth_id><auth_id>##token##</auth_id>
 
 # It'll return any random response if above mapping is not matched and emp id is found in prohibited_user_db
 -  request:
       url: /stubs/(admin|staff|customer|security)/([0-9]+)
       
-   dbset:
-      db: prohibited_user_db
-      key: <% url.2 %>
+   data-table:
+      name: prohibited_user_db
+      key: "{{ url[2] }}"
 
    response:
       strategy: random
@@ -32,8 +32,8 @@
 -  request:
       url: /stubs/(admin|staff|customer|security)
       
-   dbset:
-      db: authtokens
+   data-table:
+      name: authtokens
       strategy: random #round-robin
 
    response:

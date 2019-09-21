@@ -1,1 +1,1 @@
-My name is ##Name##. My Employee ID is ##Emp##. Somehow I earn ##Salary##
+My name is {{#Name}}. My Employee ID is {{#Emp}}. Somehow I earn {{#Salary}}

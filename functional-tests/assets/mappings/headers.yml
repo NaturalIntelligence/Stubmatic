@@ -8,7 +8,7 @@
         custom: 'Custom'
 
    response:
-      body: <% headers.0 %><% headers.1 %>
+      body: "{{headers[0] }}{{headers[1] }}"
 
 -  request:
       url: /stubs/header
@@ -16,7 +16,7 @@
         custom: ([a-z]{4})[0-9]
 
    response:
-      body: <% headers.0 %> <% headers.1 %>
+      body: "{{headers[0] }} {{headers[1] }}"
       headers:
         rh : "somevalue"
 
@@ -28,7 +28,7 @@
         multireg: a(([a-z]{4})([0-9]))
 
    response:
-      body: <% headers.0 %>|<% headers.1 %>|<% headers.2 %>|<% headers.3 %>|<% headers.4 %>|<% headers.5 %>
+      body: "{{headers[0] }}|{{headers[1] }}|{{headers[2] }}|{{headers[3] }}|{{headers[4] }}|{{headers[5] }}"
 
 -  request:
       url: /stubs/neagative/header
