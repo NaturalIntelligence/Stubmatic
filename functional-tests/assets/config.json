@@ -24,6 +24,7 @@
                 , "mappings/attachment.yaml"
                 , "mappings/cookie.yaml"
                 , "mappings/queryparam.yaml"
+                , "mappings/notFound.yaml"
                 , "mappings/parser.yaml"]
   },
   "server": {

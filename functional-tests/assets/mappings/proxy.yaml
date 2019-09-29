@@ -2,18 +2,18 @@
       url: /proxy/.*
 
    response:
-      proxy: http://localhost:8003
+      from: http://localhost:8003
 
 -  request:
       method: POST
       url: /proxy/.*
 
    response:
-      proxy: http://localhost:8003
+      from: http://localhost:8003
 
 -  request:
       url: /index.html
 
    response:
       latency: 1000
-      proxy: http://google.com
+      from: http://google.com

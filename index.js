@@ -62,7 +62,7 @@ function buildServerOptions(args) {
 					global.basePath = path.join(process.cwd(), dirpath);
 				}
 				options[key] = global.basePath;
-			} else if (key === '--target') { // target URL
+			} else if (key === '--from') { // target URL
 				options[key] = args[++i];
 			} else if (key === '--record') { //only valid in case of target URL
 				options[key] = args[++i];
@@ -89,10 +89,10 @@ function buildServerOptions(args) {
 		}
 	}
 
-	// if( ( !options["--target"] && options["--record"])){
-	// 	console.log("Invalid options");
-	// 	throw new Error("'--record' option is valid only with '--target' option");
-	// }
+	if( ( options["--record"] && !options["--from"]  )){
+		console.log("Invalid options");
+		throw new Error("'--record' option is valid only with '--from' option");
+	}
 	return options;
 }
 

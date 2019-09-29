@@ -1,0 +1,3 @@
+- WhenMappingNotFound:
+    from: http://www.google.com
+    record: true
