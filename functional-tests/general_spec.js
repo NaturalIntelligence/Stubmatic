@@ -100,9 +100,9 @@ describe('FT', function () {
         chai.request("http://localhost:9999")
             .get('/stubs/delay/err')
             .then(res => {
-                expect(res.status).toBe(500);
                 var interval = (new Date()) - time;
-                expect(interval).toBeLessThan(10);
+                expect(res.status).toBe(500);
+                expect(interval).toBeLessThan(20);
                 done();
             }).catch( err => {
                 done.fail(err.message);
