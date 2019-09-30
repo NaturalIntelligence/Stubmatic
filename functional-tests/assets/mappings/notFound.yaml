@@ -1,3 +1,4 @@
 - WhenMappingNotFound:
-    from: http://www.google.com
-    record: true
+    response:
+        from: http://www.google.com
+        record: true
