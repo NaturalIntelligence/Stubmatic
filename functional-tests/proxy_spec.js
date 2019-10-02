@@ -61,9 +61,9 @@ describe('FT', function () {
     //         });
     // });
 
-    it('should proxy request 500 response', function (done) {
+    it('should proxy request 404 response', function (done) {
         chai.request("http://localhost:9999")
-            .get('/index.html')
+            .get('/index2.html')
             .then(res => {
                 expect(res.status).toBe(404);
                 done();

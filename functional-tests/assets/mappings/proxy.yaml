@@ -12,7 +12,7 @@
       from: http://localhost:8003
 
 -  request:
-      url: /index.html
+      url: /index2.html
 
    response:
       latency: 1000
