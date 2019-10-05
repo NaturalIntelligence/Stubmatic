@@ -23,7 +23,7 @@ describe("Util fileNameFromUrl ", function() {
     it("when extenstion", function() {
         const result = util.fileNameFromUrl("/this/is/index.php")
         expect(result.name).toEqual("index");
-        expect(result.ext).toEqual("php");
+        expect(result.ext).toEqual(".php");
     });
 
     it("when no extenstion", function() {
@@ -41,12 +41,17 @@ describe("Util fileNameFromUrl ", function() {
     it("when extenstion with long name", function() {
         const result = util.fileNameFromUrl("/this/is/veryVeryLongUnexpectedName.php")
         expect(result.name).toEqual("veryVeryLongUnexpect");
-        expect(result.ext).toEqual("php");
+        expect(result.ext).toEqual(".php");
     });
 
     it("when extenstion with long name", function() {
         const result = util.fileNameFromUrl("/this/is/veryVeryLongUnexpectedName.php", 50)
         expect(result.name).toEqual("veryVeryLongUnexpectedName");
-        expect(result.ext).toEqual("php");
+        expect(result.ext).toEqual(".php");
+    });
+    it("temp", function() {
+        const result = util.fileNameFromUrl("/images/searchbox/desktop_searchbox_sprites302_hr.png", 30)
+        expect(result.name).toEqual("desktop_searchbox_sprites302_h");
+        expect(result.ext).toEqual(".png");
     });
 });
