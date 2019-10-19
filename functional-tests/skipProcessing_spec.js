@@ -30,9 +30,9 @@ describe('FT', function () {
             });
     });
 
-    it('should send next exist file as attachment', function (done) {
+    it('should send the xml file without processing', function (done) {
         chai.request("http://localhost:9999")
-            .get('/stubs/attachment/not-found')
+            .get('/stubs/skipProcessing/xml')
             .then(res => {
                 expect(res.status).toBe(200);
                 expect(res.headers["content-type"]).toBe("application/xml");
@@ -42,9 +42,21 @@ describe('FT', function () {
             });
     });
 
-    it('should send pdf file as attachment', function (done) {
+    it('should send next exist file without processing', function (done) {
         chai.request("http://localhost:9999")
-            .get('/stubs/attachment/pdf')
+            .get('/stubs/skipProcessing/not-found')
+            .then(res => {
+                expect(res.status).toBe(200);
+                expect(res.headers["content-type"]).toBe("application/xml");
+                done();
+            }).catch( err => {
+                done.fail("not expected");
+            });
+    });
+
+    it('should send pdf file without processing', function (done) {
+        chai.request("http://localhost:9999")
+            .get('/stubs/skipProcessing/pdf')
             .then(res => {
                 expect(res.status).toBe(200);
                 expect(res.headers["content-type"]).toBe("application/pdf");
@@ -56,7 +68,7 @@ describe('FT', function () {
 
     it('should response with 500 when file is not found', function (done) {
         chai.request("http://localhost:9999")
-            .get('/stubs/attachment/invalid')
+            .get('/stubs/skipProcessing/invalid')
             .then(res => {
                 expect(res.status).toBe(500);
                 done();
@@ -67,7 +79,7 @@ describe('FT', function () {
 
     it('should send invalid data when file attribute is not used', function (done) {
         chai.request("http://localhost:9999")
-            .get('/stubs/attachment/invalidattr')
+            .get('/stubs/skipProcessing/invalidattr')
             .then(res => {
                 expect(res.status).toBe(200);
                 expect(res.text).toBe(undefined);

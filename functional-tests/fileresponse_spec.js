@@ -47,7 +47,7 @@ describe('FT', function () {
             .get('/stubs/not-found')
             .then(res => {
                 expect(res.status).toBe(200);
-                expect(res.text).toBe("Sample File contents");
+                expect(res.text).toBe("<root>Sample File contents</root>");
                 done();
             }).catch( err => {
                 markFailed(err,fail,done);

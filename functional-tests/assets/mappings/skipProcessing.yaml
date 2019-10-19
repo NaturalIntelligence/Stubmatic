@@ -6,46 +6,57 @@
       file: "simple.xml"
       headers:
          content-type: application/xml
-      sendasfile: true
+         Content-Disposition: "attachment; filename=simple.xml"
+      skipProcessing: true
 
 #DONE
 -  request:
-      url: /stubs/attachment/not-found
+      url: /stubs/skipProcessing/xml
+
+   response:
+      file: "simple.xml"
+      headers:
+         content-type: application/xml
+      skipProcessing: true
+
+#DONE
+-  request:
+      url: /stubs/skipProcessing/not-found
 
    response:
       strategy: first-found
       files: ["notexist.xml",{"name":"simple.xml","status":200}]
       headers:
          content-type: application/xml
-      sendasfile: true
+      skipProcessing: true
 
 
 #DONE
 -  request:
-      url: /stubs/attachment/pdf
+      url: /stubs/skipProcessing/pdf
 
    response:
       file: "StubbyDB_README.pdf"
       headers:
          content-type: application/pdf
-      sendasfile: true
+      skipProcessing: true
 
 #DONE
 -  request:
-      url: /stubs/attachment/invalid
+      url: /stubs/skipProcessing/invalid
 
    response:
       file: "invalid.pdf"
       headers:
          content-type: application/pdf
-      sendasfile: true
+      skipProcessing: true
 
 #DONE
 -  request:
-      url: /stubs/attachment/invalidattr
+      url: /stubs/skipProcessing/invalidattr
 
    response:
       body: "invalid.pdf"
       headers:
          content-type: application/pdf
-      sendasfile: true
+      skipProcessing: true

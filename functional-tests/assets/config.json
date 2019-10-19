@@ -21,7 +21,7 @@
                 , "mappings/dbset.yaml"
                 , "mappings/dbset2.yaml"
                 , "mappings/proxy.yaml"
-                , "mappings/attachment.yaml"
+                , "mappings/skipProcessing.yaml"
                 , "mappings/cookie.yaml"
                 , "mappings/queryparam.yaml"
                 , "mappings/notFound.yaml"
