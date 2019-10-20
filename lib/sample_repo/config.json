@@ -1,6 +1,7 @@
 {
-  "dbsets": "dbsets/",
+  "datatables": "datatables/",
   "mappings": {
+    "loadFromRecording": true,
     "default": {
       "request": {
         "method": "GET"
@@ -11,7 +12,7 @@
         "status": 200
       }
     },
-    "requests": ["mappings/response.yaml"]
+    "files": ["mappings/response.yaml"]
   },
   "server": {
     "port": 7777
@@ -20,5 +21,14 @@
   "logs": {
     "path": "logs/"
   },
-  "dumps": "dumps/"
+  "dumps": "dumps/",
+  "recordAndPlay" : {
+    "path" : "recordings",
+    "mapping": {
+      "headers" : true,
+      "queryParam" : true,
+      "hashStrig" : true,
+      "skipHeaders" : []
+    }
+  }
 }

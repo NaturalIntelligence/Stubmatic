@@ -1,6 +1,7 @@
 {
-  "data-tables": "datatables/",
+  "datatables": "datatables/",
   "mappings": {
+    "loadFromRecording": true,
     "default": {
       "request": {
         "method": "GET"
@@ -39,5 +40,13 @@
   "logs": {
     "path": "logs/"
   },
-  "dumps": "dumps/"
+  "dumps": "dumps/",
+  "recordAndPlay" : {
+    "mapping": {
+      "headers" : true,
+      "queryParam" : true,
+      "hashStrig" : true,
+      "skipHeaders" : []
+    }
+  }
 }
