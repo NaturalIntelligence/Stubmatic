@@ -99,7 +99,7 @@ Using regular expression, single mapping can be used to match multiple requests 
 - **[imglab](https://github.com/NaturalIntelligence/imglab)** : Web based tool to label images for object. So that they can be used to train dlib or other object detectors. You can integrate 3rd party libraries for fast labeling.
 - [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser): Transform XML to JS/JSON objects, or Nimn rapidly. Transform back JSON to XML. Work in browser, node package, or CLI. Many options to customize parsing.
 - [fast-lorem-ipsum](https://github.com/amitguptagwl/fast-lorem-ipsum) : Generate lorem ipsum words, sentences, paragraph very quickly.
-- [Grapes](https://github.com/amitguptagwl/grapes) : Flexible Regular expression engine (for java) which can be applied on char stream. (maintainers are needed)
+- [Grapes](https://github.com/NaturalIntelligence/Grapes) : Flexible Regular expression engine (for java) which can be applied on char stream. (maintainers are needed)
 
 ### Helpful articles and tutorials
 
