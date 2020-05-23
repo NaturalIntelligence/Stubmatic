@@ -24,7 +24,7 @@
     "fast-lorem-ipsum": "^1.2.0",
     "fast-xml-parser": "^3.12.13",
     "hashes": "^0.1.3",
-    "http-proxy": "^1.17.0",
+    "http-proxy": "^1.18.1",
     "into-stream": "^5.1.0",
     "isbinaryfile": "^4.0.2",
     "js-joda": "^1.9.2",
