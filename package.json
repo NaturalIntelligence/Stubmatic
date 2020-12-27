@@ -19,7 +19,7 @@
   "author": "Amit Kumar Gupta (http://amitkumargupta.work/)",
   "dependencies": {
     "accept": "^3.1.3",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "deep-assign": "^2.0.0",
     "fast-lorem-ipsum": "^1.2.0",
     "fast-xml-parser": "^3.12.13",
