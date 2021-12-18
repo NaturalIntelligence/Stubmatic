@@ -114,7 +114,6 @@ Using regular expression, single mapping can be used to match multiple requests 
 
 This project exists thanks to [all](graphs/contributors) the people who contribute. [[Contribute](docs/CONTRIBUTING.md)].
 
-### All Contributors -->
 <a href="graphs/contributors"><img src="https://opencollective.com/stubmatic/contributors.svg?width=890&button=false" /></a>
 
 ### Backers
