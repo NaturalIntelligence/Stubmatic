@@ -7,8 +7,12 @@ Mock HTTP calls without coding. Designed specially for testing and testers.
 [![Known Vulnerabilities](https://snyk.io/test/github/naturalintelligence/stubmatic/badge.svg)](https://snyk.io/test/github/naturalintelligence/stubmatic) 
 [![Coverage Status](https://coveralls.io/repos/github/NaturalIntelligence/Stubmatic/badge.svg?branch=dev)](https://coveralls.io/github/NaturalIntelligence/Stubmatic?branch=dev)
 
-<a href="https://www.patreon.com/bePatron?u=9531404" data-patreon-widget-type="become-patron-button"><img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patron!" width="200" /></a>
-<a href="https://www.paypal.me/amitkumarguptagwl"> <img src="https://www.paypalobjects.com/webstatic/en_US/btn/btn_donate_92x26.png" alt="Stubmatic donate button"/></a>
+
+<a href="https://opencollective.com/stubmatic/donate" target="_blank">
+  <img src="https://opencollective.com/stubmatic/donate/button@2x.png?color=blue" width=200 />
+</a>
+<a href="https://paypal.me/naturalintelligence"> <img src="static/img/support_paypal.svg" alt="Stubmatic donate button" width="200"/></a>
+
 
 
 [quality-image]: http://npm.packagequality.com/shield/stubmatic.svg?style=flat-square
@@ -92,14 +96,41 @@ Using regular expression, single mapping can be used to match multiple requests 
      files: ["stubs/<% url.1 %>/response.xml","stubs/ServiceName/actionName/default.xml"]
 ```
 
-### Worth to mention
 
-- **[BigBit standard](https://bigbit.github.io/bigbitjs/?text=%F0%9F%92%A9%F0%9F%98%83%F0%9F%98%AD)** : A standard to reprent any number in the universe in comparitively less space and without precision loss. A standard to save space to represent any text string in comparision of UTF encoding.
-- [अनुमार्गक (anumargak)](https://github.com/NaturalIntelligence/anumargak) : The fastest router for node web servers.
+## Our other projects and research you must try
+
+* **[BigBit standard](https://github.com/amitguptagwl/bigbit)** : 
+  * Single text encoding to replace UTF-8, UTF-16, UTF-32 and more with less memory.
+  * Single Numeric datatype alternative of integer, float, double, long, decimal and more without precision loss.
+* **[Cytorus](https://github.com/NaturalIntelligence/cytorus)**: Now be specific and flexible while running E2E tests.
+  * Run tests only for a particular User Story
+  * Run tests for a route or from a route
+  * Customizable reporting
+  * Central dashboard for better monitoring
 - **[imglab](https://github.com/NaturalIntelligence/imglab)** : Web based tool to label images for object. So that they can be used to train dlib or other object detectors. You can integrate 3rd party libraries for fast labeling.
-- [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser): Transform XML to JS/JSON objects, or Nimn rapidly. Transform back JSON to XML. Work in browser, node package, or CLI. Many options to customize parsing.
-- [fast-lorem-ipsum](https://github.com/amitguptagwl/fast-lorem-ipsum) : Generate lorem ipsum words, sentences, paragraph very quickly.
-- [Grapes](https://github.com/NaturalIntelligence/Grapes) : Flexible Regular expression engine (for java) which can be applied on char stream. (maintainers are needed)
+
+## Supporters
+### Contributors
+
+This project exists thanks to [all](graphs/contributors) the people who contribute. [[Contribute](docs/CONTRIBUTING.md)].
+
+### All Contributors -->
+<a href="graphs/contributors"><img src="https://opencollective.com/stubmatic/contributors.svg?width=890&button=false" /></a>
+
+### Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/stubmatic#backer)]
+
+<a href="https://opencollective.com/stubmatic#backers" target="_blank"><img src="https://opencollective.com/stubmatic/backers.svg?width=890"></a>
+
+### Sponsors
+
+<small>[[Become a sponsor](https://opencollective.com/stubmatic#sponsor)] Support this project by becoming a sponsor. Your logo will show up here with a link to your website. Please also share your detail so we can thankyou on SocialMedia.</small>
+
+<a href="https://opencollective.com/stubmatic/sponsor/0/website" target="_blank"><img src="https://opencollective.com/stubmatic/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/stubmatic/sponsor/1/website" target="_blank"><img src="https://opencollective.com/stubmatic/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/stubmatic/sponsor/2/website" target="_blank"><img src="https://opencollective.com/stubmatic/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/stubmatic/sponsor/3/website" target="_blank"><img src="https://opencollective.com/stubmatic/sponsor/3/avatar.svg"></a>
 
 ### Helpful articles and tutorials
 
