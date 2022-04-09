@@ -33,7 +33,7 @@
     "nimnjs": "^2.2.0",
     "notepack.io": "^2.2.0",
     "pump": "^3.0.0",
-    "winston": "^2.4.4",
+    "winston": "^3.3.0",
     "yamljs": "^0.2.8"
   },
   "bin": {
