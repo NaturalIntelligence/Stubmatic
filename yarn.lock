@@ -435,8 +435,8 @@ fast-xml-parser@^3.12.13:
   resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-3.15.1.tgz#7299ef53b00d5c0f9809599396a26e6d1af20603"
 
 follow-redirects@^1.0.0, follow-redirects@^1.14.0:
-  version "1.14.7"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.7.tgz#2004c02eb9436eee9a21446a6477debf17e81685"
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.0.tgz#06441868281c86d0dda4ad8bdaead2d02dca89d4"
 
 form-data@^2.3.1:
   version "2.5.1"
