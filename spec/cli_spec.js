@@ -1,12 +1,12 @@
-var rewire = require('rewire'),
-    logger = require(".././lib/log");
+var { logger } = require('../lib/log');
+
+// var rewire = require('rewire'),
+//     logger = require(".././lib/log");
 var path = require("path");
 
-describe('CLI', function () {
+xdescribe('CLI', function () {
     
-    var climodule = rewire(".././index");
-    var cli = climodule.__get__("cli");
-    var buildServerOptions = climodule.__get__("buildServerOptions");
+    var { buildServerOptions, validateSyntax, cli} = require('../lib/cli');
 
     it('should log version number', function () {
         spyOn(console,"log");

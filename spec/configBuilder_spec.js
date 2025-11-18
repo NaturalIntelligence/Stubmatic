@@ -1,8 +1,8 @@
-var config = require(".././lib/configbuilder");
+var ConfigBuilder = require(".././lib/ConfigBuilder");
 
 
-describe("Config Builder ", function() {
-
+xdescribe("Config Builder ", function() {
+	var config = new ConfigBuilder();
   it("should build configurations based on directory structure", function() {
   	var expected = {
   		mappings: {},

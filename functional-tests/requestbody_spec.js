@@ -5,8 +5,8 @@ if (!global.Promise) {
 var chai = require('chai')
   , chaiHttp = require('chai-http');
 
-var rewire = require('rewire'),
-   cli = rewire(".././index").__get__("cli");
+
+var { validateSyntax, cli} = require('../lib/cli');
 
  chai.use(chaiHttp);
 
