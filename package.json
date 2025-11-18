@@ -16,10 +16,10 @@
     "coverage:check": "node ./node_modules/istanbul/lib/cli.js check-coverage --branch 90 --statement 90",
     "postinstall": "node tasks/postinstall.js"
   },
-  "author": "Amit Kumar Gupta (http://amitkumargupta.work/)",
+  "author": "Amit Kumar Gupta (https://solothought.com/)",
   "dependencies": {
     "accept": "^3.1.3",
-    "axios": "^0.21.1",
+    "axios": "^1.13.2",
     "deep-assign": "^2.0.0",
     "fast-lorem-ipsum": "^1.2.0",
     "fast-xml-parser": "^3.12.13",
